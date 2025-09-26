@@ -1,0 +1,93 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/page/login/sex/widget/check_widget.dart';
+
+class CheckList extends StatefulWidget {
+  final Function(bool, String) onTap;
+  const CheckList({super.key, required this.onTap});
+
+  @override
+  State<CheckList> createState() => _CheckListState();
+}
+
+class _CheckListState extends State<CheckList> {
+  int _selectedIndex = -1;
+  String value = "";
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _selectedIndex = 0;
+              value = T.man.tr;
+            });
+          },
+          child: CheckWidget(title: T.man.tr, isCheck: _selectedIndex == 0),
+        ),
+
+        Divider(height: 16.h, color: Colors.transparent),
+
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _selectedIndex = 1;
+              value = T.woman.tr;
+            });
+          },
+          child: CheckWidget(title: T.woman.tr, isCheck: _selectedIndex == 1),
+        ),
+
+        Divider(height: 16.h, color: Colors.transparent),
+
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _selectedIndex = 2;
+              value = T.other.tr;
+            });
+          },
+          child: CheckWidget(title: T.other.tr, isCheck: _selectedIndex == 2),
+        ),
+
+        Spacer(),
+
+        GestureDetector(
+          onTap: () {
+            widget.onTap.call(_selectedIndex != -1, value);
+          },
+          child: Container(
+            width: double.maxFinite,
+            height: 48,
+            alignment: AlignmentDirectional.center,
+            margin: EdgeInsetsDirectional.only(
+              bottom: 48.h,
+              start: 24.w,
+              end: 24.w,
+            ),
+            decoration: ShapeDecoration(
+              color: _selectedIndex != -1
+                  ? const Color(0xFFFF0092)
+                  : Colors.black.withValues(alpha: 0.30),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(60),
+              ),
+            ),
+            child: Text(
+              T.continueKey.tr,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
