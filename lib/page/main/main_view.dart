@@ -6,7 +6,10 @@ import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/home/home_view.dart';
 import 'package:newbug/page/home/widget/home_menu.dart';
+import 'package:newbug/page/like/like_view.dart';
 import 'package:newbug/page/main/main_logic.dart';
+import 'package:newbug/page/message/message_view.dart';
+import 'package:newbug/page/profile/profile_view.dart';
 
 class MainView extends StatefulWidget {
   const MainView({super.key});
@@ -62,12 +65,7 @@ class _MainViewState extends State<MainView> with DelayedInitMixin {
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
         controller: pageCtrl,
-        children: [
-          HomeView(),
-          Container(color: Colors.amber),
-          Container(color: Colors.cyan),
-          Container(color: Colors.red),
-        ],
+        children: [HomeView(), LikeView(), MessageView(), ProfileView()],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,

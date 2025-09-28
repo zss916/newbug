@@ -86,509 +86,21 @@ class _PieMenuState extends State<PieMenu> with SingleTickerProviderStateMixin {
       child: Stack(
         alignment: Alignment.centerRight,
         children: [
-          IntroStepBuilder(
-            order: 2,
-            getOverlayPosition:
-                ({
-                  required Offset offset,
-                  required Size screenSize,
-                  required Size size,
-                }) {
-                  return OverlayPosition(
-                    top:
-                        Get.statusBarHeight +
-                        ((Get.width - 28.w - 4) * 483 / 362) -
-                        270.h,
-                    left: 48.w,
-                    width: 280.w,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                  );
-                },
-            overlayBuilder: (params) {
-              return Stack(
-                alignment: AlignmentDirectional.center,
-                children: [
-                  PositionedDirectional(
-                    end: 5.w,
-                    bottom: 18.h,
-                    child: Image.asset(
-                      Assets.decorationArrow,
-                      width: 30,
-                      height: 30,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsetsDirectional.only(bottom: 30.h),
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFF7DEF9),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding: EdgeInsetsDirectional.only(
-                      start: 14.w,
-                      end: 14.w,
-                      top: 12.h,
-                      bottom: 12.h,
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsetsDirectional.only(end: 3.w),
-                              child: Image.asset(
-                                Assets.imgFabLike,
-                                width: 18,
-                                height: 18,
-                              ),
-                            ),
-                            Text(
-                              T.like.tr,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Spacer(),
-                            InkWell(
-                              borderRadius: BorderRadius.circular(5),
-                              onTap: () {
-                                params.onFinish();
-                                _animationController.reverse();
-                              },
-                              child: Text(
-                                T.skip.tr,
-                                style: TextStyle(
-                                  color: const Color(0xFF6B6B6B),
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          margin: EdgeInsetsDirectional.only(top: 4.h),
-                          width: double.maxFinite,
-                          child: Text(
-                            T.step2.tr,
-                            style: TextStyle(
-                              color: const Color(0xFF310035),
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsetsDirectional.only(top: 16.h),
-                          width: double.maxFinite,
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: params.onNext,
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 13,
-                                    vertical: 7,
-                                  ),
-                                  decoration: ShapeDecoration(
-                                    color: const Color(0xFF7E48FE),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    T.nextStep.trArgs(["2"]),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Spacer(),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            },
-            builder: (context, key) => Transform.translate(
-              offset: Offset.fromDirection(
-                widget.offset * math.pi + math.pi,
-                _animation.value * widget.radius,
-              ),
-              child: Transform.scale(
-                scale: _animation.value,
-                child: Transform.rotate(
-                  angle: _animation.value * (math.pi * 2),
-                  child: InkWell(
-                    onTap: () {
-                      debugPrint("like");
-                      if (_animationController.status ==
-                          AnimationStatus.completed) {
-                        _animationController.reverse();
-                        if (widget.onLike != null) {
-                          widget.onLike?.call();
-                        }
-                      }
-                    },
-                    child: Image.asset(
-                      Assets.imgFabLike,
-                      width: 48,
-                      height: 48,
-                      key: key,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          buildStep2(isFirst: true),
 
-          if (widget.offset != defaultOffest)
-            IntroStepBuilder(
-              order: 3,
-              getOverlayPosition:
-                  ({
-                    required Offset offset,
-                    required Size screenSize,
-                    required Size size,
-                  }) {
-                    return OverlayPosition(
-                      top:
-                          Get.statusBarHeight +
-                          ((Get.width - 28.w - 4) * 483 / 362) -
-                          180.h,
-                      left: 14.w,
-                      width: 280.w,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                    );
-                  },
-              overlayBuilder: (params) {
-                return Stack(
-                  alignment: AlignmentDirectional.center,
-                  children: [
-                    PositionedDirectional(
-                      end: 5.w,
-                      bottom: 18.h,
-                      child: Image.asset(
-                        Assets.decorationArrow,
-                        width: 30,
-                        height: 30,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsetsDirectional.only(bottom: 30.h),
-                      width: double.maxFinite,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF7DEF9),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: EdgeInsetsDirectional.only(
-                        start: 14.w,
-                        end: 14.w,
-                        top: 12.h,
-                        bottom: 12.h,
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsetsDirectional.only(end: 3.w),
-                                child: Image.asset(
-                                  Assets.imgFabMsg,
-                                  width: 18,
-                                  height: 18,
-                                ),
-                              ),
-                              Text(
-                                T.chat.tr,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Spacer(),
-                              InkWell(
-                                borderRadius: BorderRadius.circular(5),
-                                onTap: () {
-                                  params.onFinish();
-                                  _animationController.reverse();
-                                },
-                                child: Text(
-                                  T.skip.tr,
-                                  style: TextStyle(
-                                    color: const Color(0xFF6B6B6B),
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            margin: EdgeInsetsDirectional.only(top: 4.h),
-                            width: double.maxFinite,
-                            child: Text(
-                              T.step3.tr,
-                              style: TextStyle(
-                                color: const Color(0xFF310035),
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsetsDirectional.only(top: 16.h),
-                            width: double.maxFinite,
-                            child: Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: params.onNext,
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 13,
-                                      vertical: 7,
-                                    ),
-                                    decoration: ShapeDecoration(
-                                      color: const Color(0xFF7E48FE),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(30),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      T.nextStep.trArgs(["3"]),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Spacer(),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              },
-              builder: (context, key) => Transform.translate(
-                offset: Offset.fromDirection(
-                  math.pi,
-                  _animation.value * widget.radius,
-                ),
-                child: Transform.scale(
-                  scale: _animation.value,
-                  child: Transform.rotate(
-                    angle: _animation.value * (math.pi * 2),
-                    child: InkWell(
-                      onTap: () {
-                        debugPrint("chat");
-                        if (_animationController.status ==
-                            AnimationStatus.completed) {
-                          _animationController.reverse();
-                          if (widget.onChat != null) {
-                            widget.onChat?.call();
-                          }
-                        }
-                      },
-                      child: Image.asset(
-                        Assets.imgFabMsg,
-                        width: 48,
-                        height: 48,
-                        key: key,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+          if (widget.offset != defaultOffest) buildStep3(isFirst: true),
 
-          IntroStepBuilder(
-            order: 4,
-            getOverlayPosition:
-                ({
-                  required Offset offset,
-                  required Size screenSize,
-                  required Size size,
-                }) {
-                  return OverlayPosition(
-                    top:
-                        Get.statusBarHeight +
-                        ((Get.width - 28.w - 4) * 483 / 362) -
-                        140.h,
-                    left: 30.w,
-                    width: 300.w,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                  );
-                },
-            overlayBuilder: (params) {
-              return Stack(
-                alignment: AlignmentDirectional.center,
-                children: [
-                  PositionedDirectional(
-                    end: 5.w,
-                    bottom: 18.h,
-                    child: Image.asset(
-                      Assets.decorationArrow,
-                      width: 30,
-                      height: 30,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsetsDirectional.only(bottom: 30.h),
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFF7DEF9),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding: EdgeInsetsDirectional.only(
-                      start: 14.w,
-                      end: 14.w,
-                      top: 12.h,
-                      bottom: 12.h,
-                    ),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsetsDirectional.only(end: 3.w),
-                              child: Image.asset(
-                                Assets.imgFabClose,
-                                width: 18,
-                                height: 18,
-                              ),
-                            ),
-                            Text(
-                              T.next.tr,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            Spacer(),
-                            InkWell(
-                              borderRadius: BorderRadius.circular(5),
-                              onTap: () {
-                                params.onFinish();
-                                _animationController.reverse();
-                              },
-                              child: Text(
-                                T.skip.tr,
-                                style: TextStyle(
-                                  color: const Color(0xFF6B6B6B),
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          margin: EdgeInsetsDirectional.only(top: 4.h),
-                          width: double.maxFinite,
-                          child: Text(
-                            T.step4.tr,
-                            style: TextStyle(
-                              color: const Color(0xFF310035),
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsetsDirectional.only(top: 16.h),
-                          width: double.maxFinite,
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  params.onFinish();
-                                  _animationController.reverse();
-                                },
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 13,
-                                    vertical: 7,
-                                  ),
-                                  decoration: ShapeDecoration(
-                                    color: const Color(0xFF7E48FE),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    T.nextStep.trArgs(["4"]),
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Spacer(),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              );
-            },
-            builder: (context, key) => Transform.translate(
-              offset: Offset.fromDirection(
-                -widget.offset * math.pi + math.pi,
-                _animation.value * widget.radius,
-              ),
-              child: Transform.scale(
-                scale: _animation.value,
-                child: Transform.rotate(
-                  angle: _animation.value * (math.pi * 2),
-                  child: InkWell(
-                    onTap: () {
-                      debugPrint("next");
-                      if (_animationController.status ==
-                          AnimationStatus.completed) {
-                        _animationController.reverse();
-                        if (widget.onNext != null) {
-                          widget.onNext?.call();
-                        }
-                      }
-                    },
-                    child: Image.asset(
-                      Assets.imgFabClose,
-                      width: 48,
-                      height: 48,
-                      key: key,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          buildStep4(isFirst: true),
 
-          IntroStepBuilder(
+          buildStep1(isFirst: true),
+        ],
+      ),
+    );
+  }
+
+  Widget buildStep1({bool isFirst = true}) {
+    return isFirst
+        ? IntroStepBuilder(
             order: 1,
             getOverlayPosition:
                 ({
@@ -744,30 +256,533 @@ class _PieMenuState extends State<PieMenu> with SingleTickerProviderStateMixin {
                 ],
               );
             },
-            builder: (context, key) => GestureDetector(
-              onTap: () {
-                if (_animationController.status == AnimationStatus.completed) {
-                  _animationController.reverse();
-                } else {
-                  _animationController.forward();
-                }
-
-                if (widget.onToggle != null) {
-                  widget.onToggle?.call(
-                    _animationController.status == AnimationStatus.forward,
-                  );
-                }
-              },
-              child: Image.asset(
-                Assets.imgFab,
-                width: 70,
-                height: 70,
-                key: key,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+            builder: (context, key) => buildFab(key: key),
+          )
+        : buildFab();
   }
+
+  Widget buildFab({GlobalKey? key}) => GestureDetector(
+    onTap: () {
+      if (_animationController.status == AnimationStatus.completed) {
+        _animationController.reverse();
+      } else {
+        _animationController.forward();
+      }
+
+      if (widget.onToggle != null) {
+        widget.onToggle?.call(
+          _animationController.status == AnimationStatus.forward,
+        );
+      }
+    },
+    child: Image.asset(Assets.imgFab, width: 70, height: 70, key: key),
+  );
+
+  Widget buildStep2({bool isFirst = true}) {
+    return isFirst
+        ? IntroStepBuilder(
+            order: 2,
+            getOverlayPosition:
+                ({
+                  required Offset offset,
+                  required Size screenSize,
+                  required Size size,
+                }) {
+                  return OverlayPosition(
+                    top:
+                        Get.statusBarHeight +
+                        ((Get.width - 28.w - 4) * 483 / 362) -
+                        270.h,
+                    left: 48.w,
+                    width: 280.w,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                  );
+                },
+            overlayBuilder: (params) {
+              return Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  PositionedDirectional(
+                    end: 5.w,
+                    bottom: 18.h,
+                    child: Image.asset(
+                      Assets.decorationArrow,
+                      width: 30,
+                      height: 30,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsetsDirectional.only(bottom: 30.h),
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF7DEF9),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: EdgeInsetsDirectional.only(
+                      start: 14.w,
+                      end: 14.w,
+                      top: 12.h,
+                      bottom: 12.h,
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsetsDirectional.only(end: 3.w),
+                              child: Image.asset(
+                                Assets.imgFabLike,
+                                width: 18,
+                                height: 18,
+                              ),
+                            ),
+                            Text(
+                              T.like.tr,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Spacer(),
+                            InkWell(
+                              borderRadius: BorderRadius.circular(5),
+                              onTap: () {
+                                params.onFinish();
+                                _animationController.reverse();
+                              },
+                              child: Text(
+                                T.skip.tr,
+                                style: TextStyle(
+                                  color: const Color(0xFF6B6B6B),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          margin: EdgeInsetsDirectional.only(top: 4.h),
+                          width: double.maxFinite,
+                          child: Text(
+                            T.step2.tr,
+                            style: TextStyle(
+                              color: const Color(0xFF310035),
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsetsDirectional.only(top: 16.h),
+                          width: double.maxFinite,
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: params.onNext,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 13,
+                                    vertical: 7,
+                                  ),
+                                  decoration: ShapeDecoration(
+                                    color: const Color(0xFF7E48FE),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    T.nextStep.trArgs(["2"]),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Spacer(),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
+            builder: (context, key) => buildLike(key: key),
+          )
+        : buildLike();
+  }
+
+  Widget buildLike({GlobalKey? key}) => Transform.translate(
+    offset: Offset.fromDirection(
+      widget.offset * math.pi + math.pi,
+      _animation.value * widget.radius,
+    ),
+    child: Transform.scale(
+      scale: _animation.value,
+      child: Transform.rotate(
+        angle: _animation.value * (math.pi * 2),
+        child: InkWell(
+          onTap: () {
+            debugPrint("like");
+            if (_animationController.status == AnimationStatus.completed) {
+              _animationController.reverse();
+              if (widget.onLike != null) {
+                widget.onLike?.call();
+              }
+            }
+          },
+          child: Image.asset(
+            Assets.imgFabLike,
+            width: 48,
+            height: 48,
+            key: key,
+          ),
+        ),
+      ),
+    ),
+  );
+
+  Widget buildStep3({bool isFirst = true}) {
+    return isFirst
+        ? IntroStepBuilder(
+            order: 3,
+            getOverlayPosition:
+                ({
+                  required Offset offset,
+                  required Size screenSize,
+                  required Size size,
+                }) {
+                  return OverlayPosition(
+                    top:
+                        Get.statusBarHeight +
+                        ((Get.width - 28.w - 4) * 483 / 362) -
+                        180.h,
+                    left: 14.w,
+                    width: 280.w,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                  );
+                },
+            overlayBuilder: (params) {
+              return Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  PositionedDirectional(
+                    end: 5.w,
+                    bottom: 18.h,
+                    child: Image.asset(
+                      Assets.decorationArrow,
+                      width: 30,
+                      height: 30,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsetsDirectional.only(bottom: 30.h),
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF7DEF9),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: EdgeInsetsDirectional.only(
+                      start: 14.w,
+                      end: 14.w,
+                      top: 12.h,
+                      bottom: 12.h,
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsetsDirectional.only(end: 3.w),
+                              child: Image.asset(
+                                Assets.imgFabMsg,
+                                width: 18,
+                                height: 18,
+                              ),
+                            ),
+                            Text(
+                              T.chat.tr,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Spacer(),
+                            InkWell(
+                              borderRadius: BorderRadius.circular(5),
+                              onTap: () {
+                                params.onFinish();
+                                _animationController.reverse();
+                              },
+                              child: Text(
+                                T.skip.tr,
+                                style: TextStyle(
+                                  color: const Color(0xFF6B6B6B),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          margin: EdgeInsetsDirectional.only(top: 4.h),
+                          width: double.maxFinite,
+                          child: Text(
+                            T.step3.tr,
+                            style: TextStyle(
+                              color: const Color(0xFF310035),
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsetsDirectional.only(top: 16.h),
+                          width: double.maxFinite,
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: params.onNext,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 13,
+                                    vertical: 7,
+                                  ),
+                                  decoration: ShapeDecoration(
+                                    color: const Color(0xFF7E48FE),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    T.nextStep.trArgs(["3"]),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Spacer(),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
+            builder: (context, key) => buildChat(key: key),
+          )
+        : buildChat();
+  }
+
+  Widget buildChat({GlobalKey? key}) => Transform.translate(
+    offset: Offset.fromDirection(math.pi, _animation.value * widget.radius),
+    child: Transform.scale(
+      scale: _animation.value,
+      child: Transform.rotate(
+        angle: _animation.value * (math.pi * 2),
+        child: InkWell(
+          onTap: () {
+            debugPrint("chat");
+            if (_animationController.status == AnimationStatus.completed) {
+              _animationController.reverse();
+              if (widget.onChat != null) {
+                widget.onChat?.call();
+              }
+            }
+          },
+          child: Image.asset(Assets.imgFabMsg, width: 48, height: 48, key: key),
+        ),
+      ),
+    ),
+  );
+
+  Widget buildStep4({bool isFirst = true}) {
+    return isFirst
+        ? IntroStepBuilder(
+            order: 4,
+            getOverlayPosition:
+                ({
+                  required Offset offset,
+                  required Size screenSize,
+                  required Size size,
+                }) {
+                  return OverlayPosition(
+                    top:
+                        Get.statusBarHeight +
+                        ((Get.width - 28.w - 4) * 483 / 362) -
+                        140.h,
+                    left: 30.w,
+                    width: 300.w,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                  );
+                },
+            overlayBuilder: (params) {
+              return Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  PositionedDirectional(
+                    end: 5.w,
+                    bottom: 18.h,
+                    child: Image.asset(
+                      Assets.decorationArrow,
+                      width: 30,
+                      height: 30,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsetsDirectional.only(bottom: 30.h),
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF7DEF9),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    padding: EdgeInsetsDirectional.only(
+                      start: 14.w,
+                      end: 14.w,
+                      top: 12.h,
+                      bottom: 12.h,
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              margin: EdgeInsetsDirectional.only(end: 3.w),
+                              child: Image.asset(
+                                Assets.imgFabClose,
+                                width: 18,
+                                height: 18,
+                              ),
+                            ),
+                            Text(
+                              T.next.tr,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Spacer(),
+                            InkWell(
+                              borderRadius: BorderRadius.circular(5),
+                              onTap: () {
+                                params.onFinish();
+                                _animationController.reverse();
+                              },
+                              child: Text(
+                                T.skip.tr,
+                                style: TextStyle(
+                                  color: const Color(0xFF6B6B6B),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          margin: EdgeInsetsDirectional.only(top: 4.h),
+                          width: double.maxFinite,
+                          child: Text(
+                            T.step4.tr,
+                            style: TextStyle(
+                              color: const Color(0xFF310035),
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsetsDirectional.only(top: 16.h),
+                          width: double.maxFinite,
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  params.onFinish();
+                                  _animationController.reverse();
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 13,
+                                    vertical: 7,
+                                  ),
+                                  decoration: ShapeDecoration(
+                                    color: const Color(0xFF7E48FE),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    T.nextStep.trArgs(["4"]),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Spacer(),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
+            builder: (context, key) => buildNext(key: key),
+          )
+        : buildNext();
+  }
+
+  Widget buildNext({GlobalKey? key}) => Transform.translate(
+    offset: Offset.fromDirection(
+      -widget.offset * math.pi + math.pi,
+      _animation.value * widget.radius,
+    ),
+    child: Transform.scale(
+      scale: _animation.value,
+      child: Transform.rotate(
+        angle: _animation.value * (math.pi * 2),
+        child: InkWell(
+          onTap: () {
+            debugPrint("next");
+            if (_animationController.status == AnimationStatus.completed) {
+              _animationController.reverse();
+              if (widget.onNext != null) {
+                widget.onNext?.call();
+              }
+            }
+          },
+          child: Image.asset(
+            Assets.imgFabClose,
+            width: 48,
+            height: 48,
+            key: key,
+          ),
+        ),
+      ),
+    ),
+  );
 }

@@ -126,6 +126,38 @@ class T {
   static const String later = "later";
 
   static const String addPhoto = "addPhoto";
+
+  static const String me = "me";
+
+  static const String visitedTitle = "visitedTitle";
+
+  static const String visitorsCountTr = "visitorsCountTr";
+
+  static const String privateVideos = "privateVideos";
+
+  static const String privatePhotos = "privatePhotos";
+
+  static const String getNow = "getNow";
+
+  static const String flashChat = "flashChat";
+
+  static const String left = "left";
+
+  static const String membership = "membership";
+
+  static const String membershipTitle = "membershipTitle";
+
+  static const String getPremium = "getPremium";
+
+  static const String account = "account";
+
+  static const String helpCenter = "helpCenter";
+
+  static const String privacyPolicy = "privacyPolicy";
+
+  static const String terms = "terms";
+
+  static const String childSafetyPolicy = "childSafetyPolicy";
 }
 
 const en = {
@@ -200,4 +232,20 @@ const en = {
       "Visiale to connections anly, Wild Phote also can set as Public Phata late",
   "later": "Later",
   "addPhoto": "Add Photo",
+  "me": "Me",
+  "visitedTitle": "Who visited your profile",
+  "visitorsCountTr": "New visitors: %s",
+  "privateVideos": "Private Videos",
+  "privatePhotos": "Private Photos",
+  "getNow": "GET NOW",
+  "flashChat": "Flash chat",
+  "left": "left",
+  "membership": "Membership",
+  "membershipTitle": "Like without limits and so on",
+  "getPremium": "Get Premium",
+  "account": "Account",
+  "helpCenter": "Help Center",
+  "privacyPolicy": "Privacy Policy",
+  "terms": "Terms",
+  "childSafetyPolicy": "Child Safety Policy",
 };

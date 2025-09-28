@@ -67,7 +67,7 @@ flutter:
     - assets/img/
     - assets/decoration/
     - assets/status/
-
+    - assets/avatar/
 
   fonts:
     - family: font1
