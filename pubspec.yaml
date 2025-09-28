@@ -42,6 +42,7 @@ dependencies:
   #custom_pop_up_menu: ^1.2.4
   #flutter_popup: ^3.3.9
   flutter_swiper_null_safety_flutter3: ^4.0.3
+  # pinput: ^5.0.2
 
 
 

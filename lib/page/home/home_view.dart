@@ -6,6 +6,7 @@ import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/page/dialog/love/dialog_love.dart' show showLoveDialog;
 import 'package:newbug/page/dialog/next/dialog_next.dart';
+import 'package:newbug/page/dialog/trun_on_notification.dart';
 import 'package:newbug/page/dialog/wild_photo.dart';
 import 'package:newbug/page/home/widget/home_about_me.dart';
 import 'package:newbug/page/home/widget/home_bottom_menu.dart';
@@ -41,8 +42,7 @@ class HomeView extends StatelessWidget {
         actions: [
           HomeMore(
             onBlock: () {
-              //  showTurnOnNotification();
-              EventService.to.post(OpenMenuEvent(isOpen: true));
+              showTurnOnNotification();
             },
             onReport: () {
               showWildPhoto();

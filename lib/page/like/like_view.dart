@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:newbug/core/config/global.dart';
+import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/widget/index.dart';
+import 'package:newbug/page/like/widget/like_body.dart';
 
 class LikeView extends StatelessWidget {
   const LikeView({super.key});
@@ -14,7 +17,7 @@ class LikeView extends StatelessWidget {
         surfaceTintColor: Colors.white,
         leadingWidth: 0,
         titleWidget: Text(
-          "Likes",
+          T.likes.tr,
           style: TextStyle(
             color: const Color(0xFF262626),
             fontSize: 26,
@@ -22,16 +25,9 @@ class LikeView extends StatelessWidget {
           ),
         ),
         centerTitle: false,
-        actions: [
-          ///
-        ],
       ),
       backgroundColor: Color(0xFFFAFAFA),
-      body: Column(
-        children: [
-          ///
-        ],
-      ),
+      body: LikeBody(),
     );
   }
 }

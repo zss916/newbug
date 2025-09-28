@@ -41,7 +41,10 @@ class Assets {
   static const String imgIcPolicy = 'assets/img/ic_policy.png';
   static const String imgIcTerms = 'assets/img/ic_terms.png';
   static const String imgLikeActiveIc = 'assets/img/like_active_ic.png';
+  static const String imgLikeFollow = 'assets/img/like_follow.png';
   static const String imgLikeIc = 'assets/img/like_ic.png';
+  static const String imgLikeNext = 'assets/img/like_next.png';
+  static const String imgLikeWild = 'assets/img/like_wild.png';
   static const String imgLocation = 'assets/img/location.png';
   static const String imgLoginBg = 'assets/img/login_bg.png';
   static const String imgMessageActiveIc = 'assets/img/message_active_ic.png';

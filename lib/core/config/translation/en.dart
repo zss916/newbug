@@ -157,7 +157,15 @@ class T {
 
   static const String terms = "terms";
 
+  static const String likes = "likes";
+
   static const String childSafetyPolicy = "childSafetyPolicy";
+
+  static const String whoLikesYou = "whoLikesYou";
+
+  static const String youLiked = "youLiked";
+
+  static const String newKey = "newKey";
 }
 
 const en = {
@@ -248,4 +256,8 @@ const en = {
   "privacyPolicy": "Privacy Policy",
   "terms": "Terms",
   "childSafetyPolicy": "Child Safety Policy",
+  "likes": "Likes",
+  "whoLikesYou": "Who Likes you",
+  "youLiked": "You Liked",
+  "newKey": "New",
 };

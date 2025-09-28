@@ -37,7 +37,8 @@ class ProfileView extends StatelessWidget {
         child: Column(
           children: [
             ProfileInfo(
-              avatar: "xxxxxx",
+              avatar:
+                  "https://img1.baidu.com/it/u=3311890800,2189225060&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=1000",
               name: "Amanda,29",
               identifier: "12345678",
             ),

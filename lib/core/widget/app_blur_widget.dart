@@ -8,12 +8,14 @@ class AppBlurWidget extends StatelessWidget {
   final bool isBlur;
   final double? sigma;
   final Widget? foreground;
+  final BorderRadiusGeometry? borderRadius;
   const AppBlurWidget({
     super.key,
     required this.isBlur,
     this.foreground,
     this.child,
     this.sigma,
+    this.borderRadius,
   });
 
   @override
@@ -25,12 +27,14 @@ class AppBlurWidget extends StatelessWidget {
         if (isBlur)
           Positioned.fill(
             child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(48.r),
-                topRight: Radius.circular(48.r),
-                bottomLeft: Radius.circular(48.r),
-                bottomRight: Radius.circular(146.r),
-              ),
+              borderRadius:
+                  borderRadius ??
+                  BorderRadius.only(
+                    topLeft: Radius.circular(48.r),
+                    topRight: Radius.circular(48.r),
+                    bottomLeft: Radius.circular(48.r),
+                    bottomRight: Radius.circular(146.r),
+                  ),
               child: BackdropFilter(
                 filter: ImageFilter.blur(
                   sigmaX: sigma ?? 2.8,
