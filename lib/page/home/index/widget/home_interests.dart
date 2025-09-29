@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
-import 'package:newbug/page/home/widget/wrap_interest.dart';
+import 'package:newbug/page/home/index/widget/wrap_interest.dart';
 
 class HomeInterests extends StatelessWidget {
   const HomeInterests({super.key});

@@ -5,17 +5,16 @@ import 'package:newbug/core/config/global.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/generated/assets.dart';
 
-class WrongView extends StatelessWidget {
-  final Function? onTap;
+class NoMessageView extends StatelessWidget {
   final double? bottomPadding;
-  const WrongView({super.key, this.onTap, this.bottomPadding});
+  const NoMessageView({super.key, this.bottomPadding});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(Assets.statusWrong, width: 100.r, height: 100.r),
+        Image.asset(Assets.statusNessage, width: 100.r, height: 100.r),
         Container(
           margin: EdgeInsetsDirectional.only(
             start: 32.w,
@@ -25,7 +24,7 @@ class WrongView extends StatelessWidget {
           ),
           width: double.maxFinite,
           child: Text(
-            T.wrongTitle.tr,
+            T.noMessage.tr,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: const Color(0xFF262626),
@@ -43,7 +42,7 @@ class WrongView extends StatelessWidget {
           ),
           width: double.maxFinite,
           child: Text(
-            T.wrongContent.tr,
+            T.messageContent.tr,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: const Color(0xFF595959),
@@ -52,32 +51,6 @@ class WrongView extends StatelessWidget {
             ),
           ),
         ),
-
-        GestureDetector(
-          onTap: () {},
-          child: Container(
-            margin: EdgeInsetsDirectional.only(start: 32.w, end: 32.w),
-            width: double.maxFinite,
-            height: 48.h,
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 32.w),
-            decoration: ShapeDecoration(
-              color: const Color(0xFFFF0092),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100),
-              ),
-            ),
-            child: Text(
-              T.tryAgin.tr,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ),
-
         Divider(height: bottomPadding ?? 0.h, color: Colors.transparent),
       ],
     );

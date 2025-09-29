@@ -5,17 +5,17 @@ import 'package:newbug/core/config/global.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/generated/assets.dart';
 
-class WrongView extends StatelessWidget {
-  final Function? onTap;
+class NoVisitorView extends StatelessWidget {
   final double? bottomPadding;
-  const WrongView({super.key, this.onTap, this.bottomPadding});
+  final Function onTap;
+  const NoVisitorView({super.key, this.bottomPadding, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(Assets.statusWrong, width: 100.r, height: 100.r),
+        Image.asset(Assets.statusVisitor, width: 100.r, height: 100.r),
         Container(
           margin: EdgeInsetsDirectional.only(
             start: 32.w,
@@ -25,7 +25,7 @@ class WrongView extends StatelessWidget {
           ),
           width: double.maxFinite,
           child: Text(
-            T.wrongTitle.tr,
+            T.noVisitor.tr,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: const Color(0xFF262626),
@@ -43,7 +43,7 @@ class WrongView extends StatelessWidget {
           ),
           width: double.maxFinite,
           child: Text(
-            T.wrongContent.tr,
+            T.noVisitorContent.tr,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: const Color(0xFF595959),
@@ -54,7 +54,9 @@ class WrongView extends StatelessWidget {
         ),
 
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            onTap.call();
+          },
           child: Container(
             margin: EdgeInsetsDirectional.only(start: 32.w, end: 32.w),
             width: double.maxFinite,
@@ -68,7 +70,7 @@ class WrongView extends StatelessWidget {
               ),
             ),
             child: Text(
-              T.tryAgin.tr,
+              T.goToMatch.tr,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 14.sp,

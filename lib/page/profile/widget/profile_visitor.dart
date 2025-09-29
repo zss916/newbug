@@ -78,7 +78,9 @@ class ProfileVisitor extends StatelessWidget {
                   border: Border.all(width: 1, color: Colors.black),
                   borderRadius: BorderRadius.circular(30),
                   image: DecorationImage(
-                    image: NetworkImage('assets/images/profile.png'),
+                    image: NetworkImage(
+                      'https://img1.baidu.com/it/u=3311890800,2189225060&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=1000',
+                    ),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -92,7 +94,9 @@ class ProfileVisitor extends StatelessWidget {
                   border: Border.all(width: 1, color: Colors.black),
                   borderRadius: BorderRadius.circular(30),
                   image: DecorationImage(
-                    image: NetworkImage('assets/images/profile.png'),
+                    image: NetworkImage(
+                      'https://img1.baidu.com/it/u=3311890800,2189225060&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=1000',
+                    ),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -105,7 +109,9 @@ class ProfileVisitor extends StatelessWidget {
                   border: Border.all(width: 1, color: Colors.black),
                   borderRadius: BorderRadius.circular(30),
                   image: DecorationImage(
-                    image: NetworkImage('assets/images/profile.png'),
+                    image: NetworkImage(
+                      'https://img1.baidu.com/it/u=3311890800,2189225060&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=1000',
+                    ),
                     fit: BoxFit.cover,
                   ),
                 ),

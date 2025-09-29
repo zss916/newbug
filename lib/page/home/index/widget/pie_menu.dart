@@ -42,13 +42,10 @@ class _PieMenuState extends State<PieMenu> with SingleTickerProviderStateMixin {
 
   @override
   void initState() {
-    _animationController =
-        AnimationController(
-          vsync: this,
-          duration: const Duration(milliseconds: 500),
-        )..addListener(() {
-          setState(() {});
-        });
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
     _animation = Tween(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _animationController,
@@ -56,6 +53,9 @@ class _PieMenuState extends State<PieMenu> with SingleTickerProviderStateMixin {
         reverseCurve: Curves.fastOutSlowIn,
       ),
     );
+    _animationController.addListener(listener);
+    _animationController.addStatusListener(statusListener);
+
     super.initState();
     if (widget.isOpen) {
       _animationController.forward();
@@ -69,13 +69,29 @@ class _PieMenuState extends State<PieMenu> with SingleTickerProviderStateMixin {
     });
   }
 
+  late VoidCallback listener = () {
+    if (mounted) {
+      setState(() {});
+    }
+  };
+
+  AnimationStatusListener statusListener = (status) {
+    debugPrint("status ==> ${status.name}");
+  };
+
   @override
   void dispose() {
+    widget.onToggle?.call(false);
+    _animationController.removeListener(listener);
+    _animationController.removeStatusListener(statusListener);
     Intro.of(context).dispose();
     _animationController.dispose();
     subs?.cancel();
     super.dispose();
   }
+
+  ///todo 是否是第一次进来
+  bool isFirst = false;
 
   @override
   Widget build(BuildContext context) {
@@ -86,13 +102,13 @@ class _PieMenuState extends State<PieMenu> with SingleTickerProviderStateMixin {
       child: Stack(
         alignment: Alignment.centerRight,
         children: [
-          buildStep2(isFirst: true),
+          buildStep2(isFirst: isFirst),
 
-          if (widget.offset != defaultOffest) buildStep3(isFirst: true),
+          if (widget.offset != defaultOffest) buildStep3(isFirst: isFirst),
 
-          buildStep4(isFirst: true),
+          buildStep4(isFirst: isFirst),
 
-          buildStep1(isFirst: true),
+          buildStep1(isFirst: isFirst),
         ],
       ),
     );

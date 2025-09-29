@@ -5,17 +5,30 @@ import 'package:newbug/core/config/global.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/generated/assets.dart';
 
-class WrongView extends StatelessWidget {
+class MatchView extends StatelessWidget {
   final Function? onTap;
+  final Function? onImprove;
   final double? bottomPadding;
-  const WrongView({super.key, this.onTap, this.bottomPadding});
+  const MatchView({super.key, this.onTap, this.onImprove, this.bottomPadding});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(Assets.statusWrong, width: 100.r, height: 100.r),
+        Container(
+          width: 100.r,
+          height: 100.r,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF7DEF9),
+            borderRadius: BorderRadius.circular(100),
+          ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [Image.asset(Assets.imgMatch, width: 62.r, height: 62.r)],
+          ),
+        ),
         Container(
           margin: EdgeInsetsDirectional.only(
             start: 32.w,
@@ -25,7 +38,7 @@ class WrongView extends StatelessWidget {
           ),
           width: double.maxFinite,
           child: Text(
-            T.wrongTitle.tr,
+            T.checkBackSoon.tr,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: const Color(0xFF262626),
@@ -43,7 +56,7 @@ class WrongView extends StatelessWidget {
           ),
           width: double.maxFinite,
           child: Text(
-            T.wrongContent.tr,
+            T.matchContent.tr,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: const Color(0xFF595959),
@@ -54,9 +67,15 @@ class WrongView extends StatelessWidget {
         ),
 
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            onTap?.call();
+          },
           child: Container(
-            margin: EdgeInsetsDirectional.only(start: 32.w, end: 32.w),
+            margin: EdgeInsetsDirectional.only(
+              start: 32.w,
+              end: 32.w,
+              bottom: 11.h,
+            ),
             width: double.maxFinite,
             height: 48.h,
             alignment: Alignment.center,
@@ -68,11 +87,30 @@ class WrongView extends StatelessWidget {
               ),
             ),
             child: Text(
-              T.tryAgin.tr,
+              T.goToMatch.tr,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+
+        InkWell(
+          borderRadius: BorderRadius.circular(5),
+          onTap: () {
+            onImprove?.call();
+          },
+          child: Container(
+            padding: EdgeInsetsDirectional.all(5),
+            child: Text(
+              T.improveYourProfile.tr,
+              style: TextStyle(
+                color: const Color(0xFF8C8C8C),
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+                decoration: TextDecoration.underline,
               ),
             ),
           ),

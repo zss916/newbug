@@ -2,7 +2,7 @@ import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newbug/generated/assets.dart';
-import 'package:newbug/page/home/widget/video/switch_mute.dart';
+import 'package:newbug/page/home/index/widget/video/switch_mute.dart';
 
 class BetterNetVideo extends StatefulWidget {
   final String video;

@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/page/dialog/love/dialog_love.dart';
 import 'package:newbug/page/dialog/next/dialog_next.dart';
-import 'package:newbug/page/home/widget/pie_menu.dart';
+import 'package:newbug/page/home/index/widget/pie_menu.dart';
 
 class HomeMenu extends StatefulWidget {
   const HomeMenu({super.key});
@@ -71,9 +71,11 @@ class _HomeMenuState extends State<HomeMenu> {
               offset: 0.3,
               isOpen: false,
               onToggle: (isOpen) {
-                setState(() {
-                  isShowPop = isOpen;
-                });
+                /*if (mounted) {
+                  setState(() {
+                    isShowPop = isOpen;
+                  });
+                }*/
               },
               onNext: () {
                 setState(() {

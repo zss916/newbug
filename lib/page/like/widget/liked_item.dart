@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/like/widget/like_avatar.dart';
 import 'package:newbug/page/like/widget/like_blur_widget.dart';
 import 'package:newbug/page/like/widget/like_left.dart';
 import 'package:newbug/page/like/widget/like_new_label.dart';
 
-class LikeItem extends StatelessWidget {
+class LikedItem extends StatelessWidget {
   final int index;
-  const LikeItem({super.key, required this.index});
+  const LikedItem({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +37,7 @@ class LikeItem extends StatelessWidget {
         ),
         height: double.maxFinite,
         child: LikeBlurWidget(
-          isBlur: true,
+          isBlur: index == 0,
           index: index,
           child: index == 0 ? buildFirstItem() : buildOtherItem(),
         ),
@@ -101,19 +99,8 @@ class LikeItem extends StatelessWidget {
   );
 
   Widget buildOtherItem() => Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Image.asset(Assets.imgLikeWild, width: 37, height: 37),
-      Divider(height: 10.h, color: Colors.transparent),
-      Text(
-        T.wildPhoto.tr,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 13,
-          fontWeight: FontWeight.w600,
-          height: 1.14,
-        ),
-      ),
-    ],
+    mainAxisAlignment: MainAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [LikeNewLabel()],
   );
 }

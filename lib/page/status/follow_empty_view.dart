@@ -5,17 +5,29 @@ import 'package:newbug/core/config/global.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/generated/assets.dart';
 
-class WrongView extends StatelessWidget {
+class FollowEmptyView extends StatelessWidget {
   final Function? onTap;
   final double? bottomPadding;
-  const WrongView({super.key, this.onTap, this.bottomPadding});
+  const FollowEmptyView({super.key, this.onTap, this.bottomPadding});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(Assets.statusWrong, width: 100.r, height: 100.r),
+        Container(
+          width: 100.r,
+          height: 100.r,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF7DEF9),
+            borderRadius: BorderRadius.circular(100),
+          ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [Image.asset(Assets.imgMatch, width: 62.r, height: 62.r)],
+          ),
+        ),
         Container(
           margin: EdgeInsetsDirectional.only(
             start: 32.w,
@@ -25,7 +37,7 @@ class WrongView extends StatelessWidget {
           ),
           width: double.maxFinite,
           child: Text(
-            T.wrongTitle.tr,
+            T.followEmpty.tr,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: const Color(0xFF262626),
@@ -43,7 +55,7 @@ class WrongView extends StatelessWidget {
           ),
           width: double.maxFinite,
           child: Text(
-            T.wrongContent.tr,
+            T.followEmptyContent.tr,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: const Color(0xFF595959),
@@ -68,7 +80,7 @@ class WrongView extends StatelessWidget {
               ),
             ),
             child: Text(
-              T.tryAgin.tr,
+              T.goToMatch.tr,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 14.sp,

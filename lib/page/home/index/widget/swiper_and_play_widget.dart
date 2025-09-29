@@ -4,9 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety_flutter3/flutter_swiper_null_safety_flutter3.dart';
 import 'package:newbug/core/widget/app_blur_widget.dart';
 import 'package:newbug/generated/assets.dart';
-import 'package:newbug/page/home/widget/lose_touch.dart';
-import 'package:newbug/page/home/widget/no_action.dart';
-import 'package:newbug/page/home/widget/video/better_net_video.dart';
+import 'package:newbug/page/home/index/widget/lose_touch.dart';
+import 'package:newbug/page/home/index/widget/no_action.dart';
+import 'package:newbug/page/home/index/widget/video/better_net_video.dart';
 
 class SwiperAndPlayWidget extends StatefulWidget {
   final List<String> items;

@@ -20,6 +20,12 @@ class RouteManager {
 
   static toMain() => Get.toNamed(AppRoutes.main);
 
+  static toVisitor() => Get.toNamed(AppRoutes.visitor);
+
+  static toUnmatch() => Get.toNamed(AppRoutes.unmatch);
+
+  static toNotification() => Get.toNamed(AppRoutes.notification);
+
   /// 第一次打开初始化App
   static intoInitApp() {
     RouteManager.toMain();

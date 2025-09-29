@@ -19,6 +19,8 @@ class T {
 
   static const String other = "other";
 
+  static const String cancel = "cancel";
+
   static const String continueKey = "continueKey";
 
   static const String skip = "skip";
@@ -107,11 +109,25 @@ class T {
 
   static const String wrongTitle = "wrongTitle";
 
+  static const String checkBackSoon = "checkBackSoon";
+
   static const String tryAgin = "tryAgin";
+
+  static const String goToMatch = "goToMatch";
 
   static const String wrongContent = "wrongContent";
 
+  static const String followEmptyContent = "followEmptyContent";
+
+  static const String incognitoContent = "incognitoContent";
+
+  static const String matchContent = "matchContent";
+
   static const String noMorePeople = "noMorePeople";
+
+  static const String noVisitor = "noVisitor";
+
+  static const String noVisitorContent = "noVisitorContent";
 
   static const String noMorePeopleContent = "noMorePeopleContent";
 
@@ -128,6 +144,8 @@ class T {
   static const String addPhoto = "addPhoto";
 
   static const String me = "me";
+
+  static const String visitor = "visitor";
 
   static const String visitedTitle = "visitedTitle";
 
@@ -157,6 +175,8 @@ class T {
 
   static const String terms = "terms";
 
+  static const String reminder = "reminder";
+
   static const String likes = "likes";
 
   static const String childSafetyPolicy = "childSafetyPolicy";
@@ -166,6 +186,48 @@ class T {
   static const String youLiked = "youLiked";
 
   static const String newKey = "newKey";
+
+  static const String followEmpty = "followEmpty";
+
+  static const String incognitoTitle = "incognitoTitle";
+
+  static const String improveYourProfile = "improveYourProfile";
+
+  static const String message = "message";
+
+  static const String noMessage = "noMessage";
+
+  static const String messageContent = "messageContent";
+
+  static const String noFreeMatchLeft = "noFreeMatchLeft";
+
+  static const String noFreeMatchContent = "noFreeMatchContent";
+
+  static const String matchingTitle = "matchingTitle";
+
+  static const String helpCenterTitle = "helpCenterTitle";
+
+  static const String onlineSupport = "onlineSupport";
+
+  static const String newTitle = "newTitle";
+
+  static const String copyEmailAddress = "copyEmailAddress";
+
+  static const String logOut = "logOut";
+
+  static const String deleteAccount = "deleteAccount";
+
+  static const String newActivity = "newActivity";
+
+  static const String newMessages = "newMessages";
+
+  static const String newMatches = "newMatches";
+
+  static const String newLikes = "newLikes";
+
+  static const String newVisitor = "newVisitor";
+
+  static const String notificationTip = "notificationTip";
 }
 
 const en = {
@@ -208,7 +270,7 @@ const en = {
   "blocked": "Blocked",
   "aboutMe": "About me",
   "interests": "Interests",
-  "chatNow": "Chat now",
+  "chatNow": "Chat Now",
   "noAction": "It’s a match!\nMake the first move.",
   "lossTouch": "Don’t lose touch with your old friend.",
   "interestedTip": "Interested?",
@@ -227,7 +289,7 @@ const en = {
   "step1b": "lightning bolt",
   "step1c":
       " to see the profile reaction options. Tap anywhere else on the screen to hide them.",
-  "wrongTitle": 'Oops! \nSomething went wrong',
+  "wrongTitle": 'Oops! \nSomething Went Wrong',
   "tryAgin": "Try again",
   "wrongContent": "Please check your network connection and try again.",
   "noMorePeople": "No More People",
@@ -260,4 +322,41 @@ const en = {
   "whoLikesYou": "Who Likes you",
   "youLiked": "You Liked",
   "newKey": "New",
+  "checkBackSoon": "Check Back Soon!",
+  "matchContent":
+      "See who’s liked you—they’re closer than you think. And hey, keep your profile shining!",
+  "goToMatch": "Go to pick your match",
+  "improveYourProfile": "Improve your profile",
+  "followEmpty": "Your Following List \nRemains Empty",
+  "followEmptyContent": "why not start exploring and hit that follow button?",
+  "incognitoTitle": "Incognito Mode is\nTurning On",
+  "incognitoContent":
+      "Want others to see you and like you? Turn off Incognito Mode first.",
+  "message": "Message",
+  "visitor": "Visitors",
+  "noMessage": "No Messages",
+  "messageContent": "You haven't started any conversations yet.",
+  "noVisitor": "No Visitor",
+  "noVisitorContent":
+      "Your fate hasn't arrived. Please be patient and wait a bit longer.",
+  "noFreeMatchLeft": "No Free Match Left",
+  "noFreeMatchContent":
+      "We provide limited connections for free users and unlimited access with a subscription.",
+  "matchingTitle": "Nearby/online people are matching",
+  "cancel": "Cancel",
+  "helpCenterTitle":
+      'Contact us at contactus@localmateapp.com for more support, our team will reply to you and help you to solve problem.',
+  "onlineSupport": "Online Support",
+  "newTitle": '(New)',
+  "copyEmailAddress": "Copy email address",
+  "reminder": "Reminder",
+  "logOut": "Log Out",
+  "deleteAccount": "Delete Account",
+  "newActivity": "New activity",
+  "newMessages": "New messages",
+  "newMatches": "New matches",
+  "newLikes": "New likes",
+  "newVisitor": "New visitor",
+  "notificationTip":
+      "Turning off notification means you will miss out on your new message or new matches.",
 };

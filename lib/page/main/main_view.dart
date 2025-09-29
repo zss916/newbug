@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/mixin/delayed_init_mixin.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/generated/assets.dart';
-import 'package:newbug/page/home/home_view.dart';
-import 'package:newbug/page/home/widget/home_menu.dart';
+import 'package:newbug/page/home/index/home_view.dart';
+import 'package:newbug/page/home/index/widget/home_menu.dart';
 import 'package:newbug/page/like/like_view.dart';
 import 'package:newbug/page/main/main_logic.dart';
-import 'package:newbug/page/message/message_view.dart';
+import 'package:newbug/page/message/index/message_view.dart';
+import 'package:newbug/page/message/index/widget/red_point.dart';
 import 'package:newbug/page/profile/profile_view.dart';
 
 class MainView extends StatefulWidget {
@@ -47,20 +47,6 @@ class _MainViewState extends State<MainView> with DelayedInitMixin {
 
   Widget buildBody() {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xFFFAFAFA),
-        toolbarHeight: 0,
-        leading: const SizedBox.shrink(),
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark,
-          systemNavigationBarDividerColor: Colors.transparent,
-          statusBarBrightness: Brightness.light,
-          systemNavigationBarColor: Colors.transparent,
-          systemNavigationBarIconBrightness: Brightness.light,
-        ),
-      ),
-      extendBody: true,
       backgroundColor: Color(0xFFFAFAFA),
       body: PageView(
         physics: const NeverScrollableScrollPhysics(),
@@ -77,36 +63,95 @@ class _MainViewState extends State<MainView> with DelayedInitMixin {
         showSelectedLabels: false,
         items: [
           BottomNavigationBarItem(
-            icon: Image.asset(
-              currentIndex == 0 ? Assets.imgCardActiveIc : Assets.imgCardIc,
-              width: 28,
-              height: 28,
+            icon: Stack(
+              alignment: AlignmentDirectional.bottomStart,
+              children: [
+                Container(
+                  width: 35,
+                  height: 35,
+                  alignment: AlignmentDirectional.center,
+                  child: UnconstrainedBox(
+                    child: Image.asset(
+                      currentIndex == 0
+                          ? Assets.imgCardActiveIc
+                          : Assets.imgCardIc,
+                      width: 28,
+                      height: 28,
+                    ),
+                  ),
+                ),
+              ],
             ),
             label: "",
           ),
           BottomNavigationBarItem(
-            icon: Image.asset(
-              currentIndex == 1 ? Assets.imgLikeActiveIc : Assets.imgLikeIc,
-              width: 27,
-              height: 27,
+            icon: Stack(
+              alignment: AlignmentDirectional.bottomStart,
+              children: [
+                Container(
+                  width: 35,
+                  height: 35,
+                  alignment: AlignmentDirectional.center,
+                  child: UnconstrainedBox(
+                    child: Image.asset(
+                      currentIndex == 1
+                          ? Assets.imgLikeActiveIc
+                          : Assets.imgLikeIc,
+                      width: 27,
+                      height: 27,
+                    ),
+                  ),
+                ),
+              ],
             ),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Image.asset(
-              currentIndex == 2
-                  ? Assets.imgMessageActiveIc
-                  : Assets.imgMessageIc,
-              width: 28,
-              height: 28,
+            icon: Stack(
+              alignment: AlignmentDirectional.bottomStart,
+              children: [
+                Container(
+                  width: 35,
+                  height: 35,
+                  alignment: AlignmentDirectional.center,
+                  child: UnconstrainedBox(
+                    child: Image.asset(
+                      currentIndex == 2
+                          ? Assets.imgMessageActiveIc
+                          : Assets.imgMessageIc,
+                      width: 28,
+                      height: 28,
+                    ),
+                  ),
+                ),
+                PositionedDirectional(
+                  top: 0,
+                  end: 0,
+                  child: RedPoint(count: 1),
+                ),
+              ],
             ),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Image.asset(
-              currentIndex == 3 ? Assets.imgUserActiveIc : Assets.imgUserIc,
-              width: 28,
-              height: 28,
+            icon: Stack(
+              alignment: AlignmentDirectional.bottomStart,
+              children: [
+                Container(
+                  width: 35,
+                  height: 35,
+                  alignment: AlignmentDirectional.center,
+                  child: UnconstrainedBox(
+                    child: Image.asset(
+                      currentIndex == 3
+                          ? Assets.imgUserActiveIc
+                          : Assets.imgUserIc,
+                      width: 28,
+                      height: 28,
+                    ),
+                  ),
+                ),
+              ],
             ),
             label: '',
           ),

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/route/index.dart';
 import 'package:newbug/generated/assets.dart';
+import 'package:newbug/page/dialog/help/sheet_account.dart';
+import 'package:newbug/page/dialog/help/sheet_help_center.dart';
 
 class ProfileItems extends StatelessWidget {
   const ProfileItems({super.key});
@@ -32,7 +35,9 @@ class ProfileItems extends StatelessWidget {
               topLeft: Radius.circular(16.r),
               topRight: Radius.circular(16.r),
             ),
-            onTap: () {},
+            onTap: () {
+              showAccountSheet();
+            },
           ),
 
           Divider(height: 1, color: Color(0xFFF2F2F2)),
@@ -41,7 +46,9 @@ class ProfileItems extends StatelessWidget {
             icon: Assets.imgIcNotification,
             title: T.notification.tr,
             borderRadius: BorderRadius.zero,
-            onTap: () {},
+            onTap: () {
+              RouteManager.toNotification();
+            },
           ),
 
           Divider(height: 1, color: Color(0xFFF2F2F2)),
@@ -51,7 +58,9 @@ class ProfileItems extends StatelessWidget {
             title: T.helpCenter.tr,
             iconSize: Offset(22, 22),
             borderRadius: BorderRadius.zero,
-            onTap: () {},
+            onTap: () {
+              showHelpCenterSheet();
+            },
           ),
 
           Divider(height: 1, color: Color(0xFFF2F2F2)),

@@ -12,6 +12,9 @@ class AppRoutes {
   static const String interest = '/interest';
   static const String guide = '/guide';
   static const String main = '/main';
+  static const String visitor = '/visitor';
+  static const String unmatch = '/unmatch';
+  static const String notification = '/notification';
 
   static final List<GetPage> routes = [
     GetPage(name: home, page: () => HomeView()),
@@ -28,19 +31,11 @@ class AppRoutes {
       opaque: false,
       transition: Transition.cupertinoDialog,
       page: () => GuideView(),
-      /*page: () => Intro(
-        padding: EdgeInsets.zero,
-        borderRadius: const BorderRadius.all(Radius.circular(50)),
-        maskColor: const Color.fromRGBO(0, 0, 0, .6),
-        child: const GuideView(),
-      ),*/
     ),
     GetPage(
       name: main,
       showCupertinoParallax: false,
       transition: Transition.noTransition,
-      //arguments: false,
-      // page: () => const MainView(),
       page: () => Intro(
         padding: EdgeInsets.zero,
         borderRadius: const BorderRadius.all(Radius.circular(50)),
@@ -48,16 +43,16 @@ class AppRoutes {
         child: const MainView(),
       ),
     ),
+    GetPage(name: visitor, page: () => VisitorView()),
+    GetPage(name: unmatch, page: () => UnMatchView()),
+    GetPage(name: notification, page: () => NotificationView()),
   ];
 
   static const String loveDialog = 'loveDialog';
 
   static const String nextDialog = 'nextDialog';
 
-  /*Intro(
-  padding: EdgeInsets.zero,
-  borderRadius: const BorderRadius.all(Radius.circular(50)),
-  maskColor: const Color.fromRGBO(0, 0, 0, .6),
-  child: const MainView(),
-  )*/
+  static const String helpCenterSheet = 'helpCenterSheet';
+
+  static const String accountSheet = 'accountSheet';
 }

@@ -17,6 +17,7 @@ class Assets {
   static const String imgCheckedIcon = 'assets/img/checked_icon.png';
   static const String imgCloseDialog = 'assets/img/close_dialog.png';
   static const String imgCopy = 'assets/img/copy.png';
+  static const String imgCustomer = 'assets/img/customer.png';
   static const String imgEdit = 'assets/img/edit.png';
   static const String imgEditIcon = 'assets/img/edit_icon.png';
   static const String imgEmail = 'assets/img/email.png';
@@ -39,18 +40,27 @@ class Assets {
   static const String imgIcNext = 'assets/img/ic_next.png';
   static const String imgIcNotification = 'assets/img/ic_notification.png';
   static const String imgIcPolicy = 'assets/img/ic_policy.png';
+  static const String imgIcRemove = 'assets/img/ic_remove.png';
+  static const String imgIcStopTop = 'assets/img/ic_stop_top.png';
   static const String imgIcTerms = 'assets/img/ic_terms.png';
+  static const String imgIcTop = 'assets/img/ic_top.png';
   static const String imgLikeActiveIc = 'assets/img/like_active_ic.png';
   static const String imgLikeFollow = 'assets/img/like_follow.png';
   static const String imgLikeIc = 'assets/img/like_ic.png';
   static const String imgLikeNext = 'assets/img/like_next.png';
   static const String imgLikeWild = 'assets/img/like_wild.png';
   static const String imgLocation = 'assets/img/location.png';
+  static const String imgLock = 'assets/img/lock.png';
   static const String imgLoginBg = 'assets/img/login_bg.png';
+  static const String imgMatch = 'assets/img/match.png';
   static const String imgMessageActiveIc = 'assets/img/message_active_ic.png';
   static const String imgMessageIc = 'assets/img/message_ic.png';
+  static const String imgMessageNotification =
+      'assets/img/message_notification.png';
   static const String imgMore = 'assets/img/more.png';
   static const String imgMsgIc = 'assets/img/msg_ic.png';
+  static const String imgMsgLikes = 'assets/img/msg_likes.png';
+  static const String imgMsgVisitor = 'assets/img/msg_visitor.png';
   static const String imgMuteClose = 'assets/img/mute_close.png';
   static const String imgMutePlay = 'assets/img/mute_play.png';
   static const String imgNotification = 'assets/img/notification.png';
@@ -69,6 +79,9 @@ class Assets {
   static const String imgVisitors = 'assets/img/visitors.png';
   static const String imgWildPhoto = 'assets/img/wild_photo.png';
   static const String imgWildPhotoIc = 'assets/img/wild_photo_ic.png';
+  static const String statusIncognito = 'assets/status/incognito.png';
+  static const String statusNessage = 'assets/status/nessage.png';
   static const String statusNoMore = 'assets/status/no_more.png';
+  static const String statusVisitor = 'assets/status/visitor.png';
   static const String statusWrong = 'assets/status/wrong.png';
 }

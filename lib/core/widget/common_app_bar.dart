@@ -114,7 +114,7 @@ class BaseAppBar extends AppBar {
                  children: [
                    Container(
                      margin: EdgeInsetsDirectional.only(end: 0),
-                     child: InkWell(
+                     child: GestureDetector(
                        onTap: () => Get.back(),
                        child: Container(
                          height: 48,
@@ -135,7 +135,7 @@ class BaseAppBar extends AppBar {
                    Text(
                      title ?? "",
                      style: TextStyle(
-                       fontSize: 16.sp,
+                       fontSize: 16,
                        color: Colors.black,
                        fontWeight: FontWeight.w600,
                      ),
