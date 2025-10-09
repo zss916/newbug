@@ -27,7 +27,6 @@ class NotificationView extends StatelessWidget {
               ),
             ),
           ),
-
           Container(
             width: double.infinity,
             clipBehavior: Clip.hardEdge,

@@ -17,6 +17,7 @@ class AppRoutes {
   static const String notification = '/notification';
   static const String editProfile = '/editProfile';
   static const String deleteAccount = '/deleteAccount';
+  static const String privateAlbum = '/privateAlbum';
 
   static final List<GetPage> routes = [
     GetPage(name: home, page: () => HomeView()),
@@ -50,6 +51,7 @@ class AppRoutes {
     GetPage(name: notification, page: () => NotificationView()),
     GetPage(name: editProfile, page: () => EditView()),
     GetPage(name: deleteAccount, page: () => DeleteAccountView()),
+    GetPage(name: privateAlbum, page: () => AlbumView()),
   ];
 
   static const String loveDialog = 'loveDialog';
@@ -59,4 +61,6 @@ class AppRoutes {
   static const String helpCenterSheet = 'helpCenterSheet';
 
   static const String accountSheet = 'accountSheet';
+
+  static const String ghostModeSheet = 'ghostModeSheet';
 }

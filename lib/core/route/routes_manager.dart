@@ -30,6 +30,8 @@ class RouteManager {
 
   static toDeleteAccount() => Get.toNamed(AppRoutes.deleteAccount);
 
+  static toPrivateAlbum() => Get.toNamed(AppRoutes.privateAlbum);
+
   /// 第一次打开初始化App
   static intoInitApp() {
     RouteManager.toMain();

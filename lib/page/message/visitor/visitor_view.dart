@@ -5,6 +5,7 @@ import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/widget/app_blur_widget.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/generated/assets.dart';
+import 'package:newbug/page/message/visitor/sheet/showGhostModeSheet.dart';
 import 'package:newbug/page/status/no_visitor_view.dart';
 
 class VisitorView extends StatelessWidget {
@@ -15,7 +16,7 @@ class VisitorView extends StatelessWidget {
     return Scaffold(
       appBar: BaseAppBar(title: T.visitor.tr),
       backgroundColor: Color(0xFFFAFAFA),
-      body: buildBody(viewState: 2),
+      body: buildBody(viewState: 1),
     );
   }
 
@@ -28,7 +29,12 @@ class VisitorView extends StatelessWidget {
     };
   }
 
-  Widget buildEmpty() => NoVisitorView(bottomPadding: 100.h, onTap: () {});
+  Widget buildEmpty() => NoVisitorView(
+    bottomPadding: 100.h,
+    onTap: () {
+      showGhostModeSheet(onSave: () {});
+    },
+  );
 
   Widget buildGridList() => GridView.builder(
     padding: EdgeInsetsDirectional.only(

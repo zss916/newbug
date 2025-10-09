@@ -254,6 +254,66 @@ class T {
   static const String pleaseEnter = "pleaseEnter";
 
   static const String submit = "submit";
+
+  static const String ghostMode = "ghostMode";
+
+  static const String turnOn = "turnOn";
+
+  static const String turnOnCount = "turnOnCount";
+
+  static const String turnOff = "turnOff";
+
+  static const String turnOffCount = "turnOffCount";
+
+  static const String save = "save";
+
+  static const String public = "public";
+
+  static const String private = "private";
+
+  static const String info = "info";
+
+  static const String nickname = "nickname";
+
+  static const String birthday = "birthday";
+
+  static const String gender = "gender";
+
+  static const String sexualOrientation = "sexualOrientation";
+
+  static const String desires = "desires";
+
+  static const String casual = "casual";
+
+  static const String casualContent = "casualContent";
+
+  static const String friendships = "friendships";
+
+  static const String friendshipsContent = "friendshipsCount";
+
+  static const String fwb = "fwb";
+
+  static const String fwbContent = "fwbContent";
+
+  static const String kink = "kink";
+
+  static const String kinkContent = "kinkContent";
+
+  static const String texting = "texting";
+
+  static const String textingContent = "textingContent";
+
+  static const String watching = "watching";
+
+  static const String watchingContent = "watchingContent";
+
+  static const String anythingButBoring = "anythingButBoring";
+
+  static const String anythingButBoringContent = "anythingButBoringContent";
+
+  static const String privateAlbum = "privateAlbum";
+
+  static const String privateAlbumTitle = "privateAlbumTitle";
 }
 
 const en = {
@@ -399,4 +459,40 @@ const en = {
   "deleteReason8": "Other reasons",
   "pleaseEnter": "Please enter",
   "submit": "Submit",
+  "ghostMode": "Ghost Mode",
+  "turnOn": "Turn On",
+  "turnOnCount": "Only those you like or your matches can view your profile.",
+  "turnOff": "Turn Off",
+  "turnOffCount": "Your profile will be recommended in the card stack.",
+  "save": "Save",
+  "public": "Public",
+  "private": "Private",
+  "info": "Info",
+  "nickname": "Nickname",
+  "birthday": "Birthday",
+  "gender": "Gender",
+  "sexualOrientation": "Sexual orientation",
+  "desires": "Desires",
+  "casual": "Casual",
+  "casualContent":
+      "A physical and/or emotional relationship without the commitments.",
+  "friendships": "Friendships",
+  "friendshipsContent": "Emotional connection but defined by a sexual element.",
+  "fwb": "FWB",
+  "fwbContent":
+      "Friends With Benefits. A casual relationship between two people.",
+  "kink": "Kink",
+  "kinkContent":
+      "A wide-ranging term for any unconventional sexual preference or behaviour.",
+  "texting": "Texting",
+  "textingContent":
+      "Messaging another human in ways that can be both conversational and/or sensual.",
+  "watching": "Watching",
+  "watchingContent":
+      "Being a voyeuristic participant of the intimate activities of others, without engaging physically with them.",
+
+  "anythingButBoring": "Anything but boring",
+  "anythingButBoringContent": "Up for anything fun! Just explore together!",
+  "privateAlbum": "Private Album",
+  "privateAlbumTitle": "A space where desires are expressed freely",
 };

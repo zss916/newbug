@@ -9,6 +9,7 @@ class Assets {
   static const String decorationLove = 'assets/decoration/love.png';
   static const String decorationStar = 'assets/decoration/star.png';
   static const String decorationStar2 = 'assets/decoration/star2.png';
+  static const String imgAlbumAdd = 'assets/img/album_add.png';
   static const String imgArrowEnd = 'assets/img/arrow_end.png';
   static const String imgBack = 'assets/img/back.png';
   static const String imgCamera = 'assets/img/camera.png';
@@ -33,6 +34,7 @@ class Assets {
   static const String imgHomeCloseBig = 'assets/img/home_close_big.png';
   static const String imgHomeLikeBig = 'assets/img/home_like_big.png';
   static const String imgIcAccount = 'assets/img/ic_account.png';
+  static const String imgIcAlbumVideo = 'assets/img/ic_album_video.png';
   static const String imgIcChildPolicy = 'assets/img/ic_child_policy.png';
   static const String imgIcClose = 'assets/img/ic_close.png';
   static const String imgIcHelp = 'assets/img/ic_help.png';
@@ -72,6 +74,8 @@ class Assets {
   static const String imgToBack = 'assets/img/to_back.png';
   static const String imgToNext = 'assets/img/to_next.png';
   static const String imgTouch = 'assets/img/touch.png';
+  static const String imgTurnOffIcon = 'assets/img/turn_off_icon.png';
+  static const String imgTurnOnIcon = 'assets/img/turn_on_icon.png';
   static const String imgUncheckIcon = 'assets/img/uncheck_icon.png';
   static const String imgUserActiveIc = 'assets/img/user_active_ic.png';
   static const String imgUserIc = 'assets/img/user_ic.png';
