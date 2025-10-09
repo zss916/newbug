@@ -15,6 +15,8 @@ class AppRoutes {
   static const String visitor = '/visitor';
   static const String unmatch = '/unmatch';
   static const String notification = '/notification';
+  static const String editProfile = '/editProfile';
+  static const String deleteAccount = '/deleteAccount';
 
   static final List<GetPage> routes = [
     GetPage(name: home, page: () => HomeView()),
@@ -46,6 +48,8 @@ class AppRoutes {
     GetPage(name: visitor, page: () => VisitorView()),
     GetPage(name: unmatch, page: () => UnMatchView()),
     GetPage(name: notification, page: () => NotificationView()),
+    GetPage(name: editProfile, page: () => EditView()),
+    GetPage(name: deleteAccount, page: () => DeleteAccountView()),
   ];
 
   static const String loveDialog = 'loveDialog';

@@ -82,6 +82,7 @@ class AccountWidget extends StatelessWidget {
                 ),
                 onTap: () {
                   Get.back();
+                  RouteManager.toDeleteAccount();
                 },
                 child: Container(
                   width: double.infinity,

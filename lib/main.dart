@@ -12,7 +12,6 @@ import 'package:newbug/page/main/main_view.dart';
 Future<void> main() async {
   await Global.init();
   runApp(const MyApp());
-  //runApp(MyApp2());
 }
 
 class MyApp extends StatelessWidget {
@@ -39,6 +38,7 @@ class MyApp extends StatelessWidget {
         ),
         defaultTransition: Transition.cupertino,
         home: MainView(),
+        //home: DeleteAccountView(),
         // home: UnMatchView(),
         //initialRoute: AppRoutes.login,
         //home: WrongView(),

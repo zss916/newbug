@@ -16,7 +16,9 @@ import 'package:newbug/page/login/photo/index.dart';
 import 'package:newbug/page/login/sex/index.dart';
 import 'package:newbug/page/main/main_view.dart';
 import 'package:newbug/page/message/visitor/visitor_view.dart';
-import 'package:newbug/page/notification/index.dart';
+import 'package:newbug/page/profile/deleteAccount/delete_account_view.dart';
+import 'package:newbug/page/profile/edit/edit_view.dart';
+import 'package:newbug/page/profile/notification/index.dart';
 
 part 'app_routes.dart';
 part 'routes_manager.dart';

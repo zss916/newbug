@@ -26,6 +26,10 @@ class RouteManager {
 
   static toNotification() => Get.toNamed(AppRoutes.notification);
 
+  static toEditProfile() => Get.toNamed(AppRoutes.editProfile);
+
+  static toDeleteAccount() => Get.toNamed(AppRoutes.deleteAccount);
+
   /// 第一次打开初始化App
   static intoInitApp() {
     RouteManager.toMain();

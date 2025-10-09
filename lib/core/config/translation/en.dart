@@ -69,6 +69,8 @@ class T {
 
   static const String report = "report";
 
+  static const String profile = "profile";
+
   static const String blocked = "blocked";
 
   static const String aboutMe = "aboutMe";
@@ -228,6 +230,30 @@ class T {
   static const String newVisitor = "newVisitor";
 
   static const String notificationTip = "notificationTip";
+
+  static const String successful = "successful";
+
+  static const String deleteAccountTitle = "deleteAccountTitle";
+
+  static const String deleteReason1 = "deleteReason1";
+
+  static const String deleteReason2 = "deleteReason2";
+
+  static const String deleteReason3 = "deleteReason3";
+
+  static const String deleteReason4 = "deleteReason4";
+
+  static const String deleteReason5 = "deleteReason5";
+
+  static const String deleteReason6 = "deleteReason6";
+
+  static const String deleteReason7 = "deleteReason7";
+
+  static const String deleteReason8 = "deleteReason8";
+
+  static const String pleaseEnter = "pleaseEnter";
+
+  static const String submit = "submit";
 }
 
 const en = {
@@ -359,4 +385,18 @@ const en = {
   "newVisitor": "New visitor",
   "notificationTip":
       "Turning off notification means you will miss out on your new message or new matches.",
+  "profile": "Profile",
+  "successful": "Successful",
+  "deleteAccountTitle":
+      "Your leaving is a pity. Would you please share the reasons with us?",
+  "deleteReason1": "Privacy and security of personal info",
+  "deleteReason2": "Lack of interest in the app",
+  "deleteReason3": "Suspected chat bots",
+  "deleteReason4": "Issues with the app",
+  "deleteReason5": "Suspected fake profiles",
+  "deleteReason6": "No ideal matches",
+  "deleteReason7": "Dislike the app's interface",
+  "deleteReason8": "Other reasons",
+  "pleaseEnter": "Please enter",
+  "submit": "Submit",
 };

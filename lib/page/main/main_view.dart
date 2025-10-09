@@ -9,7 +9,7 @@ import 'package:newbug/page/like/like_view.dart';
 import 'package:newbug/page/main/main_logic.dart';
 import 'package:newbug/page/message/index/message_view.dart';
 import 'package:newbug/page/message/index/widget/red_point.dart';
-import 'package:newbug/page/profile/profile_view.dart';
+import 'package:newbug/page/profile/index/profile_view.dart';
 
 class MainView extends StatefulWidget {
   const MainView({super.key});

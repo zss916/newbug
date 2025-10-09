@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 import 'package:newbug/core/config/global.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/widget/index.dart';
-import 'package:newbug/page/profile/widget/camera_widget.dart';
-import 'package:newbug/page/profile/widget/profile_info.dart';
-import 'package:newbug/page/profile/widget/profile_items.dart';
-import 'package:newbug/page/profile/widget/profile_premium.dart';
-import 'package:newbug/page/profile/widget/profile_tab.dart';
-import 'package:newbug/page/profile/widget/profile_visitor.dart';
+import 'package:newbug/page/profile/index/widget/camera_widget.dart';
+import 'package:newbug/page/profile/index/widget/profile_info.dart';
+import 'package:newbug/page/profile/index/widget/profile_items.dart';
+import 'package:newbug/page/profile/index/widget/profile_premium.dart';
+import 'package:newbug/page/profile/index/widget/profile_tab.dart';
+import 'package:newbug/page/profile/index/widget/profile_visitor.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
