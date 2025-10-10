@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/profile/sheet/pay/pay_sheet.dart';
-import 'package:newbug/page/profile/sheet/result/purchase_failed.dart';
 
 class ProfileTab extends StatelessWidget {
   final String videosCount;
@@ -28,10 +27,7 @@ class ProfileTab extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.circular(12),
               onTap: () {
-                showPurchaseFailedSheet(onContinue: () {}, onLoginNow: () {});
-                //showPayFailedSheet();
-                //showPaySuccessSheet();
-                // showPaySheet(index: 0);
+                showPaySheet(index: 0);
               },
               child: AspectRatio(
                 aspectRatio: 114 / 142,

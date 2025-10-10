@@ -9,6 +9,7 @@ import 'package:newbug/core/widget/app_blur_widget.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/message/index/widget/location_widget.dart';
+import 'package:newbug/page/message/index/widget/net_lose_widget.dart';
 import 'package:newbug/page/message/index/widget/red_point.dart';
 import 'package:newbug/page/status/no_message_view.dart';
 
@@ -75,8 +76,9 @@ class MessageView extends StatelessWidget {
               ),
               width: double.maxFinite,
               height: double.maxFinite,
-              //child: buildMessages(),
-              child: buildMessageEmpty(),
+              child: buildMessages(),
+
+              ///child: buildMessageEmpty(),
             ),
           ),
         ],
@@ -347,7 +349,7 @@ class MessageView extends StatelessWidget {
     ),
   );
 
-  Widget buildMessages() => ListView.separated(
+  Widget buildMessagesList() => ListView.separated(
     padding: EdgeInsetsDirectional.only(top: 14.h, bottom: 76),
     itemCount: 10,
     itemBuilder: (BuildContext context, int index) {
@@ -554,6 +556,217 @@ class MessageView extends StatelessWidget {
     },
     separatorBuilder: (BuildContext context, int index) =>
         Divider(height: 12.h, color: Colors.transparent),
+  );
+
+  Widget buildMessages() => CustomScrollView(
+    slivers: [
+      SliverToBoxAdapter(child: NetLoseWidget()),
+      SliverList.separated(
+        itemCount: 10,
+        separatorBuilder: (BuildContext context, int index) =>
+            Divider(height: 12.h, color: Colors.transparent),
+        itemBuilder: (BuildContext context, int index) => Slidable(
+          key: ValueKey("MsgTag$index"),
+          groupTag: "MsgTags",
+          enabled: true,
+          useTextDirection: true,
+          endActionPane: ActionPane(
+            extentRatio: 0.4,
+            motion: const DrawerMotion(),
+            children: [
+              CustomSlidableAction(
+                onPressed: (context) {
+                  // widget.onDelete.call();
+                },
+                alignment: Alignment.centerLeft,
+                autoClose: true,
+                backgroundColor: Colors.transparent,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: const BorderRadius.all(Radius.circular(12)),
+                  ),
+                  alignment: AlignmentDirectional.center,
+                  width: 60,
+                  height: 76,
+                  child: Image.asset(Assets.imgIcRemove, width: 24, height: 24),
+                ),
+              ),
+              CustomSlidableAction(
+                onPressed: (context) {
+                  // widget.onDelete.call();
+                },
+                alignment: Alignment.centerLeft,
+                autoClose: true,
+                backgroundColor: Colors.transparent,
+                child: Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: index == 0 ? Color(0xFFFFEBF6) : Color(0xFFF5F3FF),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  width: 60,
+                  height: 76,
+                  child: Image.asset(
+                    index == 0 ? Assets.imgIcStopTop : Assets.imgIcTop,
+                    width: 21,
+                    height: 21,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          child: Container(
+            width: double.maxFinite,
+            height: 76,
+            padding: EdgeInsetsDirectional.symmetric(
+              horizontal: 8.w,
+              vertical: 12.h,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: index == 0 ? Color(0xFFFFEBF7) : Color(0xFFF5F3FF),
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 14.w),
+            child: Row(
+              children: [
+                Container(
+                  margin: EdgeInsetsDirectional.only(end: 8.w),
+                  child: Stack(
+                    alignment: AlignmentDirectional.bottomStart,
+                    children: [
+                      Container(
+                        width: 52,
+                        height: 52,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                              "https://img1.baidu.com/it/u=2407322510,2912386112&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=670",
+                            ),
+                          ),
+                          border: Border.all(width: 1, color: Colors.black),
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                      ),
+                      if (true)
+                        PositionedDirectional(
+                          top: 0,
+                          end: 0,
+                          child: Container(
+                            width: 14,
+                            height: 14,
+                            decoration: BoxDecoration(
+                              color: Color(0xFF18CD00),
+                              border: Border.all(width: 1, color: Colors.black),
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IntrinsicHeight(
+                        child: Row(
+                          verticalDirection: VerticalDirection.up,
+                          children: [
+                            Container(
+                              constraints: BoxConstraints(maxWidth: 150.w),
+                              margin: EdgeInsetsDirectional.only(end: 4.w),
+                              child: Text(
+                                'Lily,37ddddsfdsfdsf',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                // overflow: TextOverflow.e,
+                                style: TextStyle(
+                                  color: const Color(0xFF262626),
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                            LocationWidget(),
+                            Spacer(),
+                            Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsetsDirectional.only(start: 10.w),
+                              child: Text(
+                                '12:00',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: const Color(0xFF606266),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      Row(
+                        children: [
+                          Container(
+                            margin: EdgeInsetsDirectional.only(end: 6.w),
+                            child: AppBlurWidget(
+                              isBlur: true,
+                              sigma: 1.5,
+                              borderRadius: BorderRadius.circular(6),
+                              foreground: Image.asset(
+                                Assets.imgLock,
+                                width: 14.w,
+                                height: 14.w,
+                              ),
+                              child: Container(
+                                width: 24,
+                                height: 20,
+                                clipBehavior: Clip.hardEdge,
+                                foregroundDecoration: BoxDecoration(
+                                  color: Colors.black38,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                      "https://img1.baidu.com/it/u=3311890800,2189225060&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=1000",
+                                    ),
+                                  ),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              'How about if we go tomorrow instead? ',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: const Color(0xFF494949),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          RedPoint(count: 1),
+                          SizedBox.shrink(),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    ],
   );
 
   Widget buildMessageEmpty() => NoMessageView();

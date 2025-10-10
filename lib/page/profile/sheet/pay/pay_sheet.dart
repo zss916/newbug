@@ -6,12 +6,16 @@ import 'package:newbug/core/route/index.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/profile/sheet/pay/pay_list_widget.dart';
 
+// showPurchaseFailedSheet(onContinue: () {}, onLoginNow: () {});
+//showPayFailedSheet();
+//showPaySuccessSheet();
+
 /// 显示支付弹窗
 void showPaySheet({required int index}) {
   Get.bottomSheet(
-      PayWidget(index: index),
-      isScrollControlled: true,
-      settings: RouteSettings(name: AppRoutes.paySheet),
+    PayWidget(index: index),
+    isScrollControlled: true,
+    settings: RouteSettings(name: AppRoutes.paySheet),
   );
 }
 

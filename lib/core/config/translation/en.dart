@@ -378,6 +378,8 @@ class T {
   static const String changeStoreID = "changeStoreID";
 
   static const String changeStoreIDContent = "changeStoreIDContent";
+
+  static const String netLose = "netLose";
 }
 
 const en = {
@@ -606,4 +608,6 @@ const en = {
   "changeStoreID": "Change Store ID",
   "changeStoreIDContent":
       "Change your Apple ID/ Google Play ID, and try purchase again.",
+
+  "netLose": "Unable to connect to server",
 };
