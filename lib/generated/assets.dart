@@ -70,6 +70,8 @@ class Assets {
   static const String imgMutePlay = 'assets/img/mute_play.png';
   static const String imgNotification = 'assets/img/notification.png';
   static const String imgPause = 'assets/img/pause.png';
+  static const String imgPayFailed = 'assets/img/pay_failed.png';
+  static const String imgPaySuccess = 'assets/img/pay_success.png';
   static const String imgPhotoAdd = 'assets/img/photo_add.png';
   static const String imgPlay = 'assets/img/play.png';
   static const String imgPrivatePhotos = 'assets/img/private_photos.png';

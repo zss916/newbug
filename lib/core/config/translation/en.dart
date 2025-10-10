@@ -350,6 +350,34 @@ class T {
   static const String expireOn = "expireOn";
 
   static const String endsOn = "endsOn";
+
+  static const String privatePhotosContent = "privatePhotosContent";
+
+  static const String privateVideosContent = "privateVideosContent";
+
+  static const String flashChatContent = "flashChatContent";
+
+  static const String paySuccess = "paySuccess";
+
+  static const String payFailed = "payFailed";
+
+  static const String paySuccessContent = "paySuccessContent";
+
+  static const String payFailedContent = "payFailedContent";
+
+  static const String purchaseFailed = "purchaseFailed";
+
+  static const String purchaseFailedContent = "purchaseFailedContent";
+
+  static const String loginNow = "loginNow";
+
+  static const String changeAccount = "changeAccount";
+
+  static const String loginNowTip = "loginNowTip";
+
+  static const String changeStoreID = "changeStoreID";
+
+  static const String changeStoreIDContent = "changeStoreIDContent";
 }
 
 const en = {
@@ -554,4 +582,28 @@ const en = {
 
   "expireOn": "expire on %s",
   "endsOn": "ends on %s",
+  "privatePhotosContent":
+      "Catch sight of the most charming photos of your crush.",
+  "privateVideosContent":
+      "Access these videos to grasp the best instants of your crush.",
+  "flashChatContent":
+      "Say \"Hi!\"directly to your crush without waiting for them to like you back.",
+
+  "paySuccess": "Success!",
+  "payFailed": "Failed",
+  "paySuccessContent":
+      "Use those perks to cross paths with \nyour crush—you’ve earned it!",
+
+  "payFailedContent": "Give it another shot—more chances with \nyour crush!",
+  "purchaseFailed": "Purchase Failed",
+  "purchaseFailedContent":
+      "Sorry! Your purchase failed due to some \nissues, you can try: ",
+
+  "loginNow": "Login Now",
+  "changeAccount": "Change Account",
+  "loginNowTip": 'Log in with your another premium account:  %s',
+
+  "changeStoreID": "Change Store ID",
+  "changeStoreIDContent":
+      "Change your Apple ID/ Google Play ID, and try purchase again.",
 };

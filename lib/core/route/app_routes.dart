@@ -65,4 +65,12 @@ class AppRoutes {
   static const String accountSheet = 'accountSheet';
 
   static const String ghostModeSheet = 'ghostModeSheet';
+
+  static const String paySheet = 'paySheet';
+
+  static const String paySuccessSheet = 'paySuccessSheet';
+
+  static const String payFailedSheet = 'payFailedSheet';
+
+  static const String purchaseFailedSheet = 'purchaseFailedSheet';
 }
