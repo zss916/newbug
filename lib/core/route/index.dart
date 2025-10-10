@@ -20,6 +20,7 @@ import 'package:newbug/page/profile/album/album_view.dart';
 import 'package:newbug/page/profile/deleteAccount/delete_account_view.dart';
 import 'package:newbug/page/profile/edit/edit_view.dart';
 import 'package:newbug/page/profile/notification/index.dart';
+import 'package:newbug/page/subscribe/subscribe_view.dart';
 
 part 'app_routes.dart';
 part 'routes_manager.dart';

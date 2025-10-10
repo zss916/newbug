@@ -6,6 +6,7 @@ class Assets {
   static const String avatarSilverAvatarIc =
       'assets/avatar/silver_avatar_ic.png';
   static const String decorationArrow = 'assets/decoration/arrow.png';
+  static const String decorationKing = 'assets/decoration/king.png';
   static const String decorationLove = 'assets/decoration/love.png';
   static const String decorationStar = 'assets/decoration/star.png';
   static const String decorationStar2 = 'assets/decoration/star2.png';
@@ -17,8 +18,10 @@ class Assets {
   static const String imgCardIc = 'assets/img/card_ic.png';
   static const String imgCheckedIcon = 'assets/img/checked_icon.png';
   static const String imgCloseDialog = 'assets/img/close_dialog.png';
+  static const String imgClosePage = 'assets/img/close_page.png';
   static const String imgCopy = 'assets/img/copy.png';
   static const String imgCustomer = 'assets/img/customer.png';
+  static const String imgDotOnline = 'assets/img/dot_online.png';
   static const String imgEdit = 'assets/img/edit.png';
   static const String imgEditIcon = 'assets/img/edit_icon.png';
   static const String imgEmail = 'assets/img/email.png';
@@ -71,6 +74,8 @@ class Assets {
   static const String imgPlay = 'assets/img/play.png';
   static const String imgPrivatePhotos = 'assets/img/private_photos.png';
   static const String imgPrivateVideos = 'assets/img/private_videos.png';
+  static const String imgSubscribeLocation =
+      'assets/img/subscribe_location.png';
   static const String imgToBack = 'assets/img/to_back.png';
   static const String imgToNext = 'assets/img/to_next.png';
   static const String imgTouch = 'assets/img/touch.png';
@@ -88,4 +93,25 @@ class Assets {
   static const String statusNoMore = 'assets/status/no_more.png';
   static const String statusVisitor = 'assets/status/visitor.png';
   static const String statusWrong = 'assets/status/wrong.png';
+  static const String subscribeFlashChat = 'assets/subscribe/flash_chat.png';
+  static const String subscribeIcAlbum = 'assets/subscribe/ic_album.png';
+  static const String subscribeIcChat = 'assets/subscribe/ic_chat.png';
+  static const String subscribeIcLikes = 'assets/subscribe/ic_likes.png';
+  static const String subscribeIcLimits = 'assets/subscribe/ic_limits.png';
+  static const String subscribeIcPhotos = 'assets/subscribe/ic_photos.png';
+  static const String subscribeIcVideos = 'assets/subscribe/ic_videos.png';
+  static const String subscribeIcVisitors = 'assets/subscribe/ic_visitors.png';
+  static const String subscribeIncognitoModel =
+      'assets/subscribe/incognito_model.png';
+  static const String subscribePrivatePhotos =
+      'assets/subscribe/private_photos.png';
+  static const String subscribePrivateVideos =
+      'assets/subscribe/private_videos.png';
+  static const String subscribeUnlimitedLikes =
+      'assets/subscribe/unlimited_likes.png';
+  static const String subscribeUnlockYourVisitors =
+      'assets/subscribe/unlock_your_visitors.png';
+  static const String subscribeWhoLikeMe = 'assets/subscribe/who_like_me.png';
+  static const String subscribeYourPrivateAlbum =
+      'assets/subscribe/your_private_album.png';
 }

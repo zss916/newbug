@@ -314,6 +314,42 @@ class T {
   static const String privateAlbum = "privateAlbum";
 
   static const String privateAlbumTitle = "privateAlbumTitle";
+
+  static const String subscribeTitle = "subscribeTitle";
+
+  static const String subscribe = "subscribe";
+
+  static const String subscribeContent = "subscribeContent";
+
+  static const String subscribeTip = "subscribeTip";
+
+  static const String privilegesTip = "privilegesTip";
+
+  static const String premiumPrivilege = "premiumPrivilege";
+
+  static const String privilege1 = "privilege1";
+
+  static const String privilege2 = "privilege2";
+
+  static const String privilege3 = "privilege3";
+
+  static const String privilege4 = "privilege4";
+
+  static const String privilege5 = "privilege5";
+
+  static const String privilege6 = "privilege6";
+
+  static const String privilege7 = "privilege7";
+
+  static const String subscriptionRenewal = "subscriptionRenewal";
+
+  static const String renewal1 = "renewal1";
+
+  static const String renewal2 = "renewal2";
+
+  static const String expireOn = "expireOn";
+
+  static const String endsOn = "endsOn";
 }
 
 const en = {
@@ -495,4 +531,27 @@ const en = {
   "anythingButBoringContent": "Up for anything fun! Just explore together!",
   "privateAlbum": "Private Album",
   "privateAlbumTitle": "A space where desires are expressed freely",
+  "subscribeTitle": "%s membership",
+  "subscribe": "Subscribe",
+  "subscribeContent":
+      "You can cancel your subscription at any time.\nOne-time payment.",
+  "subscribeTip":
+      "Charged to your Google Play account. Renews automatically 24hrs before expiry – turn off anytime in Play settings. No refunds once active; cancel before current period ends. Tap Continue to agree to our ",
+
+  "privilegesTip": "Upgrade to membership for full access to privileges.",
+  "premiumPrivilege": "Premium Privilege",
+  "privilege1": "See Who Likes You",
+  "privilege2": "Like Without Limits",
+  "privilege3": "Private Videos",
+  "privilege4": "Private Photos",
+  "privilege5": "Flash chat",
+  "privilege6": "Your Private Album",
+  "privilege7": "Unlock your visitors",
+  "subscriptionRenewal": "Subscription Renewal",
+  "renewal1": "Your subscription ",
+  "renewal2":
+      ".\n Renew now to continue your sweet conversations with your crush and explore more joy!",
+
+  "expireOn": "expire on %s",
+  "endsOn": "ends on %s",
 };

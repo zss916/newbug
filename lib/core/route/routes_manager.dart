@@ -32,6 +32,8 @@ class RouteManager {
 
   static toPrivateAlbum() => Get.toNamed(AppRoutes.privateAlbum);
 
+  static toSubscribe() => Get.toNamed(AppRoutes.subscribe);
+
   /// 第一次打开初始化App
   static intoInitApp() {
     RouteManager.toMain();

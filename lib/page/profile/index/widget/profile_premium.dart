@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/global.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/route/index.dart';
 
 class ProfilePremium extends StatelessWidget {
   const ProfilePremium({super.key});
@@ -47,23 +48,28 @@ class ProfilePremium extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsetsDirectional.only(top: 16.h),
-            width: double.infinity,
-            height: 48.h,
-            alignment: AlignmentDirectional.center,
-            decoration: ShapeDecoration(
-              color: const Color(0xFFFF0092),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+          GestureDetector(
+            onTap: () {
+              RouteManager.toSubscribe();
+            },
+            child: Container(
+              margin: EdgeInsetsDirectional.only(top: 16.h),
+              width: double.infinity,
+              height: 48.h,
+              alignment: AlignmentDirectional.center,
+              decoration: ShapeDecoration(
+                color: const Color(0xFFFF0092),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
               ),
-            ),
-            child: Text(
-              T.getPremium.tr,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w500,
+              child: Text(
+                T.getPremium.tr,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
           ),
