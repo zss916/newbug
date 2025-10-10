@@ -7,7 +7,6 @@ import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/theme/theme.dart';
 import 'package:newbug/core/widget/index.dart';
-import 'package:newbug/page/main/main_view.dart';
 
 Future<void> main() async {
   await Global.init();
@@ -30,17 +29,17 @@ class MyApp extends StatelessWidget {
         translations: AppTranslation(),
         fallbackLocale: const Locale("en"),
         getPages: AppRoutes.routes,
-        // navigatorObservers: [appRouteObserver],
+        //navigatorObservers: [appRouteObserver],
         builder: CustomToast.init(
           context: context,
           theme: AppTheme.to.light,
           builder: (context, child) => child ?? const Material(),
         ),
         defaultTransition: Transition.cupertino,
-        home: MainView(),
+        //home: MainView(),
         //home: DeleteAccountView(),
         // home: UnMatchView(),
-        //initialRoute: AppRoutes.login,
+        initialRoute: AppRoutes.login,
         //home: WrongView(),
       ),
     );
