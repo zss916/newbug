@@ -380,6 +380,18 @@ class T {
   static const String changeStoreIDContent = "changeStoreIDContent";
 
   static const String netLose = "netLose";
+
+  static const String visitorNotification = "visitorNotification";
+
+  static const String megContentNotification = "megContentNotification";
+
+  static const String photoNotification = "photoNotification";
+
+  static const String privatePhotosNotification = "privatePhotosNotification";
+
+  static const String privateVideosNotification = "privateVideosNotification";
+
+  static const String videosNotification = "videosNotification";
 }
 
 const en = {
@@ -504,11 +516,11 @@ const en = {
   "reminder": "Reminder",
   "logOut": "Log Out",
   "deleteAccount": "Delete Account",
-  "newActivity": "New activity",
-  "newMessages": "New messages",
-  "newMatches": "New matches",
-  "newLikes": "New likes",
-  "newVisitor": "New visitor",
+  "newActivity": "New Activity",
+  "newMessages": "New Messages",
+  "newMatches": "New Matches",
+  "newLikes": "New Likes",
+  "newVisitor": "New Visitor",
   "notificationTip":
       "Turning off notification means you will miss out on your new message or new matches.",
   "profile": "Profile",
@@ -610,4 +622,10 @@ const en = {
       "Change your Apple ID/ Google Play ID, and try purchase again.",
 
   "netLose": "Unable to connect to server",
+  "visitorNotification": "👀 She just visited you, check it now",
+  "megContentNotification": "✉️ (Message content)",
+  "photoNotification": "🏞️ Send you one photo",
+  "privatePhotosNotification": "🏞️ Send you N private photo(s)",
+  "privateVideosNotification": "🎬 Send you N private video(s)",
+  "videosNotification": "🎬 Send you N video(s)",
 };

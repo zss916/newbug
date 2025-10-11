@@ -11,6 +11,7 @@ import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/login/login/widget/login_bg.dart';
 import 'package:newbug/page/login/login/widget/terms_and_policy.dart';
+import 'package:newbug/page/notification/message_notification.dart';
 
 part 'login_logic.dart';
 part 'login_view.dart';

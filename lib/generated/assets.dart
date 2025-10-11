@@ -8,6 +8,8 @@ class Assets {
   static const String decorationArrow = 'assets/decoration/arrow.png';
   static const String decorationKing = 'assets/decoration/king.png';
   static const String decorationLove = 'assets/decoration/love.png';
+  static const String decorationNotifyBg1 = 'assets/decoration/notify_bg1.png';
+  static const String decorationNotifyBg2 = 'assets/decoration/notify_bg2.png';
   static const String decorationStar = 'assets/decoration/star.png';
   static const String decorationStar2 = 'assets/decoration/star2.png';
   static const String imgAlbumAdd = 'assets/img/album_add.png';
@@ -70,6 +72,7 @@ class Assets {
   static const String imgMutePlay = 'assets/img/mute_play.png';
   static const String imgNetLose = 'assets/img/net_lose.png';
   static const String imgNotification = 'assets/img/notification.png';
+  static const String imgNotificationPlay = 'assets/img/notification_play.png';
   static const String imgPause = 'assets/img/pause.png';
   static const String imgPayFailed = 'assets/img/pay_failed.png';
   static const String imgPaySuccess = 'assets/img/pay_success.png';

@@ -48,8 +48,9 @@ class LoginView extends StatelessWidget {
                   icon: Assets.imgGoogleW,
                   onTap: () {
                     //CustomToast.text("yyyyyyy");
-                    RouteManager.intoInitApp();
+                    //RouteManager.intoInitApp();
                     //RouteManager.toMain();
+                    showMessageNotification();
                   },
                 ),
                 CustomBorderButton(
