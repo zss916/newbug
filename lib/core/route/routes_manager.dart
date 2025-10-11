@@ -34,6 +34,10 @@ class RouteManager {
 
   static toSubscribe() => Get.toNamed(AppRoutes.subscribe);
 
+  static toHomeDetail() => Get.toNamed(AppRoutes.homeDetail);
+
+
+
   /// 第一次打开初始化App
   static intoInitApp() {
     RouteManager.toMain();

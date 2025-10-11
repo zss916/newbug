@@ -23,7 +23,7 @@ class HomeBottomMenu extends StatelessWidget {
         start: 14.w,
         end: 14.w,
         top: 20.h,
-        bottom: 100.h,
+        bottom: 22.h,
       ),
       width: double.maxFinite,
       child: Row(

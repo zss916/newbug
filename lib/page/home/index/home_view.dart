@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newbug/core/config/constants.dart';
 import 'package:newbug/core/config/global.dart';
 import 'package:newbug/core/stores/event.dart';
@@ -103,9 +102,7 @@ class HomeView extends StatelessWidget {
               onLike: () {
                 showLoveDialog();
               },
-            )
-          else
-            SizedBox(height: 100.h),
+            ),
         ],
       ),
     );

@@ -19,6 +19,8 @@ class AppRoutes {
   static const String deleteAccount = '/deleteAccount';
   static const String privateAlbum = '/privateAlbum';
   static const String subscribe = '/subscribe';
+  static const String homeDetail = '/homeDetail';
+
 
   static final List<GetPage> routes = [
     GetPage(name: home, page: () => HomeView()),
@@ -54,6 +56,8 @@ class AppRoutes {
     GetPage(name: deleteAccount, page: () => DeleteAccountView()),
     GetPage(name: privateAlbum, page: () => AlbumView()),
     GetPage(name: subscribe, page: () => SubscribeView()),
+    GetPage(name: homeDetail, page: () => HomeDetailView()),
+
   ];
 
   static const String loveDialog = 'loveDialog';
