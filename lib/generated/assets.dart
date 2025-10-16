@@ -18,6 +18,8 @@ class Assets {
   static const String imgCamera = 'assets/img/camera.png';
   static const String imgCardActiveIc = 'assets/img/card_active_ic.png';
   static const String imgCardIc = 'assets/img/card_ic.png';
+  static const String imgChatAlbum = 'assets/img/chat_album.png';
+  static const String imgChatError = 'assets/img/chat_error.png';
   static const String imgCheckedIcon = 'assets/img/checked_icon.png';
   static const String imgCloseDialog = 'assets/img/close_dialog.png';
   static const String imgClosePage = 'assets/img/close_page.png';
@@ -42,6 +44,7 @@ class Assets {
   static const String imgIcAlbumVideo = 'assets/img/ic_album_video.png';
   static const String imgIcChildPolicy = 'assets/img/ic_child_policy.png';
   static const String imgIcClose = 'assets/img/ic_close.png';
+  static const String imgIcFire = 'assets/img/ic_fire.png';
   static const String imgIcHelp = 'assets/img/ic_help.png';
   static const String imgIcLove = 'assets/img/ic_love.png';
   static const String imgIcNext = 'assets/img/ic_next.png';
@@ -51,11 +54,13 @@ class Assets {
   static const String imgIcStopTop = 'assets/img/ic_stop_top.png';
   static const String imgIcTerms = 'assets/img/ic_terms.png';
   static const String imgIcTop = 'assets/img/ic_top.png';
+  static const String imgIcVideo = 'assets/img/ic_video.png';
   static const String imgLikeActiveIc = 'assets/img/like_active_ic.png';
   static const String imgLikeFollow = 'assets/img/like_follow.png';
   static const String imgLikeIc = 'assets/img/like_ic.png';
   static const String imgLikeNext = 'assets/img/like_next.png';
   static const String imgLikeWild = 'assets/img/like_wild.png';
+  static const String imgLoadingIc = 'assets/img/loading_ic.png';
   static const String imgLocation = 'assets/img/location.png';
   static const String imgLock = 'assets/img/lock.png';
   static const String imgLoginBg = 'assets/img/login_bg.png';
@@ -78,8 +83,10 @@ class Assets {
   static const String imgPaySuccess = 'assets/img/pay_success.png';
   static const String imgPhotoAdd = 'assets/img/photo_add.png';
   static const String imgPlay = 'assets/img/play.png';
+  static const String imgPrivateAlbum = 'assets/img/private_album.png';
   static const String imgPrivatePhotos = 'assets/img/private_photos.png';
   static const String imgPrivateVideos = 'assets/img/private_videos.png';
+  static const String imgPublicAlbum = 'assets/img/public_album.png';
   static const String imgSend = 'assets/img/send.png';
   static const String imgSendTo = 'assets/img/send_to.png';
   static const String imgSubscribeLocation =

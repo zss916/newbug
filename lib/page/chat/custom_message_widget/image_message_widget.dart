@@ -1,0 +1,308 @@
+import 'dart:ui';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/generated/assets.dart';
+import 'package:newbug/page/chat/custom_message_widget/count_down_widget.dart';
+import 'package:newbug/page/chat/custom_message_widget/loading_widget.dart';
+import 'package:newbug/page/chat/custom_message_widget/message_wrapper_widget.dart';
+
+///私密媒体消息状态
+enum PrivateMediaStatus { private, loading, countdown, destroyed }
+
+class MediaMessageWidget extends StatefulWidget {
+  final bool isLocal;
+  final String imageUrl;
+  final bool? isPrivate;
+  final bool? isDestroyed;
+  final Function? onTap;
+
+  const MediaMessageWidget({
+    super.key,
+    required this.imageUrl,
+    required this.isLocal,
+    this.isPrivate,
+    this.isDestroyed,
+    this.onTap,
+  });
+
+  @override
+  State<MediaMessageWidget> createState() => _MediaMessageWidgetState();
+}
+
+class _MediaMessageWidgetState extends State<MediaMessageWidget> {
+  //  static bool isVideo = true;
+  bool isPrivate = true;
+  bool isDestroyed = false;
+  bool isLoading = false;
+
+  PrivateMediaStatus status = PrivateMediaStatus.private;
+
+  @override
+  void initState() {
+    super.initState();
+    isPrivate = widget.isPrivate ?? true;
+    isDestroyed = widget.isDestroyed ?? false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return (widget.isDestroyed == true ||
+            status == PrivateMediaStatus.destroyed)
+        ? buildFireStatusWidget()
+        : MessageWrapperWidget(
+            isLocal: widget.isLocal,
+            child: isPrivate
+                ? buildPrivateMediaWidget()
+                : buildPublicMediaWidget(),
+          );
+  }
+
+  ///公开
+  Widget buildPublicMediaWidget() => InkWell(
+    onTap: () {
+      debugPrint("=>Public");
+      widget.onTap?.call();
+    },
+    child: Container(
+      width: 179.w,
+      height: 232.h,
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        color: widget.isLocal ? Color(0xFFCDD2FF) : Color(0xFFF6CDFF),
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: CachedNetworkImageProvider(widget.imageUrl),
+        ),
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(12.r),
+          bottomLeft: Radius.circular(12.r),
+          bottomRight: widget.isLocal ? Radius.zero : Radius.circular(12.r),
+          topLeft: widget.isLocal ? Radius.circular(12.r) : Radius.zero,
+        ),
+      ),
+    ),
+  );
+
+  /// 私密
+  Widget buildPrivateMediaWidget() => InkWell(
+    onTap: () {
+      debugPrint("=>Private");
+      setState(() {
+        isLoading = true;
+        status = PrivateMediaStatus.loading;
+        Future.delayed(Duration(seconds: 1), () {
+          setState(() {
+            isLoading = false;
+            status = PrivateMediaStatus.countdown;
+            widget.onTap?.call();
+          });
+        });
+      });
+    },
+    child: Container(
+      width: 179.w,
+      height: 232.h,
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        color: widget.isLocal ? Color(0xFFCDD2FF) : Color(0xFFF6CDFF),
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: CachedNetworkImageProvider(widget.imageUrl),
+        ),
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(12.r),
+          bottomLeft: Radius.circular(12.r),
+          bottomRight: widget.isLocal ? Radius.zero : Radius.circular(12.r),
+          topLeft: widget.isLocal ? Radius.circular(12.r) : Radius.zero,
+        ),
+      ),
+      child: Stack(
+        alignment: AlignmentDirectional.center,
+        children: [
+          if (status == PrivateMediaStatus.private ||
+              status == PrivateMediaStatus.loading)
+            Positioned.fill(
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(12.r),
+                  bottomLeft: Radius.circular(12.r),
+                  bottomRight: widget.isLocal
+                      ? Radius.zero
+                      : Radius.circular(12.r),
+                  topLeft: widget.isLocal ? Radius.circular(12.r) : Radius.zero,
+                ),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                  child: Container(
+                    decoration: BoxDecoration(color: Colors.black54),
+                  ),
+                ),
+              ),
+            ),
+          if (status == PrivateMediaStatus.private ||
+              status == PrivateMediaStatus.loading)
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(Assets.imgLock, width: 55.r, height: 55.r),
+                Text(
+                  T.privatePhoto.tr,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Divider(height: 10.h, color: Colors.transparent),
+                if (isLoading && status == PrivateMediaStatus.loading)
+                  LoadingWidget()
+                else
+                  SizedBox(width: 22.r, height: 22.r),
+              ],
+            ),
+          if (status == PrivateMediaStatus.private ||
+              status == PrivateMediaStatus.loading)
+            PositionedDirectional(
+              bottom: 8.r,
+              end: 8.r,
+              start: 8.r,
+              child: Wrap(
+                spacing: 4.w,
+                runSpacing: 4.w,
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 8.w,
+                      vertical: 4.h,
+                    ),
+                    decoration: ShapeDecoration(
+                      color: const Color(0x19FF0092),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          width: 1,
+                          color: const Color(0xFFFF0092),
+                        ),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                    ),
+                    child: Text(
+                      '#Travel',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: -0.30,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 8.w,
+                      vertical: 4.h,
+                    ),
+                    decoration: ShapeDecoration(
+                      color: const Color(0x19FF0092),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          width: 1,
+                          color: const Color(0xFFFF0092),
+                        ),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                    ),
+                    child: Text(
+                      '#Travel',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: -0.30,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 8.w,
+                      vertical: 4.h,
+                    ),
+                    decoration: ShapeDecoration(
+                      color: const Color(0x19FF0092),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          width: 1,
+                          color: const Color(0xFFFF0092),
+                        ),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                    ),
+                    child: Text(
+                      '#Travel',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: -0.30,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          if (status == PrivateMediaStatus.countdown)
+            PositionedDirectional(
+              bottom: 8.r,
+              end: 8.r,
+              child: CountDownWidget(
+                totalDuration: 60,
+                onFinished: () {
+                  setState(() {
+                    status = PrivateMediaStatus.destroyed;
+                  });
+                },
+              ),
+            ),
+
+          // if (isVideo)
+          /*  PositionedDirectional(
+                      top: 8,
+                      start: 8,
+                      child: Image.asset(
+                        Assets.imgIcVideo,
+                        width: 28.w,
+                        height: 20.h,
+                      ),
+                    ),*/
+        ],
+      ),
+    ),
+  );
+
+  /// Fire status
+  Widget buildFireStatusWidget() => Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(50),
+      color: Color(0xFFF0EDFF),
+    ),
+    margin: EdgeInsets.only(top: 16.h),
+    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Image.asset(Assets.imgIcFire, width: 24, height: 24),
+        Text(
+          T.destroyedTip.tr,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: const Color(0xFF333333),
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
+    ),
+  );
+}

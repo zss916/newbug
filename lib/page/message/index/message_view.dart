@@ -616,152 +616,160 @@ class MessageView extends StatelessWidget {
               ),
             ],
           ),
-          child: Container(
-            width: double.maxFinite,
-            height: 76,
-            padding: EdgeInsetsDirectional.symmetric(
-              horizontal: 8.w,
-              vertical: 12.h,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: index == 0 ? Color(0xFFFFEBF7) : Color(0xFFF5F3FF),
-            ),
-            margin: EdgeInsets.symmetric(horizontal: 14.w),
-            child: Row(
-              children: [
-                Container(
-                  margin: EdgeInsetsDirectional.only(end: 8.w),
-                  child: Stack(
-                    alignment: AlignmentDirectional.bottomStart,
-                    children: [
-                      Container(
-                        width: 52,
-                        height: 52,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                              "https://img1.baidu.com/it/u=2407322510,2912386112&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=670",
+          child: InkWell(
+            onTap: () {
+              RouteManager.toChat();
+            },
+            child: Container(
+              width: double.maxFinite,
+              height: 76,
+              padding: EdgeInsetsDirectional.symmetric(
+                horizontal: 8.w,
+                vertical: 12.h,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                color: index == 0 ? Color(0xFFFFEBF7) : Color(0xFFF5F3FF),
+              ),
+              margin: EdgeInsets.symmetric(horizontal: 14.w),
+              child: Row(
+                children: [
+                  Container(
+                    margin: EdgeInsetsDirectional.only(end: 8.w),
+                    child: Stack(
+                      alignment: AlignmentDirectional.bottomStart,
+                      children: [
+                        Container(
+                          width: 52,
+                          height: 52,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                "https://img1.baidu.com/it/u=2407322510,2912386112&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=670",
+                              ),
                             ),
-                          ),
-                          border: Border.all(width: 1, color: Colors.black),
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                      ),
-                      if (true)
-                        PositionedDirectional(
-                          top: 0,
-                          end: 0,
-                          child: Container(
-                            width: 14,
-                            height: 14,
-                            decoration: BoxDecoration(
-                              color: Color(0xFF18CD00),
-                              border: Border.all(width: 1, color: Colors.black),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
+                            border: Border.all(width: 1, color: Colors.black),
+                            borderRadius: BorderRadius.circular(100),
                           ),
                         ),
-                    ],
+                        if (true)
+                          PositionedDirectional(
+                            top: 0,
+                            end: 0,
+                            child: Container(
+                              width: 14,
+                              height: 14,
+                              decoration: BoxDecoration(
+                                color: Color(0xFF18CD00),
+                                border: Border.all(
+                                  width: 1,
+                                  color: Colors.black,
+                                ),
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IntrinsicHeight(
-                        child: Row(
-                          verticalDirection: VerticalDirection.up,
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IntrinsicHeight(
+                          child: Row(
+                            verticalDirection: VerticalDirection.up,
+                            children: [
+                              Container(
+                                constraints: BoxConstraints(maxWidth: 150.w),
+                                margin: EdgeInsetsDirectional.only(end: 4.w),
+                                child: Text(
+                                  'Lily,37ddddsfdsfdsf',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  // overflow: TextOverflow.e,
+                                  style: TextStyle(
+                                    color: const Color(0xFF262626),
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              LocationWidget(),
+                              Spacer(),
+                              Container(
+                                alignment: Alignment.center,
+                                margin: EdgeInsetsDirectional.only(start: 10.w),
+                                child: Text(
+                                  '12:00',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: const Color(0xFF606266),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        Row(
                           children: [
                             Container(
-                              constraints: BoxConstraints(maxWidth: 150.w),
-                              margin: EdgeInsetsDirectional.only(end: 4.w),
+                              margin: EdgeInsetsDirectional.only(end: 6.w),
+                              child: AppBlurWidget(
+                                isBlur: true,
+                                sigma: 1.5,
+                                borderRadius: BorderRadius.circular(6),
+                                foreground: Image.asset(
+                                  Assets.imgLock,
+                                  width: 14.w,
+                                  height: 14.w,
+                                ),
+                                child: Container(
+                                  width: 24,
+                                  height: 20,
+                                  clipBehavior: Clip.hardEdge,
+                                  foregroundDecoration: BoxDecoration(
+                                    color: Colors.black38,
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(
+                                        "https://img1.baidu.com/it/u=3311890800,2189225060&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=1000",
+                                      ),
+                                    ),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
                               child: Text(
-                                'Lily,37ddddsfdsfdsf',
+                                'How about if we go tomorrow instead? ',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                // overflow: TextOverflow.e,
                                 style: TextStyle(
-                                  color: const Color(0xFF262626),
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.w600,
+                                  color: const Color(0xFF494949),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
                                 ),
                               ),
                             ),
-                            LocationWidget(),
-                            Spacer(),
-                            Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsetsDirectional.only(start: 10.w),
-                              child: Text(
-                                '12:00',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: const Color(0xFF606266),
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
+                            RedPoint(count: 1),
+                            SizedBox.shrink(),
                           ],
                         ),
-                      ),
-
-                      Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsetsDirectional.only(end: 6.w),
-                            child: AppBlurWidget(
-                              isBlur: true,
-                              sigma: 1.5,
-                              borderRadius: BorderRadius.circular(6),
-                              foreground: Image.asset(
-                                Assets.imgLock,
-                                width: 14.w,
-                                height: 14.w,
-                              ),
-                              child: Container(
-                                width: 24,
-                                height: 20,
-                                clipBehavior: Clip.hardEdge,
-                                foregroundDecoration: BoxDecoration(
-                                  color: Colors.black38,
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(
-                                      "https://img1.baidu.com/it/u=3311890800,2189225060&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=1000",
-                                    ),
-                                  ),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              'How about if we go tomorrow instead? ',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: const Color(0xFF494949),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ),
-                          RedPoint(count: 1),
-                          SizedBox.shrink(),
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

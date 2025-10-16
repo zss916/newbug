@@ -3,6 +3,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/widget/intro/flutter_intro.dart';
+import 'package:newbug/page/chat/index.dart';
 import 'package:newbug/page/guide/guide_view.dart';
 import 'package:newbug/page/home/detail/home_detail_view.dart';
 import 'package:newbug/page/home/index/home_view.dart';

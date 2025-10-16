@@ -157,6 +157,8 @@ class T {
 
   static const String privatePhotos = "privatePhotos";
 
+  static const String privatePhoto = "privatePhoto";
+
   static const String getNow = "getNow";
 
   static const String flashChat = "flashChat";
@@ -392,6 +394,16 @@ class T {
   static const String privateVideosNotification = "privateVideosNotification";
 
   static const String videosNotification = "videosNotification";
+
+  static const String inputHint = "inputHint";
+
+  static const String publicAlbum = "publicAlbum";
+
+  static const String matchCountTip = "matchCountTip";
+
+  static const String reachedTheLimit = "reachedTheLimit";
+
+  static const String destroyedTip = "destroyedTip";
 }
 
 const en = {
@@ -628,4 +640,10 @@ const en = {
   "privatePhotosNotification": "🏞️ Send you N private photo(s)",
   "privateVideosNotification": "🎬 Send you N private video(s)",
   "videosNotification": "🎬 Send you N video(s)",
+  "inputHint": "Say something...",
+  "publicAlbum": "Public Album",
+  "matchCountTip": "Wow~，You have got %s New Match",
+  "reachedTheLimit": "Reached the limit, continue to send",
+  "privatePhoto": "Private Photo",
+  "destroyedTip": "Lincoln’s Private Photos destroyed",
 };

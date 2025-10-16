@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/profile/sheet/pay/pay_sheet.dart';
 
@@ -27,7 +28,10 @@ class ProfileTab extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.circular(12),
               onTap: () {
-                showPaySheet(index: 0);
+                EventService.to.post(
+                  ShowMatchCountTipEvent(isShow: true, count: 99),
+                );
+                //showPaySheet(index: 0);
               },
               child: AspectRatio(
                 aspectRatio: 114 / 142,
@@ -131,7 +135,10 @@ class ProfileTab extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.circular(12),
               onTap: () {
-                showPaySheet(index: 1);
+                EventService.to.post(
+                  ShowMatchCountTipEvent(isShow: false, count: 99),
+                );
+                //showPaySheet(index: 1);
               },
               child: AspectRatio(
                 aspectRatio: 114 / 142,

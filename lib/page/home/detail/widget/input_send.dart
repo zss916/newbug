@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/generated/assets.dart';
 
 class InputSend extends StatefulWidget {
@@ -51,7 +53,7 @@ class _InputSendState extends State<InputSend> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.transparent,
-                hintText: "Say something...",
+                hintText: T.inputHint.tr,
                 hintStyle: TextStyle(
                   color: const Color(0xFFA9A9A9),
                   fontSize: 16,

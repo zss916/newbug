@@ -36,7 +36,7 @@ class RouteManager {
 
   static toHomeDetail() => Get.toNamed(AppRoutes.homeDetail);
 
-
+  static toChat() => Get.toNamed(AppRoutes.chat);
 
   /// 第一次打开初始化App
   static intoInitApp() {

@@ -7,6 +7,7 @@ import 'package:newbug/page/home/index/home_view.dart';
 import 'package:newbug/page/home/index/widget/home_menu.dart';
 import 'package:newbug/page/like/like_view.dart';
 import 'package:newbug/page/main/main_logic.dart';
+import 'package:newbug/page/main/widget/message_tip_bubble.dart';
 import 'package:newbug/page/message/index/message_view.dart';
 import 'package:newbug/page/message/index/widget/red_point.dart';
 import 'package:newbug/page/profile/index/profile_view.dart';
@@ -107,7 +108,33 @@ class _MainViewState extends State<MainView> with DelayedInitMixin {
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Stack(
+            icon: MessageTipBubble(
+              child: Stack(
+                alignment: AlignmentDirectional.bottomStart,
+                children: [
+                  Container(
+                    width: 35,
+                    height: 35,
+                    alignment: AlignmentDirectional.center,
+                    child: UnconstrainedBox(
+                      child: Image.asset(
+                        currentIndex == 2
+                            ? Assets.imgMessageActiveIc
+                            : Assets.imgMessageIc,
+                        width: 28,
+                        height: 28,
+                      ),
+                    ),
+                  ),
+                  PositionedDirectional(
+                    top: 0,
+                    end: 0,
+                    child: RedPoint(count: 1),
+                  ),
+                ],
+              ),
+            ),
+            /* icon: Stack(
               alignment: AlignmentDirectional.bottomStart,
               children: [
                 Container(
@@ -130,7 +157,7 @@ class _MainViewState extends State<MainView> with DelayedInitMixin {
                   child: RedPoint(count: 1),
                 ),
               ],
-            ),
+            ),*/
             label: '',
           ),
           BottomNavigationBarItem(

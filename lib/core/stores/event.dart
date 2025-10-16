@@ -37,3 +37,9 @@ class OpenMenuEvent {
   final bool isOpen;
   OpenMenuEvent({required this.isOpen});
 }
+
+class ShowMatchCountTipEvent {
+  final bool isShow;
+  final int count;
+  ShowMatchCountTipEvent({required this.isShow, required this.count});
+}
