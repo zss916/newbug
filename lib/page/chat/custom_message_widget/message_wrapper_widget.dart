@@ -87,6 +87,17 @@ class MessageWrapperWidget extends StatelessWidget {
                 ),
               ),
             ),
+
+          Container(
+            alignment: AlignmentDirectional.center,
+            margin: EdgeInsetsDirectional.only(top: 18.h, bottom: 8.h),
+            width: double.maxFinite,
+            child: Text(
+              "6 February 2024, 9:35",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: const Color(0xFF8C8C8C), fontSize: 12.sp),
+            ),
+          ),
         ],
       ),
     );

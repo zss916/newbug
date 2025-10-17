@@ -10,7 +10,7 @@ import 'package:newbug/page/chat/custom_message_widget/count_down_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/loading_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/message_wrapper_widget.dart';
 
-///私密媒体消息状态
+///私密媒体消息状态(photo/video)
 enum PrivateMediaStatus { private, loading, countdown, destroyed }
 
 class MediaMessageWidget extends StatefulWidget {
@@ -18,12 +18,14 @@ class MediaMessageWidget extends StatefulWidget {
   final String imageUrl;
   final bool? isPrivate;
   final bool? isDestroyed;
+  final bool? isVideo;
   final Function? onTap;
 
   const MediaMessageWidget({
     super.key,
     required this.imageUrl,
     required this.isLocal,
+    this.isVideo,
     this.isPrivate,
     this.isDestroyed,
     this.onTap,
@@ -34,10 +36,10 @@ class MediaMessageWidget extends StatefulWidget {
 }
 
 class _MediaMessageWidgetState extends State<MediaMessageWidget> {
-  //  static bool isVideo = true;
   bool isPrivate = true;
   bool isDestroyed = false;
   bool isLoading = false;
+  bool isVideo = false;
 
   PrivateMediaStatus status = PrivateMediaStatus.private;
 
@@ -46,6 +48,7 @@ class _MediaMessageWidgetState extends State<MediaMessageWidget> {
     super.initState();
     isPrivate = widget.isPrivate ?? true;
     isDestroyed = widget.isDestroyed ?? false;
+    isVideo = widget.isVideo ?? false;
   }
 
   @override
@@ -150,7 +153,7 @@ class _MediaMessageWidgetState extends State<MediaMessageWidget> {
               children: [
                 Image.asset(Assets.imgLock, width: 55.r, height: 55.r),
                 Text(
-                  T.privatePhoto.tr,
+                  isVideo ? T.privateVideo.tr : T.privatePhoto.tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.sp,
@@ -266,16 +269,22 @@ class _MediaMessageWidgetState extends State<MediaMessageWidget> {
               ),
             ),
 
-          // if (isVideo)
-          /*  PositionedDirectional(
-                      top: 8,
-                      start: 8,
-                      child: Image.asset(
-                        Assets.imgIcVideo,
-                        width: 28.w,
-                        height: 20.h,
-                      ),
-                    ),*/
+          /// Video
+          if (isVideo)
+            PositionedDirectional(
+              top: 8,
+              start: 8,
+              child: Image.asset(Assets.imgIcVideo, width: 28.w, height: 20.h),
+            ),
+
+          if (isVideo && status == PrivateMediaStatus.countdown)
+            Center(
+              child: Image.asset(
+                Assets.imgNotificationPlay,
+                width: 50,
+                height: 50,
+              ),
+            ),
         ],
       ),
     ),

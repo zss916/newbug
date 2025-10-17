@@ -155,6 +155,8 @@ class T {
 
   static const String privateVideos = "privateVideos";
 
+  static const String privateVideo = "privateVideo";
+
   static const String privatePhotos = "privatePhotos";
 
   static const String privatePhoto = "privatePhoto";
@@ -404,6 +406,16 @@ class T {
   static const String reachedTheLimit = "reachedTheLimit";
 
   static const String destroyedTip = "destroyedTip";
+
+  static const String isFilled = "isFilled";
+
+  static const String isEmpty = "isEmpty";
+
+  static const String check = "check";
+
+  static const String desiresRunWild = "desiresRunWild";
+
+  static const String videosOrPhotos = "videosOrPhotos";
 }
 
 const en = {
@@ -646,4 +658,10 @@ const en = {
   "reachedTheLimit": "Reached the limit, continue to send",
   "privatePhoto": "Private Photo",
   "destroyedTip": "Lincoln’s Private Photos destroyed",
+  "privateVideo": "Private Video",
+  "isFilled": "is filled",
+  "isEmpty": "is empty",
+  "check": "Check",
+  "desiresRunWild": "Let your desires run wild!",
+  "videosOrPhotos": "Private Videos or Photos %s",
 };
