@@ -32,7 +32,8 @@ class ChatPickImage extends StatelessWidget {
             color: Colors.transparent,
             child: GestureDetector(
               onTap: () {
-                Navigator.maybePop(context);
+                // Navigator.maybePop(context);
+                Get.back();
                 onPublicAlbum.call();
               },
               child: Container(
@@ -66,7 +67,8 @@ class ChatPickImage extends StatelessWidget {
             color: Colors.transparent,
             child: GestureDetector(
               onTap: () {
-                Navigator.maybePop(context);
+                //Navigator.maybePop(context);
+                Get.back();
                 onPrivateAlbum.call();
               },
               child: Container(

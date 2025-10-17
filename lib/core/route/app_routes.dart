@@ -77,4 +77,8 @@ class AppRoutes {
   static const String payFailedSheet = 'payFailedSheet';
 
   static const String purchaseFailedSheet = 'purchaseFailedSheet';
+
+  static const String privateAlbumSheet = 'privateAlbumSheet';
+
+  static const String chatMoreSheet = 'chatMoreSheet';
 }

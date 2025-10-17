@@ -25,7 +25,7 @@ class _MainViewState extends State<MainView> with DelayedInitMixin {
 
   @override
   void afterFirstLayout() {
-    //Get.dialog(GuideView());
+    //Get.sheet(GuideView());
     //(Get.arguments as bool);
   }
 

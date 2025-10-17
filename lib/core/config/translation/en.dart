@@ -413,9 +413,29 @@ class T {
 
   static const String check = "check";
 
+  static const String block = "block";
+
+  static const String delete = "delete";
+
+  static const String viewProfile = "viewProfile";
+
   static const String desiresRunWild = "desiresRunWild";
 
   static const String videosOrPhotos = "videosOrPhotos";
+
+  static const String privateAlbumTip = "privateAlbumTip";
+
+  static const String privateAlbumTitle1 = "privateAlbumTitle1";
+
+  static const String privateAlbumTitle2 = "privateAlbumTitle2";
+
+  static const String privateAlbumTitle3 = "privateAlbumTitle3";
+
+  static const String privateAlbumContent1 = "privateAlbumContent1";
+
+  static const String privateAlbumContent2 = "privateAlbumContent2";
+
+  static const String privateAlbumContent3 = "privateAlbumContent3";
 }
 
 const en = {
@@ -456,6 +476,7 @@ const en = {
   "notification": "Notification",
   "report": "Report",
   "blocked": "Blocked",
+  "block": "Block",
   "aboutMe": "About me",
   "interests": "Interests",
   "chatNow": "Chat Now",
@@ -570,6 +591,7 @@ const en = {
   "public": "Public",
   "private": "Private",
   "info": "Info",
+  "delete": "Delete",
   "nickname": "Nickname",
   "birthday": "Birthday",
   "gender": "Gender",
@@ -664,4 +686,15 @@ const en = {
   "check": "Check",
   "desiresRunWild": "Let your desires run wild!",
   "videosOrPhotos": "Private Videos or Photos %s",
+  "privateAlbumTip": "A Space to be open with your desires",
+  "privateAlbumTitle1": "Nobody will Find it",
+  "privateAlbumTitle2": "Nobody can share it",
+  "privateAlbumTitle3": "Be Wild to Exchange",
+  "privateAlbumContent1":
+      "Save your cheekiest photos here and never to worry about that someone will find it in your phone\'s album.",
+  "privateAlbumContent2":
+      "Private photos can’t be saved, screen shotted or forwarded by others. Nobody can share.",
+  "privateAlbumContent3":
+      "All private album active users are like-minded. Just speak your desiers aloud with no shame.",
+  "viewProfile": "View Profile",
 };

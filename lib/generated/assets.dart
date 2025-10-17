@@ -5,6 +5,9 @@ class Assets {
   static const String avatarGoldAvatarIc = 'assets/avatar/gold_avatar_ic.png';
   static const String avatarSilverAvatarIc =
       'assets/avatar/silver_avatar_ic.png';
+  static const String decorationAlbumBg1 = 'assets/decoration/album_bg1.png';
+  static const String decorationAlbumBg2 = 'assets/decoration/album_bg2.png';
+  static const String decorationAlbumBg3 = 'assets/decoration/album_bg3.png';
   static const String decorationArrow = 'assets/decoration/arrow.png';
   static const String decorationKing = 'assets/decoration/king.png';
   static const String decorationLove = 'assets/decoration/love.png';

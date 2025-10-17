@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/generated/assets.dart';
+import 'package:newbug/page/chat/sheet/showPrivateAlbum.dart';
 import 'package:newbug/page/chat/widget/chat_pick_image.dart';
 
 class InputSend extends StatefulWidget {
@@ -36,7 +37,12 @@ class _InputSendState extends State<InputSend> {
       decoration: BoxDecoration(color: Colors.white),
       child: Row(
         children: [
-          ChatPickImage(onPublicAlbum: () {}, onPrivateAlbum: () {}),
+          ChatPickImage(
+            onPublicAlbum: () {},
+            onPrivateAlbum: () {
+              showPrivateAlbum(onConfirm: () {});
+            },
+          ),
           Expanded(
             child: Container(
               margin: EdgeInsetsDirectional.only(start: 8.w),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/generated/assets.dart';
+import 'package:newbug/page/chat/sheet/sheetChatMore.dart';
 
 class ChatAppBar extends StatelessWidget {
   const ChatAppBar({super.key});
@@ -113,7 +114,7 @@ class ChatAppBar extends StatelessWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(10),
                 onTap: () {
-                  ///
+                  showChatMoreSheet();
                 },
                 child: Container(
                   padding: EdgeInsetsDirectional.symmetric(
