@@ -142,6 +142,9 @@ class ChatView extends StatelessWidget {
 
                   ///本地单张图片
                   MediaMessageWidget(
+                    onTap: () {
+                      RouteManager.toPreviewView();
+                    },
                     isLocal: true,
                     isPrivate: false,
                     imageUrl:

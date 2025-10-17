@@ -38,6 +38,10 @@ class RouteManager {
 
   static toChat() => Get.toNamed(AppRoutes.chat);
 
+  static toSelectedAlbum() => Get.toNamed(AppRoutes.selectedAlbum);
+
+  static toPreviewView() => Get.toNamed(AppRoutes.previewView);
+
   /// 第一次打开初始化App
   static intoInitApp() {
     RouteManager.toMain();

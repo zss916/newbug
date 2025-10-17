@@ -21,6 +21,8 @@ class AppRoutes {
   static const String subscribe = '/subscribe';
   static const String homeDetail = '/homeDetail';
   static const String chat = '/chat';
+  static const String selectedAlbum = '/selectedAlbum';
+  static const String previewView = '/previewView';
 
   static final List<GetPage> routes = [
     GetPage(name: home, page: () => HomeView()),
@@ -58,6 +60,9 @@ class AppRoutes {
     GetPage(name: subscribe, page: () => SubscribeView()),
     GetPage(name: homeDetail, page: () => HomeDetailView()),
     GetPage(name: chat, page: () => ChatView()),
+    GetPage(name: selectedAlbum, page: () => SelectedAlbumView()),
+
+    GetPage(name: previewView, page: () => PreviewView()),
   ];
 
   static const String loveDialog = 'loveDialog';

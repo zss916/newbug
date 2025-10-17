@@ -15,6 +15,8 @@ class T {
 
   static const String man = "man";
 
+  static const String confirm = "confirm";
+
   static const String woman = "woman";
 
   static const String other = "other";
@@ -417,6 +419,8 @@ class T {
 
   static const String delete = "delete";
 
+  static const String selectAlbumTip = "selectAlbumTip";
+
   static const String viewProfile = "viewProfile";
 
   static const String desiresRunWild = "desiresRunWild";
@@ -436,6 +440,12 @@ class T {
   static const String privateAlbumContent2 = "privateAlbumContent2";
 
   static const String privateAlbumContent3 = "privateAlbumContent3";
+
+  static const String selectedAlbumTitle = "selectedAlbumTitle";
+
+  static const String selectedPhotoTitle = "selectedPhotoTitle";
+
+  static const String selectedVideoTitle = "selectedVideoTitle";
 }
 
 const en = {
@@ -697,4 +707,9 @@ const en = {
   "privateAlbumContent3":
       "All private album active users are like-minded. Just speak your desiers aloud with no shame.",
   "viewProfile": "View Profile",
+  "confirm": "Confirm",
+  "selectAlbumTip": "Photo: %s Selected, Video: %s Selected",
+  "selectedAlbumTitle": "Confirm Your Selected",
+  "selectedPhotoTitle": "Photo: %s Selected",
+  "selectedVideoTitle": "Video: %s Selected",
 };

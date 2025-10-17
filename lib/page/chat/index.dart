@@ -3,6 +3,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:newbug/core/route/index.dart';
 import 'package:newbug/page/chat/custom_message_widget/connect_card_message_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/media_message_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/package_message_widget.dart';

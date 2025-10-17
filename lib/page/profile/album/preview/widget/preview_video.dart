@@ -1,26 +1,17 @@
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newbug/generated/assets.dart';
-import 'package:newbug/page/home/index/widget/video/switch_mute.dart';
 
-class BetterNetVideo extends StatefulWidget {
-  final String video;
-  final double ratio;
-  final Function(bool)? onVideoStatus;
-
-  const BetterNetVideo({
-    super.key,
-    required this.video,
-    required this.ratio,
-    this.onVideoStatus,
-  });
+class PreviewVideo extends StatefulWidget {
+  final String url;
+  final String? thumbUrl;
+  const PreviewVideo({super.key, required this.url, this.thumbUrl});
 
   @override
-  State<BetterNetVideo> createState() => _BetterNetVideoState();
+  State<PreviewVideo> createState() => _PreviewVideoState();
 }
 
-class _BetterNetVideoState extends State<BetterNetVideo>
+class _PreviewVideoState extends State<PreviewVideo>
     with WidgetsBindingObserver {
   late BetterPlayerController _betterPlayerController;
   late BetterPlayerDataSource _betterPlayerDataSource;
@@ -30,11 +21,12 @@ class _BetterNetVideoState extends State<BetterNetVideo>
 
   @override
   void initState() {
-    WidgetsBinding.instance.addObserver(this);
     super.initState();
     initVideoCtrl();
     listener = () {
       if (_betterPlayerController.videoPlayerController != null) {
+        //  _betterPlayerController.betterPlayerControlsConfigurationFullScreen;
+
         final value = _betterPlayerController.videoPlayerController?.value;
         double playedPartPercent =
             (value?.position.inMilliseconds ?? 0) /
@@ -51,8 +43,8 @@ class _BetterNetVideoState extends State<BetterNetVideo>
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
     _betterPlayerController.videoPlayerController?.removeListener(listener);
+    //.exitFullScreen();
     _betterPlayerController.pause();
     _betterPlayerController.dispose();
     super.dispose();
@@ -86,28 +78,31 @@ class _BetterNetVideoState extends State<BetterNetVideo>
         );
     _betterPlayerDataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.network,
-      widget.video,
+      widget.url,
       cacheConfiguration: BetterPlayerCacheConfiguration(
         useCache: true,
         preCacheSize: 10 * 1024 * 1024,
         maxCacheSize: 100 * 1024 * 1024,
         maxCacheFileSize: 10 * 1024 * 1024,
-        key: widget.video,
+        key: widget.url,
       ),
     );
     _betterPlayerController = BetterPlayerController(betterPlayerConfiguration);
     _betterPlayerController.setControlsAlwaysVisible(true);
     _betterPlayerController.setControlsEnabled(true);
-    //_betterPlayerController.enterFullScreen();
-    _betterPlayerController.setOverriddenAspectRatio(widget.ratio);
+
     _betterPlayerController.setupDataSource(_betterPlayerDataSource).then((d) {
       if (!mounted) return;
       _betterPlayerController.videoPlayerController?.addListener(listener);
       setState(() {
-        widget.onVideoStatus?.call(false);
         _betterPlayerController.pause();
       });
     });
+    //_betterPlayerController.enterFullScreen();
+    _betterPlayerController.setOverriddenFit(BoxFit.cover);
+    _betterPlayerController.setOverriddenAspectRatio(
+      _betterPlayerController.getAspectRatio() ?? 1,
+    );
   }
 
   @override
@@ -120,40 +115,34 @@ class _BetterNetVideoState extends State<BetterNetVideo>
                 onTap: () {
                   if (_betterPlayerController.isPlaying() == true) {
                     _betterPlayerController.pause();
-                    widget.onVideoStatus?.call(false);
                   } else {
                     _betterPlayerController.play();
-                    widget.onVideoStatus?.call(true);
                   }
                 },
                 child: Stack(
                   alignment: AlignmentDirectional.center,
                   children: [
-                    ClipRRect(
+                    SizedBox.expand(
                       child: BetterPlayer(controller: _betterPlayerController),
                     ),
+
                     if (!isPlay)
                       Center(
                         child: Image.asset(
-                          Assets.imgPlay,
-                          width: 54,
-                          height: 54,
+                          Assets.imgNotificationPlay,
+                          width: 50,
+                          height: 50,
                         ),
                       ),
-
-                    PositionedDirectional(
-                      start: 14.w,
-                      bottom: 16.h,
-                      child: SwitchMute(
-                        onSwitch: (isMute) {
-                          _betterPlayerController.setVolume(isMute ? 0 : 1);
-                        },
-                      ),
-                    ),
                   ],
                 ),
               )
-            : SizedBox.shrink(),
+            : Center(
+                child: CircularProgressIndicator(
+                  //: (controller.progress / 100).toDouble(),
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              ),
       ),
     );
   }

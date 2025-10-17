@@ -92,6 +92,7 @@ class Assets {
   static const String imgPublicAlbum = 'assets/img/public_album.png';
   static const String imgSend = 'assets/img/send.png';
   static const String imgSendTo = 'assets/img/send_to.png';
+  static const String imgSmallPlay = 'assets/img/small_play.png';
   static const String imgSubscribeLocation =
       'assets/img/subscribe_location.png';
   static const String imgToBack = 'assets/img/to_back.png';

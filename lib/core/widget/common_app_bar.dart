@@ -99,6 +99,7 @@ class BaseAppBar extends AppBar {
     String? title,
     Color? backgroundColor,
     Widget? titleWidget,
+    SystemUiOverlayStyle? systemOverlayStyle,
     super.actions,
     super.bottom,
   }) : super(
@@ -149,6 +150,6 @@ class BaseAppBar extends AppBar {
          centerTitle: false,
          foregroundColor: Colors.transparent,
          surfaceTintColor: Colors.transparent,
-         systemOverlayStyle: barStyle,
+         systemOverlayStyle: systemOverlayStyle ?? barStyle,
        );
 }
