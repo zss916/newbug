@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newbug/generated/assets.dart';
-import 'package:newbug/page/chat/custom_message_widget/count_down_widget.dart';
 import 'package:video_player/video_player.dart';
 
-class PreviewVideoPlus extends StatefulWidget {
+class PreviewMultipleVideo extends StatefulWidget {
   final String url;
   final String? thumbUrl;
-  final bool? isPrivate;
-  final Function? onFinished;
-  const PreviewVideoPlus({
+  final Widget? child;
+
+  const PreviewMultipleVideo({
     super.key,
     required this.url,
-    this.isPrivate,
     this.thumbUrl,
-    this.onFinished,
+    this.child,
   });
 
   @override
-  State<PreviewVideoPlus> createState() => _PreviewVideoState();
+  State<PreviewMultipleVideo> createState() => _PreviewMultipleVideoState();
 }
 
-class _PreviewVideoState extends State<PreviewVideoPlus>
+class _PreviewMultipleVideoState extends State<PreviewMultipleVideo>
     with WidgetsBindingObserver {
   late VideoPlayerController _controller;
   bool isPlaying = false;
@@ -62,44 +60,22 @@ class _PreviewVideoState extends State<PreviewVideoPlus>
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
-          SizedBox.expand(),
-
-          Center(
-            child: _controller.value.isInitialized
-                ? GestureDetector(
-                    onTap: () {
-                      if (isPlaying) {
-                        setState(() {
-                          _controller.pause();
-                          isPlaying = false;
-                        });
-                      } else {
-                        setState(() {
-                          _controller.play();
-                          isPlaying = true;
-                        });
-                      }
-                    },
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        AspectRatio(
-                          aspectRatio: _controller.value.aspectRatio,
-                          child: VideoPlayer(_controller),
-                        ),
-
-                        if (!isPlaying)
-                          Center(
-                            child: Image.asset(
-                              Assets.imgNotificationPlay,
-                              width: 50,
-                              height: 50,
-                            ),
-                          ),
-                      ],
+          Material(
+            elevation: 0,
+            color: Colors.black,
+            child: SizedBox.expand(
+              child: (!_controller.value.isInitialized)
+                  ? Center(child: buildLoading())
+                  : FittedBox(
+                      fit: BoxFit.cover,
+                      clipBehavior: Clip.hardEdge,
+                      child: SizedBox(
+                        width: _controller.value.size.width,
+                        height: _controller.value.size.height,
+                        child: VideoPlayer(_controller),
+                      ),
                     ),
-                  )
-                : buildLoading(),
+            ),
           ),
 
           PositionedDirectional(
@@ -135,7 +111,9 @@ class _PreviewVideoState extends State<PreviewVideoPlus>
                               }
                             },
                             child: Image.asset(
-                              Assets.imgSmallPlay,
+                              isPlaying
+                                  ? Assets.imgSmallPause
+                                  : Assets.imgSmallPlay,
                               width: 24,
                               height: 24,
                             ),
@@ -145,7 +123,7 @@ class _PreviewVideoState extends State<PreviewVideoPlus>
                             color: Colors.transparent,
                           ),
                           Text(
-                            _formatDuration(videoPlayerValue.position),
+                            formatTime(videoPlayerValue.position),
                             style: TextStyle(
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w600,
@@ -204,7 +182,7 @@ class _PreviewVideoState extends State<PreviewVideoPlus>
                             color: Colors.transparent,
                           ),
                           Text(
-                            _formatDuration(
+                            formatTime(
                               videoPlayerValue.duration ?? Duration.zero,
                             ),
                             style: TextStyle(
@@ -218,31 +196,7 @@ class _PreviewVideoState extends State<PreviewVideoPlus>
                     },
                   ),
                 ),
-
-                if (widget.isPrivate == true)
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.5),
-                    ),
-                    width: double.maxFinite,
-                    padding: EdgeInsetsDirectional.only(
-                      top: 12.h,
-                      bottom: 12.h,
-                    ),
-                    alignment: Alignment.center,
-                    child: CountDownWidget(
-                      totalDuration: 60,
-                      alpha: 0,
-                      onFinished: () {
-                        widget.onFinished?.call();
-                      },
-                    ),
-                  ),
-                Container(
-                  width: double.maxFinite,
-                  height: MediaQuery.of(context).padding.bottom,
-                  color: Colors.black.withValues(alpha: 0.5),
-                ),
+                widget.child ?? SizedBox.shrink(),
               ],
             ),
           ),
@@ -282,36 +236,17 @@ class _PreviewVideoState extends State<PreviewVideoPlus>
     valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
   );
 
-  String _formatDuration(Duration position) {
-    final ms = position.inMilliseconds;
+  String formatTime(Duration duration) {
+    final hours = duration.inHours;
+    final minutes = duration.inMinutes.remainder(60);
+    final seconds = duration.inSeconds.remainder(60);
 
-    int seconds = ms ~/ 1000;
-    final int hours = seconds ~/ 3600;
-    seconds = seconds % 3600;
-    final minutes = seconds ~/ 60;
-    seconds = seconds % 60;
+    final timeParts = [
+      if (hours > 0) hours.toString().padLeft(2, '0'),
+      minutes.toString().padLeft(2, '0'),
+      seconds.toString().padLeft(2, '0'),
+    ];
 
-    final hoursString = hours >= 10
-        ? '$hours'
-        : hours == 0
-        ? '00'
-        : '0$hours';
-
-    final minutesString = minutes >= 10
-        ? '$minutes'
-        : minutes == 0
-        ? '00'
-        : '0$minutes';
-
-    final secondsString = seconds >= 10
-        ? '$seconds'
-        : seconds == 0
-        ? '00'
-        : '0$seconds';
-
-    final formattedTime =
-        '${hoursString == '00' ? '' : '$hoursString:'}$minutesString:$secondsString';
-
-    return formattedTime;
+    return timeParts.join(':');
   }
 }

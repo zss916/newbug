@@ -55,7 +55,33 @@ class BuildSinglePhoto extends StatelessWidget {
             colors: [Color(0xFF504C43), Color(0xFF49443A)],
           ),
         ),
-        child: Stack(
+        child: Column(
+          children: [
+            Expanded(child: PreviewImage(url: url)),
+            if (isPrivate == true)
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.5),
+                ),
+                width: double.maxFinite,
+                padding: EdgeInsetsDirectional.only(top: 12.h, bottom: 12.h),
+                alignment: Alignment.center,
+                child: CountDownWidget(
+                  totalDuration: 60,
+                  alpha: 0,
+                  onFinished: () {
+                    onFinished?.call();
+                  },
+                ),
+              ),
+            Container(
+              width: double.maxFinite,
+              height: MediaQuery.of(context).padding.bottom,
+              color: Colors.black.withValues(alpha: 0.5),
+            ),
+          ],
+        ),
+        /*child: Stack(
           alignment: Alignment.center,
           children: [
             PositionedDirectional(
@@ -100,7 +126,7 @@ class BuildSinglePhoto extends StatelessWidget {
               ),
             ),
           ],
-        ),
+        ),*/
       ),
     );
   }

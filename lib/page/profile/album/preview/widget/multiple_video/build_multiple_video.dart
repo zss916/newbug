@@ -4,24 +4,27 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/chat/custom_message_widget/count_down_widget.dart';
-import 'package:newbug/page/profile/album/preview/widget/preview_image.dart';
+import 'package:newbug/page/profile/album/preview/widget/multiple_video/preview_multiple_video.dart';
 
-class BuildMultiplePhoto extends StatefulWidget {
-  final bool isPrivate;
+class BuildMultipleVideo extends StatefulWidget {
   final List<String> urls;
   final Function? onFinished;
-  const BuildMultiplePhoto({
+  final bool? isPrivate;
+  final List<String>? thumbs;
+
+  const BuildMultipleVideo({
     super.key,
-    required this.isPrivate,
     required this.urls,
     this.onFinished,
+    this.isPrivate,
+    this.thumbs,
   });
 
   @override
-  State<BuildMultiplePhoto> createState() => _BuildMultiplePhotoState();
+  State<BuildMultipleVideo> createState() => _BuildMultipleVideoState();
 }
 
-class _BuildMultiplePhotoState extends State<BuildMultiplePhoto> {
+class _BuildMultipleVideoState extends State<BuildMultipleVideo> {
   final PageController controller = PageController();
 
   int currentIndex = 0;
@@ -36,15 +39,6 @@ class _BuildMultiplePhotoState extends State<BuildMultiplePhoto> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "${currentIndex + 1} of ${widget.urls.length}",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
         leading: InkWell(
           borderRadius: BorderRadius.circular(10),
           onTap: () => Get.back(),
@@ -70,7 +64,7 @@ class _BuildMultiplePhotoState extends State<BuildMultiplePhoto> {
       backgroundColor: Colors.black,
       extendBodyBehindAppBar: true,
       body: Container(
-        padding: EdgeInsets.only(top: Get.statusBarHeight),
+        padding: EdgeInsets.only(top: Get.statusBarHeight - 30.h),
         width: Get.width,
         height: Get.height,
         decoration: BoxDecoration(
@@ -84,25 +78,26 @@ class _BuildMultiplePhotoState extends State<BuildMultiplePhoto> {
               child: Stack(
                 alignment: AlignmentDirectional.center,
                 children: [
-                  Positioned.fill(
-                    child: PageView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: controller,
-                      children: [
-                        for (var item in widget.urls) PreviewImage(url: item),
-                      ],
-                      onPageChanged: (index) {
-                        setState(() {
-                          currentIndex = index;
-                        });
-                      },
-                    ),
+                  PageView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: controller,
+                    children: [
+                      for (var item in widget.urls)
+                        PreviewMultipleVideo(
+                          url: item,
+                          child: SizedBox(height: 64.h),
+                        ),
+                    ],
+                    onPageChanged: (index) {
+                      setState(() {
+                        currentIndex = index;
+                      });
+                    },
                   ),
-
                   PositionedDirectional(
-                    bottom: 0,
                     start: 0,
                     end: 0,
+                    bottom: 0,
                     child: Container(
                       alignment: Alignment.center,
                       width: double.maxFinite,
@@ -116,7 +111,7 @@ class _BuildMultiplePhotoState extends State<BuildMultiplePhoto> {
                         ),
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
-                        itemCount: widget.urls.length,
+                        itemCount: (widget.thumbs ?? []).length,
                         itemBuilder: (context, index) {
                           return Stack(
                             alignment: Alignment.center,
@@ -141,7 +136,9 @@ class _BuildMultiplePhotoState extends State<BuildMultiplePhoto> {
                                         : null,
                                     borderRadius: BorderRadius.circular(4.r),
                                     image: DecorationImage(
-                                      image: NetworkImage(widget.urls[index]),
+                                      image: NetworkImage(
+                                        (widget.thumbs ?? [])[index],
+                                      ),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -161,7 +158,7 @@ class _BuildMultiplePhotoState extends State<BuildMultiplePhoto> {
                 ],
               ),
             ),
-            if (widget.isPrivate)
+            if (widget.isPrivate == true)
               Container(
                 decoration: BoxDecoration(
                   color: Colors.black.withValues(alpha: 0.5),
@@ -173,7 +170,7 @@ class _BuildMultiplePhotoState extends State<BuildMultiplePhoto> {
                   totalDuration: 60,
                   alpha: 0,
                   onFinished: () {
-                    widget.onFinished?.call();
+                    // onFinished?.call();
                   },
                 ),
               ),
