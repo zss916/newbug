@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:newbug/core/services/app_data_service.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/core/stores/stores_service.dart';
 
@@ -9,6 +10,7 @@ class Global {
     WidgetsFlutterBinding.ensureInitialized();
     await Future.wait([
       Get.put<StoresService>(StoresService()).init(),
+      Get.putAsync<AppDataService>(() => AppDataService().init()),
     ]).whenComplete(() {
       Get.put<EventService>(EventService());
     });
