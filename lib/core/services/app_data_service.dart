@@ -1,5 +1,6 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:get/get.dart';
+import 'package:newbug/core/network/utils/device_utils.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:time_zone_plus/time_zone_plus.dart';
 
@@ -27,9 +28,7 @@ class AppDataService extends GetxService {
     model = deviceInfo.model;
     osVersion = deviceInfo.version.release;
     timeZone = TimeZonePlus.getCurrentTimeZone() ?? "";
-
-    ///todo
-    // deviceid = await DeviceUtils.getDeviceID(adjustId: "");
+    deviceid = await DeviceUtils.getDeviceID();
     return this;
   }
 }

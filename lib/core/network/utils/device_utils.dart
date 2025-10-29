@@ -6,7 +6,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 class DeviceUtils {
   /// 获取设备ID
-  static Future<String> getDeviceID({required String adjustId}) async {
+  static Future<String> getDeviceID({String? adjustId}) async {
     final androidInfo = await DeviceInfoPlugin().androidInfo;
 
     final data = [
@@ -21,7 +21,7 @@ class DeviceUtils {
       androidInfo.fingerprint, // 系统指纹
       androidInfo.supportedAbis, // CPU架构
       androidInfo.version.securityPatch,
-      adjustId,
+      adjustId ?? "",
     ].join('|');
 
     return sha256.convert(utf8.encode(data)).toString();

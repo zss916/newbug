@@ -28,9 +28,15 @@ class EmailView extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: InputWidget(
-              onConfirm: (email, psd) {
-                RouteManager.toName();
+            child: GetBuilder<EmailLogic>(
+              init: EmailLogic(),
+              builder: (logic) {
+                return InputWidget(
+                  data: (logic.email, logic.password),
+                  onConfirm: (email, psd) {
+                    logic.emailLogic(email: email, password: psd);
+                  },
+                );
               },
             ),
           ),

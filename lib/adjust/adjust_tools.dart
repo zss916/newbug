@@ -1,39 +1,36 @@
 import 'package:adjust_sdk/adjust.dart';
 import 'package:adjust_sdk/adjust_config.dart';
 import 'package:flutter/material.dart';
+import 'package:newbug/core/config/constants.dart';
 import 'package:newbug/core/network/net/net.dart';
+import 'package:newbug/core/network/reopsitory/system.dart';
 import 'package:newbug/core/stores/app_stores.dart';
 
 class AdjustTools {
-  ///todo 测试版本
-  static bool isRelease = false;
-
-  ///todo 测试版本
-  static String adjustAppTokenDebug = 'zv6xxvhg8d1c';
-
   static void init() {
     AdjustConfig config = AdjustConfig(
-      adjustAppTokenDebug,
-      isRelease ? AdjustEnvironment.production : AdjustEnvironment.sandbox,
+      App.adjustToken,
+      App.isAdjustRelease
+          ? AdjustEnvironment.production
+          : AdjustEnvironment.sandbox,
     );
     config.logLevel = AdjustLogLevel.verbose;
     Adjust.initSdk(config);
   }
 
   static void getAdjustId() {
-    String? adjustId = AppStores.getAdjustID();
-    if ((adjustId ?? '').isNotEmpty) {
-      Net.instance.addHeaders(adjustID: adjustId ?? "");
-
-      ///todo 上报adjustId
+    String adjustId = AppStores.getAdjustID();
+    if (adjustId.isNotEmpty) {
+      Net.instance.addHeaders(adjustID: adjustId);
+      updateAdjustInfo();
+      return;
     } else {
       Adjust.getAdid().then((value) {
         debugPrint('adjustId: $value');
         if (value != null && value.isNotEmpty) {
           AppStores.setAdjustID(adjustID: value);
           Net.instance.addHeaders(adjustID: value);
-
-          ///todo 上报adjustId
+          updateAdjustInfo();
         } else {
           Future.delayed(Duration(seconds: 2), () {
             getAdjustId();
@@ -53,5 +50,6 @@ class AdjustTools {
       "click_label": attribution.clickLabel ?? "",
       "creative": attribution.creative ?? "",
     };
+    SystemAPI.updateAdjust(data: map);
   }
 }

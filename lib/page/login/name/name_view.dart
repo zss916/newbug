@@ -28,10 +28,13 @@ class NameView extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: InputLayout(
-              onConfirm: (value) {
-                RouteManager.toBirth();
-              },
+            child: GetBuilder<NameLogic>(
+              init: NameLogic(),
+              builder: (logic) => InputLayout(
+                onConfirm: (value) {
+                  logic.toEditName(nickName: value);
+                },
+              ),
             ),
           ),
         ],

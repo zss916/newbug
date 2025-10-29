@@ -70,6 +70,19 @@ abstract class CustomToast {
   }
 
   static void dismiss() => EasyLoading.dismiss();
+
+  ///防止toast 多次出现
+  static void showText(
+    String text, {
+    EasyLoadingToastPosition position = EasyLoadingToastPosition.center,
+  }) {
+    if (!EasyLoading.isShow) {
+      EasyLoading.instance
+        ..maskType = EasyLoadingMaskType.clear
+        ..userInteractions = true;
+      EasyLoading.showToast(text, toastPosition: position);
+    }
+  }
 }
 
 class CustomLoadingIndicator extends StatefulWidget {

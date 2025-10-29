@@ -7,6 +7,7 @@ import 'package:newbug/page/login/name/widget/search_name.dart';
 
 class InputLayout extends StatefulWidget {
   final Function(String) onConfirm;
+
   const InputLayout({super.key, required this.onConfirm});
 
   @override
@@ -16,14 +17,20 @@ class InputLayout extends StatefulWidget {
 class _InputLayoutState extends State<InputLayout> {
   bool isEditName = false;
   String name = "";
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         SearchName(
-          onInput: (value) {
+          onInput: (isMatch, value) {
             setState(() {
-              isEditName = name.trim().isNotEmpty;
+              isEditName = name.trim().isNotEmpty && isMatch;
               name = value;
             });
           },

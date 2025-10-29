@@ -23,8 +23,10 @@ class AppRoutes {
   static const String chat = '/chat';
   static const String selectedAlbum = '/selectedAlbum';
   static const String previewView = '/previewView';
+  static const String launch = '/launch';
 
   static final List<GetPage> routes = [
+    GetPage(name: launch, page: () => LaunchView()),
     GetPage(name: home, page: () => HomeView()),
     GetPage(name: login, page: () => LoginView()),
     GetPage(name: email, page: () => EmailView()),

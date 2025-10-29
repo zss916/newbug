@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/services/app_profile_service.dart';
 
 class TermsAndPolicy extends StatelessWidget {
   const TermsAndPolicy({super.key});
@@ -33,7 +34,8 @@ class TermsAndPolicy extends StatelessWidget {
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                //todo
+                debugPrint('Tap terms');
+                AppProfileService.to.toTerms();
               },
           ),
           TextSpan(
@@ -58,7 +60,8 @@ class TermsAndPolicy extends StatelessWidget {
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                //todo
+                debugPrint('Tap privacy');
+                AppProfileService.to.toPrivacy();
               },
           ),
         ],

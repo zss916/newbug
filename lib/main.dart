@@ -7,7 +7,6 @@ import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/theme/theme.dart';
 import 'package:newbug/core/widget/index.dart';
-import 'package:newbug/page/main/main_view.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 Future<void> main() async {
@@ -39,10 +38,10 @@ class MyApp extends StatelessWidget {
             builder: (context, child) => child ?? const Material(),
           ),
           defaultTransition: Transition.cupertino,
-          home: MainView(),
+          // home: MainView(),
           //home: DeleteAccountView(),
           // home: UnMatchView(),
-          //initialRoute: AppRoutes.login,
+          initialRoute: AppRoutes.launch,
           //home: WrongView(),
         ),
       ),

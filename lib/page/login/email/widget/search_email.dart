@@ -1,12 +1,15 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:keyboard_visibility_pro/keyboard_visibility_pro.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/mixin/delayed_init_mixin.dart';
+import 'package:newbug/page/login/email/util/key_chain.dart';
 
 class SearchEmail extends StatefulWidget {
-  final Function(String) onInput;
+  final Function(bool, String) onInput;
   final bool? isShowError;
   final String? email;
 
@@ -21,7 +24,7 @@ class SearchEmail extends StatefulWidget {
   State<SearchEmail> createState() => _SearchEmailState();
 }
 
-class _SearchEmailState extends State<SearchEmail> {
+class _SearchEmailState extends State<SearchEmail> with DelayedInitMixin {
   TextEditingController textEditCtrl = TextEditingController();
   FocusNode focusNode = FocusNode();
   bool isError = false;
@@ -31,6 +34,21 @@ class _SearchEmailState extends State<SearchEmail> {
     super.initState();
     focusNode.unfocus();
     focusNode.addListener(_onFocusChange);
+    initData();
+  }
+
+  @override
+  void afterFirstLayout() {}
+
+  Future<void> initData() async {
+    final (String account, String password) = await KeyChainTool.getKeyChain();
+    if ((account ?? "").isNotEmpty) {
+      setState(() {
+        textEditCtrl.text = account ?? "";
+        isError = !isValidEmail(account ?? "");
+        widget.onInput.call(!isError, account ?? "");
+      });
+    }
   }
 
   @override
@@ -78,8 +96,16 @@ class _SearchEmailState extends State<SearchEmail> {
             width: double.maxFinite,
             child: TextField(
               keyboardType: TextInputType.emailAddress,
+              autofillHints: const [
+                AutofillHints.email,
+                AutofillHints.username,
+                AutofillHints.newUsername,
+              ],
               controller: textEditCtrl,
               focusNode: focusNode,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z0-9@._]+")),
+              ],
               onTapOutside: (_) {
                 FocusManager.instance.primaryFocus?.unfocus();
               },
@@ -130,7 +156,7 @@ class _SearchEmailState extends State<SearchEmail> {
                     isError = !isValidEmail(value);
                   });
                 }
-                widget.onInput.call(value);
+                widget.onInput.call(!isError, value);
               },
               onEditingComplete: () {
                 _hideKeyboard();
@@ -142,15 +168,21 @@ class _SearchEmailState extends State<SearchEmail> {
               },
             ),
           ),
-          if (widget.isShowError == true)
+          if (widget.isShowError == true &&
+              isError == true &&
+              !focusNode.hasFocus)
             Container(
-              margin: EdgeInsetsDirectional.only(start: 32, end: 32, top: 12),
+              margin: EdgeInsetsDirectional.only(
+                start: 20.w,
+                end: 20.w,
+                top: 12.h,
+              ),
               width: double.maxFinite,
               child: Text(
-                "",
+                T.emailErrorHint.tr,
                 style: TextStyle(
                   color: Color(0xFFF74E57),
-                  fontSize: 12,
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.w500,
                 ),
               ),

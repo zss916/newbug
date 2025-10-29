@@ -2,11 +2,12 @@ part of 'index.dart';
 
 /// 路由管理
 class RouteManager {
+  static toName({UserEntity? user}) =>
+      Get.toNamed(AppRoutes.name, arguments: user);
+
   static toEmailLogin() => Get.toNamed(AppRoutes.email);
 
   static toSex() => Get.toNamed(AppRoutes.sex);
-
-  static toName() => Get.toNamed(AppRoutes.name);
 
   static toGender() => Get.toNamed(AppRoutes.gender);
 
@@ -41,6 +42,14 @@ class RouteManager {
   static toSelectedAlbum() => Get.toNamed(AppRoutes.selectedAlbum);
 
   static toPreviewView() => Get.toNamed(AppRoutes.previewView);
+
+  /// 关闭所有页面并跳转至登录页面
+  static offAndToLogin() => Get.offAndToNamed(AppRoutes.login);
+
+  /// 关闭所有页面并跳转至登录页面
+  static offAllToLogin() => Get.offAllNamed(AppRoutes.login);
+
+  static toLogin() => Get.toNamed(AppRoutes.login);
 
   /// 第一次打开初始化App
   static intoInitApp() {

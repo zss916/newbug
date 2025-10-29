@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:keyboard_visibility_pro/keyboard_visibility_pro.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/helper/validator_mixin.dart';
 import 'package:newbug/generated/assets.dart';
+import 'package:newbug/page/login/email/util/key_chain.dart';
 
 class SearchPassword extends StatefulWidget {
   final Function(String) onInput;
@@ -33,6 +35,17 @@ class _SearchPasswordState extends State<SearchPassword> with ValidatorMixin {
     super.initState();
     focusNode.unfocus();
     focusNode.addListener(_onFocusChange);
+    initData();
+  }
+
+  Future<void> initData() async {
+    final (String account, String password) = await KeyChainTool.getKeyChain();
+    if (password.isNotEmpty) {
+      setState(() {
+        textEditCtrl.text = password;
+        widget.onInput.call(password);
+      });
+    }
   }
 
   @override
@@ -43,7 +56,7 @@ class _SearchPasswordState extends State<SearchPassword> with ValidatorMixin {
     super.dispose();
   }
 
-  bool isPsd(String password) => isMatchPwd(password);
+  bool isPsd(String password) => matchPwd(password);
 
   void _onFocusChange() {
     if (!focusNode.hasFocus) {
@@ -80,7 +93,14 @@ class _SearchPasswordState extends State<SearchPassword> with ValidatorMixin {
             margin: EdgeInsetsDirectional.symmetric(horizontal: 20.w),
             width: double.maxFinite,
             child: TextField(
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.visiblePassword,
+              inputFormatters: [
+                FilteringTextInputFormatter.deny(RegExp(r'\s')),
+              ],
+              autofillHints: const [
+                AutofillHints.password,
+                AutofillHints.newPassword,
+              ],
               controller: textEditCtrl,
               focusNode: focusNode,
               obscureText: obscureText,

@@ -2,6 +2,7 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:newbug/core/network/model/user_entity.dart';
 import 'package:newbug/core/widget/intro/flutter_intro.dart';
 import 'package:newbug/page/chat/index.dart';
 import 'package:newbug/page/guide/guide_view.dart';
@@ -12,6 +13,7 @@ import 'package:newbug/page/login/birth/index.dart';
 import 'package:newbug/page/login/email/index.dart';
 import 'package:newbug/page/login/gender/index.dart';
 import 'package:newbug/page/login/interest/index.dart';
+import 'package:newbug/page/login/launch/index.dart';
 import 'package:newbug/page/login/login/index.dart';
 import 'package:newbug/page/login/name/index.dart';
 import 'package:newbug/page/login/photo/index.dart';

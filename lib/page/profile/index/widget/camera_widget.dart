@@ -12,7 +12,15 @@ class CameraWidget extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(5),
         onTap: () {
-          //todo
+          // AccountAPI.updateAdjust();
+
+          // AccountAPI.config();
+
+          /*HomeAPI.getHomeSwiperCards(tab: 1).then((value) {
+            value.$2.first.nickName;
+          });*/
+
+          // AccountAPI.emailLogin(email: "12234566@qq.com", pwd: "12345678");
         },
         child: Image.asset(Assets.imgCamera, width: 34, height: 34),
       ),

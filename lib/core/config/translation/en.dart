@@ -446,9 +446,15 @@ class T {
   static const String selectedPhotoTitle = "selectedPhotoTitle";
 
   static const String selectedVideoTitle = "selectedVideoTitle";
+
+  static const String emailErrorHint = "emailErrorHint";
+
+  static const String nickNameErrorHint = "nickNameErrorHint";
 }
 
 const en = {
+  "nickNameErrorHint": "The nickname is not valid.",
+  "emailErrorHint": "Email is invalid",
   "emailLogin": "Continue with Email",
   "googleLogin": "Continue with Google",
   "emailTitle": "What’s your Email?",

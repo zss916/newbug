@@ -1,6 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:newbug/core/config/constants.dart';
+import 'package:newbug/core/network/interceptor/aes_interceptor.dart';
 import 'package:newbug/core/network/interceptor/header_interceptor.dart';
+import 'package:newbug/core/network/path/netPath.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class Net {
   static final Net _instance = Net._internal();
@@ -12,10 +16,20 @@ class Net {
   Net._internal() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: "",
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
-        headers: {},
+        baseUrl: ApiPath.baseUrl,
+        connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30),
+        sendTimeout: const Duration(seconds: 30),
+        persistentConnection: true,
+        headers: {
+          "Accept-Encoding": "gzip",
+          // "Connection": "keep-alive",
+          // "Content-Type": "application/json",
+          "platfrom": "android",
+          "app-src": "googleplay",
+          /*  "Authorization":
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjM4OTA2ODAsImlhdCI6MTc2MTIxMjI4MCwicGxhdCI6MSwidXNlcklkIjoxMDAxMTAzMX0.HgWQSkk2XHbBkY1CnPo86zuM-To9tYALDmo-m4GFaHU",*/
+        },
         contentType: Headers.jsonContentType,
         responseType: ResponseType.json,
       ),
@@ -26,23 +40,37 @@ class Net {
       },
     );
 
-    //_dio.interceptors.add(NetWorkInterceptor());
-
     /// 代理抓包
     //_dio.httpClientAdapter = ProxyTool.getProxyAdapter();
 
     ///auth
     _dio.interceptors.add(HeaderInterceptor());
 
+    ///解码
+    if (App.isHttpEncrypt) {
+      _dio.interceptors.add(AesInterceptor());
+    }
+
+    //_dio.interceptors.add(BaseResponseInterceptor());
+
     /// 缓存
     // _dio.interceptors.add(cacheInterceptor);
 
     /// 日志
     //_dio.interceptors.add(LoggerInterceptor());
-    // _dio.interceptors.add(prettyDioLogger);
 
     /// 错误拦截
     //_dio.interceptors.add(ErrorInterceptor());
+
+    /// 日志
+    _dio.interceptors.add(
+      PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseHeader: false,
+        responseBody: true,
+      ),
+    );
   }
 
   ///更新adjustID
@@ -51,113 +79,30 @@ class Net {
     _dio.options.headers.addAll(headers);
   }
 
+  ///更新token
+  void updateHeaders({required String token}) {
+    Map<String, String> headers = {"Authorization": token};
+    _dio.options.headers.addAll(headers);
+  }
+
   ///post
   Future<dynamic> post(
     String path, {
-    dynamic data,
+    Object? data,
     Map<String, dynamic>? queryParameters,
-    Options? options,
-    bool showLoading = false,
-    bool showToast = true,
     CancelToken? cancelToken,
+    Options? options,
   }) async {
     try {
       final response = await _dio.post(
         path,
         data: data,
         queryParameters: queryParameters,
-        //options: options,
         cancelToken: cancelToken,
+        options: options,
       );
+
       return response.data ?? '{}';
-    } catch (error) {
-      rethrow;
-    }
-  }
-
-  ///get
-  Future<dynamic> get(
-    String url, {
-    Map<String, dynamic>? query,
-    Object? data,
-    Options? options,
-    CancelToken? cancelToken,
-  }) async {
-    try {
-      final result = await _dio.get(
-        url,
-        queryParameters: query,
-        data: data,
-        //options: options,
-        cancelToken: cancelToken,
-      );
-      return result.data ?? '{}';
-    } catch (error) {
-      rethrow;
-    }
-  }
-
-  ///delete
-  Future<dynamic> delete(
-    String url, {
-    Map<String, dynamic>? query,
-    Object? data,
-    Options? options,
-    CancelToken? cancelToken,
-  }) async {
-    try {
-      final result = await _dio.delete(
-        url,
-        queryParameters: query,
-        data: data,
-        //options: options,
-        cancelToken: cancelToken,
-      );
-      return result.data ?? '{}';
-    } catch (error) {
-      rethrow;
-    }
-  }
-
-  ///patch
-  Future<dynamic> patch(
-    String url, {
-    Map<String, dynamic>? query,
-    Object? data,
-    Options? options,
-    CancelToken? cancelToken,
-  }) async {
-    try {
-      final result = await _dio.patch(
-        url,
-        queryParameters: query,
-        data: data,
-        //options: options,
-        cancelToken: cancelToken,
-      );
-      return result.data ?? '{}';
-    } catch (error) {
-      rethrow;
-    }
-  }
-
-  ///put
-  Future<dynamic> put(
-    String url, {
-    Map<String, dynamic>? query,
-    Object? data,
-    Options? options,
-    CancelToken? cancelToken,
-  }) async {
-    try {
-      final result = await _dio.put(
-        url,
-        queryParameters: query,
-        data: data,
-        //options: options,
-        cancelToken: cancelToken,
-      );
-      return result.data ?? '{}';
     } catch (error) {
       rethrow;
     }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/services/app_data_service.dart';
+import 'package:newbug/core/services/app_profile_service.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/core/stores/stores_service.dart';
 
@@ -8,10 +9,16 @@ class Global {
   /// init
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
+
+    ///adjust
+    //AdjustTools.init();
+
+    await Get.putAsync<AppProfileService>(() => AppProfileService().init());
+
     await Future.wait([
       Get.put<StoresService>(StoresService()).init(),
       Get.putAsync<AppDataService>(() => AppDataService().init()),
-    ]).whenComplete(() {
+    ]).whenComplete(() async {
       Get.put<EventService>(EventService());
     });
   }
