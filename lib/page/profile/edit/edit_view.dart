@@ -39,7 +39,7 @@ class EditView extends StatelessWidget {
             mainAxisSpacing: 12,
           ),
           itemBuilder: (context, index) => PhotoCard(
-            isEdit: index % 2 == 0,
+            //isEdit: index % 2 == 0,
             index: index,
             onAdd: (index) {
               ///

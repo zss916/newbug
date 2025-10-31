@@ -45,9 +45,9 @@ UserEntity $UserEntityFromJson(Map<String, dynamic> json) {
   if (sexuality != null) {
     userEntity.sexuality = sexuality;
   }
-  final int? gender = jsonConvert.convert<int>(json['gender']);
-  if (gender != null) {
-    userEntity.gender = gender;
+  final int? sex = jsonConvert.convert<int>(json['sex']);
+  if (sex != null) {
+    userEntity.sex = sex;
   }
   final int? age = jsonConvert.convert<int>(json['age']);
   if (age != null) {
@@ -187,7 +187,7 @@ Map<String, dynamic> $UserEntityToJson(UserEntity entity) {
   data['is_new_user'] = entity.isNewUser;
   data['sign'] = entity.sign;
   data['sexuality'] = entity.sexuality;
-  data['gender'] = entity.gender;
+  data['sex'] = entity.sex;
   data['age'] = entity.age;
   data['is_hide'] = entity.isHide;
   data['block'] = entity.block;
@@ -230,7 +230,7 @@ extension UserEntityExtension on UserEntity {
     int? isNewUser,
     String? sign,
     int? sexuality,
-    int? gender,
+    int? sex,
     int? age,
     int? isHide,
     int? block,
@@ -270,7 +270,7 @@ extension UserEntityExtension on UserEntity {
       ..isNewUser = isNewUser ?? this.isNewUser
       ..sign = sign ?? this.sign
       ..sexuality = sexuality ?? this.sexuality
-      ..gender = gender ?? this.gender
+      ..sex = sex ?? this.sex
       ..age = age ?? this.age
       ..isHide = isHide ?? this.isHide
       ..block = block ?? this.block

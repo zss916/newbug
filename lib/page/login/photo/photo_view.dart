@@ -14,7 +14,7 @@ class PhotoView extends StatelessWidget {
             actions: [
               TextButton(
                 onPressed: () {
-                  CustomToast.text("skip");
+                  logic.toNext();
                 },
                 child: Text(
                   T.skip.tr,
@@ -49,7 +49,7 @@ class PhotoView extends StatelessWidget {
               ),
               GridView.builder(
                 shrinkWrap: true,
-                itemCount: logic.list.length,
+                itemCount: logic.selectList.length,
                 padding: EdgeInsetsDirectional.only(
                   start: 24.w,
                   end: 24.w,
@@ -61,16 +61,19 @@ class PhotoView extends StatelessWidget {
                   crossAxisSpacing: 9,
                   mainAxisSpacing: 12,
                 ),
-                itemBuilder: (context, index) => PhotoCard(
-                  isEdit: index % 2 == 0,
-                  index: index,
-                  onAdd: (index) {
-                    ///
-                  },
-                  onEdit: (index) {
-                    ///
-                  },
-                ),
+                itemBuilder: (context, index) {
+                  MediaListItem? item = logic.selectList[index];
+                  return PhotoCard(
+                    index: index,
+                    item: item,
+                    onAdd: (index) {
+                      logic.onAdd(index);
+                    },
+                    onEdit: (index) {
+                      logic.onAdd(index);
+                    },
+                  );
+                },
               ),
               Container(
                 margin: EdgeInsetsDirectional.only(
@@ -97,15 +100,21 @@ class PhotoView extends StatelessWidget {
                 ),
                 border: Border.all(
                   width: 1,
-                  color: true ? Color(0xFFFF0092) : Colors.transparent,
+                  color: logic.isCanUpload
+                      ? Color(0xFFFF0092)
+                      : Colors.transparent,
                 ),
-                bgColor: true
+                bgColor: logic.isCanUpload
                     ? Color(0xFFFF0092)
                     : Colors.black.withValues(alpha: 0.30),
                 title: T.continueKey.tr,
                 textColor: Colors.white,
                 onTap: () {
-                  RouteManager.toInterest();
+                  if (logic.isCanUpload) {
+                    logic.toEditMedia();
+                  } else {
+                    CustomToast.showText("Please select media then continue!");
+                  }
                 },
               ),
             ],

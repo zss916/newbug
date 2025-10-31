@@ -8,7 +8,6 @@ import 'package:newbug/generated/json/user_entity.g.dart';
 
 @JsonSerializable()
 class UserEntity {
-  //int? sex;
   //int? aly;
   //@JSONField(name: 'is_pay')
   //int? isPay;
@@ -34,7 +33,7 @@ class UserEntity {
   int? sexuality;
 
   ///1: "Male", 2: "Female",
-  int? gender;
+  int? sex;
   int? age;
   @JSONField(name: 'is_hide')
   int? isHide;
@@ -102,6 +101,11 @@ class UserEntity {
 
   /// isNewUser == 1时，需要完善信息
   bool get isNeedEdit => isNewUser == 1;
+
+  ///处理默认-62135596800 时间戳
+  DateTime? get brithValue => (brithday ?? 0) < 0
+      ? null
+      : DateTime.fromMillisecondsSinceEpoch((brithday ?? 0) * 1000);
 }
 
 @JsonSerializable()

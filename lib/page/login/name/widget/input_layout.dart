@@ -2,25 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/helper/validator_mixin.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/page/login/name/widget/search_name.dart';
 
 class InputLayout extends StatefulWidget {
+  final String? name;
   final Function(String) onConfirm;
 
-  const InputLayout({super.key, required this.onConfirm});
+  const InputLayout({super.key, this.name, required this.onConfirm});
 
   @override
   State<InputLayout> createState() => _InputLayoutState();
 }
 
-class _InputLayoutState extends State<InputLayout> {
+class _InputLayoutState extends State<InputLayout> with ValidatorMixin {
   bool isEditName = false;
   String name = "";
 
   @override
   void initState() {
     super.initState();
+    if (widget.name != null) {
+      setState(() {
+        name = widget.name ?? "";
+        isEditName = name.isNotEmpty;
+      });
+    }
   }
 
   @override
@@ -28,10 +36,11 @@ class _InputLayoutState extends State<InputLayout> {
     return Column(
       children: [
         SearchName(
+          name: name,
           onInput: (isMatch, value) {
             setState(() {
-              isEditName = name.trim().isNotEmpty && isMatch;
               name = value;
+              isEditName = name.trim().isNotEmpty && isMatch;
             });
           },
         ),

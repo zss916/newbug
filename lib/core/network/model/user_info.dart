@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:newbug/core/network/model/tag_entity.dart';
 import 'package:newbug/core/network/model/user_entity.dart';
 import 'package:newbug/generated/json/base/json_field.dart';
 import 'package:newbug/generated/json/user_info.g.dart';
@@ -7,8 +8,8 @@ import 'package:newbug/generated/json/user_info.g.dart';
 @JsonSerializable()
 class UserInfo {
   UserEntity? user;
-  @JSONField(serialize: false, deserialize: false)
-  Object? tagList;
+  @JSONField(name: 'tag_list')
+  List<TagEntity>? tagList;
 
   UserInfo();
 

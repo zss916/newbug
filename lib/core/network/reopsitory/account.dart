@@ -104,6 +104,8 @@ abstract class AccountAPI {
       data["sexuality"] = sexuality;
     } else if (step == 5) {
       data["sign"] = sign;
+    } else if (step == 6) {
+      data["tag"] = tag;
     } else if (step == 7) {
       data["media_list"] = mediaList;
     } else if (step == 9) {
@@ -138,7 +140,7 @@ abstract class AccountAPI {
         );
         return value;
       } else {
-        CustomToast.fail("Failed");
+        CustomToast.fail(result["msg"] ?? "Failed");
         return null;
       }
     } catch (error) {

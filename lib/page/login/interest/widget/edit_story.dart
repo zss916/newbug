@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
 
 class EditStory extends StatefulWidget {
-  const EditStory({super.key});
+  final String? sign;
+  final Function(String) onChanged;
+  const EditStory({super.key, this.sign, required this.onChanged});
 
   @override
   State<EditStory> createState() => _EditStoryState();
@@ -14,15 +16,33 @@ class EditStory extends StatefulWidget {
 class _EditStoryState extends State<EditStory> {
   String count = "0/200";
 
+  TextEditingController textCtrl = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.sign != null) {
+      setState(() {
+        textCtrl.text = widget.sign ?? "";
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    textCtrl.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.maxFinite,
-      padding: EdgeInsetsDirectional.all(18),
+      padding: EdgeInsetsDirectional.all(18.r),
       child: Container(
         width: double.maxFinite,
         height: 128,
-        padding: EdgeInsetsDirectional.all(10),
+        padding: EdgeInsetsDirectional.only(bottom: 10.h),
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
           border: Border.all(width: 1, color: Colors.black),
@@ -34,6 +54,7 @@ class _EditStoryState extends State<EditStory> {
           width: double.maxFinite,
           height: double.maxFinite,
           child: TextField(
+            controller: textCtrl,
             expands: true,
             maxLines: null,
             inputFormatters: [LengthLimitingTextInputFormatter(200)],
@@ -41,13 +62,14 @@ class _EditStoryState extends State<EditStory> {
               FocusManager.instance.primaryFocus?.unfocus();
             },
             style: TextStyle(
-              color: const Color(0xFF6A676C),
+              color: Colors.black,
               fontSize: 16.sp,
               fontWeight: FontWeight.w500,
             ),
             decoration: InputDecoration(
               filled: true,
               counterText: count,
+              //contentPadding: EdgeInsetsGeometry.only(bottom: 10.h),
               counterStyle: TextStyle(
                 color: Colors.black.withValues(alpha: 0.20),
                 fontSize: 16.sp,
@@ -66,6 +88,7 @@ class _EditStoryState extends State<EditStory> {
               setState(() {
                 count = "${value.trim().length}/200";
               });
+              widget.onChanged(value);
             },
           ),
         ),

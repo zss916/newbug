@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/network/model/tag_entity.dart';
+import 'package:newbug/core/network/model/user_info.dart';
+import 'package:newbug/core/network/reopsitory/account.dart';
+import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/widget/index.dart';
-import 'package:newbug/page/login/interest/widget/edit_story.dart';
-import 'package:newbug/page/login/interest/widget/select_wrap_interest.dart';
+import 'package:newbug/page/login/interest/widget/body.dart';
 
 part 'interest_logic.dart';
 part 'interest_view.dart';

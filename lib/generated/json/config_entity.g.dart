@@ -3,6 +3,25 @@ import 'package:newbug/generated/json/base/json_convert_content.dart';
 
 ConfigEntity $ConfigEntityFromJson(Map<String, dynamic> json) {
   final ConfigEntity configEntity = ConfigEntity();
+  final List<ConfigHomeLikeTablist>? homeLikeTablist =
+      (json['home_like_tablist'] as List<dynamic>?)
+          ?.map(
+            (e) =>
+                jsonConvert.convert<ConfigHomeLikeTablist>(e)
+                    as ConfigHomeLikeTablist,
+          )
+          .toList();
+  if (homeLikeTablist != null) {
+    configEntity.homeLikeTablist = homeLikeTablist;
+  }
+  final int? aly = jsonConvert.convert<int>(json['aly']);
+  if (aly != null) {
+    configEntity.aly = aly;
+  }
+  final int? mode = jsonConvert.convert<int>(json['mode']);
+  if (mode != null) {
+    configEntity.mode = mode;
+  }
   final List<ConfigReportList>? reportList =
       (json['report_list'] as List<dynamic>?)
           ?.map(
@@ -150,6 +169,11 @@ ConfigEntity $ConfigEntityFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> $ConfigEntityToJson(ConfigEntity entity) {
   final Map<String, dynamic> data = <String, dynamic>{};
+  data['home_like_tablist'] = entity.homeLikeTablist
+      ?.map((v) => v.toJson())
+      .toList();
+  data['aly'] = entity.aly;
+  data['mode'] = entity.mode;
   data['report_list'] = entity.reportList?.map((v) => v.toJson()).toList();
   data['greeting_list'] = entity.greetingList?.map((v) => v.toJson()).toList();
   data['sys_account'] = entity.sysAccount?.toJson();
@@ -181,6 +205,9 @@ Map<String, dynamic> $ConfigEntityToJson(ConfigEntity entity) {
 
 extension ConfigEntityExtension on ConfigEntity {
   ConfigEntity copyWith({
+    List<ConfigHomeLikeTablist>? homeLikeTablist,
+    int? aly,
+    int? mode,
     List<ConfigReportList>? reportList,
     List<ConfigGreetingList>? greetingList,
     ConfigSysAccount? sysAccount,
@@ -208,6 +235,9 @@ extension ConfigEntityExtension on ConfigEntity {
     int? jailDetect,
   }) {
     return ConfigEntity()
+      ..homeLikeTablist = homeLikeTablist ?? this.homeLikeTablist
+      ..aly = aly ?? this.aly
+      ..mode = mode ?? this.mode
       ..reportList = reportList ?? this.reportList
       ..greetingList = greetingList ?? this.greetingList
       ..sysAccount = sysAccount ?? this.sysAccount
@@ -364,6 +394,30 @@ ConfigSysAccount $ConfigSysAccountFromJson(Map<String, dynamic> json) {
   if (serviceAccount != null) {
     configSysAccount.serviceAccount = serviceAccount;
   }
+  final String? salaryKfAccount = jsonConvert.convert<String>(
+    json['salary_kf_account'],
+  );
+  if (salaryKfAccount != null) {
+    configSysAccount.salaryKfAccount = salaryKfAccount;
+  }
+  final String? qualityKfAccount = jsonConvert.convert<String>(
+    json['quality_kf_account'],
+  );
+  if (qualityKfAccount != null) {
+    configSysAccount.qualityKfAccount = qualityKfAccount;
+  }
+  final String? gptKfAccount = jsonConvert.convert<String>(
+    json['gpt_kf_account'],
+  );
+  if (gptKfAccount != null) {
+    configSysAccount.gptKfAccount = gptKfAccount;
+  }
+  final String? superKfAccount = jsonConvert.convert<String>(
+    json['super_kf_account'],
+  );
+  if (superKfAccount != null) {
+    configSysAccount.superKfAccount = superKfAccount;
+  }
   return configSysAccount;
 }
 
@@ -372,6 +426,10 @@ Map<String, dynamic> $ConfigSysAccountToJson(ConfigSysAccount entity) {
   data['notice_account'] = entity.noticeAccount;
   data['push_account'] = entity.pushAccount;
   data['service_account'] = entity.serviceAccount;
+  data['salary_kf_account'] = entity.salaryKfAccount;
+  data['quality_kf_account'] = entity.qualityKfAccount;
+  data['gpt_kf_account'] = entity.gptKfAccount;
+  data['super_kf_account'] = entity.superKfAccount;
   return data;
 }
 
@@ -380,11 +438,19 @@ extension ConfigSysAccountExtension on ConfigSysAccount {
     String? noticeAccount,
     String? pushAccount,
     String? serviceAccount,
+    String? salaryKfAccount,
+    String? qualityKfAccount,
+    String? gptKfAccount,
+    String? superKfAccount,
   }) {
     return ConfigSysAccount()
       ..noticeAccount = noticeAccount ?? this.noticeAccount
       ..pushAccount = pushAccount ?? this.pushAccount
-      ..serviceAccount = serviceAccount ?? this.serviceAccount;
+      ..serviceAccount = serviceAccount ?? this.serviceAccount
+      ..salaryKfAccount = salaryKfAccount ?? this.salaryKfAccount
+      ..qualityKfAccount = qualityKfAccount ?? this.qualityKfAccount
+      ..gptKfAccount = gptKfAccount ?? this.gptKfAccount
+      ..superKfAccount = superKfAccount ?? this.superKfAccount;
   }
 }
 

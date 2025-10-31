@@ -5,7 +5,7 @@ import 'package:newbug/core/config/global.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/generated/assets.dart';
 
-void showSexDialog({required String select, required Function onConfirm}) {
+void showSexDialog({required int select, required Function(int) onConfirm}) {
   Get.dialog(
     Stack(
       alignment: AlignmentDirectional.center,
@@ -28,7 +28,9 @@ void showSexDialog({required String select, required Function onConfirm}) {
                     margin: EdgeInsetsDirectional.only(bottom: 12.h, top: 25.h),
                     width: double.infinity,
                     child: Text(
-                      T.sexDialogTitle.trArgs([select]),
+                      T.sexDialogTitle.trArgs([
+                        ([T.man.tr, T.woman.tr, T.other.tr][select - 1]),
+                      ]),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: const Color(0xFF262626),
@@ -54,7 +56,7 @@ void showSexDialog({required String select, required Function onConfirm}) {
                   GestureDetector(
                     onTap: () {
                       Get.back();
-                      onConfirm.call();
+                      onConfirm.call(select);
                     },
                     child: Container(
                       width: double.maxFinite,

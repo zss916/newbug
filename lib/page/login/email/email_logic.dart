@@ -1,7 +1,7 @@
 part of 'index.dart';
 
 class EmailLogic extends GetxController {
-  String email = "dddd";
+  String email = "";
   String password = "";
 
   @override
@@ -30,11 +30,14 @@ class EmailLogic extends GetxController {
       AppStores.setUserInfo(value: value);
       Net.instance.updateHeaders(token: value.authToken ?? "");
       AuthHelper.instance.isTodayRegister = value.isTodaySign ?? true;
-      if (value.isNeedEdit) {
+      //todo
+      /*if (value.isNeedEdit) {
         RouteManager.toName(user: value);
       } else {
         RouteManager.intoInitApp();
-      }
+      }*/
+
+      RouteManager.toName(user: value);
     }
   }
 }

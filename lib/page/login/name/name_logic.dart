@@ -1,11 +1,19 @@
 part of 'index.dart';
 
 class NameLogic extends GetxController {
+  UserEntity? user;
+  String get nickName => user?.nickName ?? "";
+
   @override
-  void onReady() {
-    super.onReady();
+  void onInit() {
+    super.onInit();
+    setData();
+  }
+
+  void setData() {
     if (Get.arguments != null) {
-      UserEntity value = Get.arguments as UserEntity;
+      user = Get.arguments as UserEntity;
+      update();
     }
   }
 
@@ -17,7 +25,7 @@ class NameLogic extends GetxController {
           CustomToast.dismiss();
         });
     if (value != null) {
-      RouteManager.toBirth();
+      RouteManager.toBirth(userInfo: value);
     }
   }
 }

@@ -90,8 +90,8 @@ class _PieMenuState extends State<PieMenu> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-  ///todo 是否是第一次进来
-  bool isFirst = false;
+  ///todo 是否是第一次进来（本地记录第一次和接口判断是新用户）
+  bool isFirst = true;
 
   @override
   Widget build(BuildContext context) {

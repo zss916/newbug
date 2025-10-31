@@ -41,9 +41,11 @@ MediaListItem $MediaListItemFromJson(Map<String, dynamic> json) {
   if (thumbUrl != null) {
     mediaListItem.thumbUrl = thumbUrl;
   }
-  final String? localPath = jsonConvert.convert<String>(json['localPath']);
-  if (localPath != null) {
-    mediaListItem.localPath = localPath;
+  final String? localFilePath = jsonConvert.convert<String>(
+    json['localFilePath'],
+  );
+  if (localFilePath != null) {
+    mediaListItem.localFilePath = localFilePath;
   }
   final bool? isSelected = jsonConvert.convert<bool>(json['isSelected']);
   if (isSelected != null) {
@@ -67,7 +69,7 @@ Map<String, dynamic> $MediaListItemToJson(MediaListItem entity) {
   data['duration'] = entity.duration;
   data['is_private'] = entity.isPrivate;
   data['thumbUrl'] = entity.thumbUrl;
-  data['localPath'] = entity.localPath;
+  data['localFilePath'] = entity.localFilePath;
   data['isSelected'] = entity.isSelected;
   data['selectedIndex'] = entity.selectedIndex;
   return data;
@@ -85,7 +87,7 @@ extension MediaListItemExtension on MediaListItem {
     int? isPrivate,
     String? thumbUrl,
     File? localFile,
-    String? localPath,
+    String? localFilePath,
     bool? isSelected,
     int? selectedIndex,
   }) {
@@ -100,7 +102,7 @@ extension MediaListItemExtension on MediaListItem {
       ..isPrivate = isPrivate ?? this.isPrivate
       ..thumbUrl = thumbUrl ?? this.thumbUrl
       ..localFile = localFile ?? this.localFile
-      ..localPath = localPath ?? this.localPath
+      ..localFilePath = localFilePath ?? this.localFilePath
       ..isSelected = isSelected ?? this.isSelected
       ..selectedIndex = selectedIndex ?? this.selectedIndex;
   }

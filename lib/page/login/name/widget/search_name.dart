@@ -35,6 +35,12 @@ class _SearchNameState extends State<SearchName> with ValidatorMixin {
         textEditCtrl.text = textEditCtrl.text.substring(0, 30);
       }
     });
+
+    if ((widget.name ?? "").isNotEmpty) {
+      setState(() {
+        textEditCtrl.text = widget.name ?? "";
+      });
+    }
   }
 
   @override

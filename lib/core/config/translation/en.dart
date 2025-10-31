@@ -450,6 +450,10 @@ class T {
   static const String emailErrorHint = "emailErrorHint";
 
   static const String nickNameErrorHint = "nickNameErrorHint";
+
+  static const String ageTip = "ageTip";
+
+  static const String age = "age";
 }
 
 const en = {
@@ -718,4 +722,6 @@ const en = {
   "selectedAlbumTitle": "Confirm Your Selected",
   "selectedPhotoTitle": "Photo: %s Selected",
   "selectedVideoTitle": "Video: %s Selected",
+  "ageTip": "Accurate age = more peers to meet.",
+  "age": "Age %s",
 };

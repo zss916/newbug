@@ -18,11 +18,20 @@ class MediaListItem {
   /// 是否是私密图片 1 是 0 否
   @JSONField(name: 'is_private')
   int? isPrivate;
+
+  ///缩略图(本地维护)
   String? thumbUrl;
+
+  ///用于本地选择的图片
   @JSONField(serialize: false, deserialize: false)
-  File? localFile; //用于本地选择的图片
-  String? localPath;
-  bool isSelected = true; //用户package确认页是否选中
+  File? localFile;
+
+  ///本地图片路径
+  String? localFilePath;
+
+  ///用户package确认页是否选中
+  bool isSelected = true;
+
   /// 私密相册中的媒体选择展示的数字标签
   int? selectedIndex;
 
@@ -46,4 +55,8 @@ class MediaListItem {
 
   /// 获取图片或者视频封面图片
   String get imageUrl => isVideo ? (thumbUrl ?? "") : (url ?? "");
+
+  ///本地
+  String get imageLocalPath =>
+      isVideo ? (thumbUrl ?? "") : (localFilePath ?? "");
 }

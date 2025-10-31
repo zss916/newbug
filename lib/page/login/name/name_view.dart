@@ -31,6 +31,7 @@ class NameView extends StatelessWidget {
             child: GetBuilder<NameLogic>(
               init: NameLogic(),
               builder: (logic) => InputLayout(
+                name: logic.nickName,
                 onConfirm: (value) {
                   logic.toEditName(nickName: value);
                 },

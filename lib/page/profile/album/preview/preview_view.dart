@@ -34,7 +34,6 @@ class PreviewView extends StatelessWidget {
         thumb:
             "https://img0.baidu.com/it/u=4215474319,2725351576&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=889",
       ),
-
       _ when state == 3 => BuildMultipleVideo(
         isPrivate: true,
         urls: [
@@ -50,7 +49,6 @@ class PreviewView extends StatelessWidget {
           "https://img1.baidu.com/it/u=2407322510,2912386112&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=670",
         ],
       ),
-
       _ => SizedBox.shrink(),
     };
   }

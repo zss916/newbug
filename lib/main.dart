@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
           //home: DeleteAccountView(),
           // home: UnMatchView(),
           initialRoute: AppRoutes.launch,
+          //home: PhotoView(),
           //home: WrongView(),
         ),
       ),

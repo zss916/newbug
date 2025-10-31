@@ -12,6 +12,9 @@ class TagEntity {
   String? title;
   int? type;
 
+  ///本地维护
+  bool? isSelected;
+
   TagEntity();
 
   factory TagEntity.fromJson(Map<String, dynamic> json) =>

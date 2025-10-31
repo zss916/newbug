@@ -5,17 +5,22 @@ class RouteManager {
   static toName({UserEntity? user}) =>
       Get.toNamed(AppRoutes.name, arguments: user);
 
+  static toBirth({UserInfo? userInfo}) =>
+      Get.toNamed(AppRoutes.birth, arguments: userInfo);
+
+  static toGender({UserInfo? userInfo}) =>
+      Get.toNamed(AppRoutes.gender, arguments: userInfo);
+
+  static toSex({UserInfo? userInfo}) =>
+      Get.toNamed(AppRoutes.sex, arguments: userInfo);
+
+  static toPhoto({UserInfo? userInfo}) =>
+      Get.toNamed(AppRoutes.photo, arguments: userInfo);
+
+  static toInterest({UserInfo? userInfo}) =>
+      Get.toNamed(AppRoutes.interest, arguments: userInfo);
+
   static toEmailLogin() => Get.toNamed(AppRoutes.email);
-
-  static toSex() => Get.toNamed(AppRoutes.sex);
-
-  static toGender() => Get.toNamed(AppRoutes.gender);
-
-  static toPhoto() => Get.toNamed(AppRoutes.photo);
-
-  static toInterest() => Get.toNamed(AppRoutes.interest);
-
-  static toBirth() => Get.toNamed(AppRoutes.birth);
 
   static toGuide() => Get.toNamed(AppRoutes.guide);
 

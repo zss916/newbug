@@ -19,6 +19,10 @@ TagEntity $TagEntityFromJson(Map<String, dynamic> json) {
   if (type != null) {
     tagEntity.type = type;
   }
+  final bool? isSelected = jsonConvert.convert<bool>(json['isSelected']);
+  if (isSelected != null) {
+    tagEntity.isSelected = isSelected;
+  }
   return tagEntity;
 }
 
@@ -28,15 +32,23 @@ Map<String, dynamic> $TagEntityToJson(TagEntity entity) {
   data['id'] = entity.id;
   data['title'] = entity.title;
   data['type'] = entity.type;
+  data['isSelected'] = entity.isSelected;
   return data;
 }
 
 extension TagEntityExtension on TagEntity {
-  TagEntity copyWith({String? desc, int? id, String? title, int? type}) {
+  TagEntity copyWith({
+    String? desc,
+    int? id,
+    String? title,
+    int? type,
+    bool? isSelected,
+  }) {
     return TagEntity()
       ..desc = desc ?? this.desc
       ..id = id ?? this.id
       ..title = title ?? this.title
-      ..type = type ?? this.type;
+      ..type = type ?? this.type
+      ..isSelected = isSelected ?? this.isSelected;
   }
 }

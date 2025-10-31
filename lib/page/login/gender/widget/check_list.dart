@@ -5,15 +5,26 @@ import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/page/login/sex/widget/check_widget.dart';
 
 class CheckList extends StatefulWidget {
-  final Function onTap;
-  const CheckList({super.key, required this.onTap});
+  final Function(int sex) onTap;
+  final int? gender;
+  const CheckList({super.key, required this.onTap, this.gender});
 
   @override
   State<CheckList> createState() => _CheckListState();
 }
 
 class _CheckListState extends State<CheckList> {
-  int _selectedIndex = -1;
+  int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.gender != null) {
+      setState(() {
+        _selectedIndex = widget.gender ?? 0;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,21 +33,10 @@ class _CheckListState extends State<CheckList> {
         GestureDetector(
           onTap: () {
             setState(() {
-              _selectedIndex = 0;
-            });
-          },
-          child: CheckWidget(title: T.male.tr, isCheck: _selectedIndex == 0),
-        ),
-
-        Divider(height: 16.h, color: Colors.transparent),
-
-        GestureDetector(
-          onTap: () {
-            setState(() {
               _selectedIndex = 1;
             });
           },
-          child: CheckWidget(title: T.female.tr, isCheck: _selectedIndex == 1),
+          child: CheckWidget(title: T.male.tr, isCheck: _selectedIndex == 1),
         ),
 
         Divider(height: 16.h, color: Colors.transparent),
@@ -47,9 +47,20 @@ class _CheckListState extends State<CheckList> {
               _selectedIndex = 2;
             });
           },
+          child: CheckWidget(title: T.female.tr, isCheck: _selectedIndex == 2),
+        ),
+
+        Divider(height: 16.h, color: Colors.transparent),
+
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _selectedIndex = 3;
+            });
+          },
           child: CheckWidget(
             title: T.nonBinary.tr,
-            isCheck: _selectedIndex == 2,
+            isCheck: _selectedIndex == 3,
           ),
         ),
 
@@ -57,7 +68,9 @@ class _CheckListState extends State<CheckList> {
 
         GestureDetector(
           onTap: () {
-            widget.onTap.call();
+            if (_selectedIndex != 0) {
+              widget.onTap.call(_selectedIndex);
+            }
           },
           child: Container(
             width: double.maxFinite,
@@ -69,7 +82,7 @@ class _CheckListState extends State<CheckList> {
               end: 24.w,
             ),
             decoration: ShapeDecoration(
-              color: _selectedIndex != -1
+              color: _selectedIndex != 0
                   ? const Color(0xFFFF0092)
                   : Colors.black.withValues(alpha: 0.30),
               shape: RoundedRectangleBorder(
