@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/helper/auth_helper.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/core/widget/intro/flutter_intro.dart';
 import 'package:newbug/generated/assets.dart';
@@ -90,8 +91,7 @@ class _PieMenuState extends State<PieMenu> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-  ///todo 是否是第一次进来（本地记录第一次和接口判断是新用户）
-  bool isFirst = true;
+  bool get isFirst => !AuthHelper.instance.isFinishGuide;
 
   @override
   Widget build(BuildContext context) {
@@ -102,19 +102,41 @@ class _PieMenuState extends State<PieMenu> with SingleTickerProviderStateMixin {
       child: Stack(
         alignment: Alignment.centerRight,
         children: [
-          buildStep2(isFirst: isFirst),
+          buildStep2(
+            isFirst: isFirst,
+            onSkip: () {
+              AuthHelper.instance.setGuideStatus(true);
+            },
+          ),
 
-          if (widget.offset != defaultOffest) buildStep3(isFirst: isFirst),
+          if (widget.offset != defaultOffest)
+            buildStep3(
+              isFirst: isFirst,
+              onSkip: () {
+                AuthHelper.instance.setGuideStatus(true);
+              },
+            ),
 
-          buildStep4(isFirst: isFirst),
+          buildStep4(
+            isFirst: isFirst,
+            onSkip: () {
+              AuthHelper.instance.setGuideStatus(true);
+            },
+          ),
 
-          buildStep1(isFirst: isFirst),
+          buildStep1(
+            isFirst: isFirst,
+            onSkip: () {
+              AuthHelper.instance.setGuideStatus(true);
+            },
+          ),
         ],
       ),
     );
   }
 
-  Widget buildStep1({bool isFirst = true}) {
+  //AuthHelper
+  Widget buildStep1({bool isFirst = true, Function? onSkip}) {
     return isFirst
         ? IntroStepBuilder(
             order: 1,
@@ -186,6 +208,7 @@ class _PieMenuState extends State<PieMenu> with SingleTickerProviderStateMixin {
                               onTap: () {
                                 params.onFinish();
                                 _animationController.reverse();
+                                onSkip?.call();
                               },
                               child: Text(
                                 T.skip.tr,
@@ -294,7 +317,7 @@ class _PieMenuState extends State<PieMenu> with SingleTickerProviderStateMixin {
     child: Image.asset(Assets.imgFab, width: 70, height: 70, key: key),
   );
 
-  Widget buildStep2({bool isFirst = true}) {
+  Widget buildStep2({bool isFirst = true, Function? onSkip}) {
     return isFirst
         ? IntroStepBuilder(
             order: 2,
@@ -366,6 +389,7 @@ class _PieMenuState extends State<PieMenu> with SingleTickerProviderStateMixin {
                               onTap: () {
                                 params.onFinish();
                                 _animationController.reverse();
+                                onSkip?.call();
                               },
                               child: Text(
                                 T.skip.tr,
@@ -465,7 +489,7 @@ class _PieMenuState extends State<PieMenu> with SingleTickerProviderStateMixin {
     ),
   );
 
-  Widget buildStep3({bool isFirst = true}) {
+  Widget buildStep3({bool isFirst = true, Function? onSkip}) {
     return isFirst
         ? IntroStepBuilder(
             order: 3,
@@ -537,6 +561,7 @@ class _PieMenuState extends State<PieMenu> with SingleTickerProviderStateMixin {
                               onTap: () {
                                 params.onFinish();
                                 _animationController.reverse();
+                                onSkip?.call();
                               },
                               child: Text(
                                 T.skip.tr,
@@ -628,7 +653,7 @@ class _PieMenuState extends State<PieMenu> with SingleTickerProviderStateMixin {
     ),
   );
 
-  Widget buildStep4({bool isFirst = true}) {
+  Widget buildStep4({bool isFirst = true, Function? onSkip}) {
     return isFirst
         ? IntroStepBuilder(
             order: 4,
@@ -700,6 +725,7 @@ class _PieMenuState extends State<PieMenu> with SingleTickerProviderStateMixin {
                               onTap: () {
                                 params.onFinish();
                                 _animationController.reverse();
+                                onSkip?.call();
                               },
                               child: Text(
                                 T.skip.tr,
@@ -734,6 +760,7 @@ class _PieMenuState extends State<PieMenu> with SingleTickerProviderStateMixin {
                                 onTap: () {
                                   params.onFinish();
                                   _animationController.reverse();
+                                  onSkip?.call();
                                 },
                                 child: Container(
                                   alignment: Alignment.center,

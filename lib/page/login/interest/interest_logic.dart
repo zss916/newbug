@@ -31,6 +31,8 @@ class InterestLogic extends GetxController {
                   : (e..isSelected = false),
             )
             .toList();
+      } else {
+        tags = (userInfo?.tagList ?? []);
       }
       sign = userInfo?.user?.sign;
       update();
@@ -56,7 +58,12 @@ class InterestLogic extends GetxController {
         });
 
     if (value != null) {
+      AppStores.setUserInfo(value: value.user);
       RouteManager.toMain();
     }
+  }
+
+  void toSkip() {
+    RouteManager.toMain();
   }
 }

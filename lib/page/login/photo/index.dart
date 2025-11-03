@@ -17,6 +17,7 @@ import 'package:newbug/core/network/reopsitory/account.dart';
 import 'package:newbug/core/network/reopsitory/system.dart';
 import 'package:newbug/core/network/utils/http_utils.dart';
 import 'package:newbug/core/route/index.dart';
+import 'package:newbug/core/stores/app_stores.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/page/login/photo/widget/photo_card.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';

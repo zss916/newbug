@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,7 +32,8 @@ class ProfileInfo extends StatelessWidget {
             padding: EdgeInsetsDirectional.only(top: 18, end: 1),
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(Assets.avatarGoldAvatarIc),
+                image: AssetImage(Assets.avatarSilverAvatarIc),
+                //image: AssetImage(Assets.avatarGoldAvatarIc),
                 fit: BoxFit.cover,
               ),
             ),
@@ -45,10 +47,12 @@ class ProfileInfo extends StatelessWidget {
                   height: 75,
                   decoration: ShapeDecoration(
                     //color: Colors.black26,
-                    image: DecorationImage(
-                      image: NetworkImage(avatar ?? ""),
-                      fit: BoxFit.cover,
-                    ),
+                    image: (avatar ?? "").isEmpty
+                        ? null
+                        : DecorationImage(
+                            image: CachedNetworkImageProvider(avatar ?? ""),
+                            fit: BoxFit.cover,
+                          ),
                     shape: OvalBorder(),
                   ),
                 ),

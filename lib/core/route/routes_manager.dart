@@ -24,8 +24,6 @@ class RouteManager {
 
   static toGuide() => Get.toNamed(AppRoutes.guide);
 
-  static toMain() => Get.toNamed(AppRoutes.main);
-
   static toVisitor() => Get.toNamed(AppRoutes.visitor);
 
   static toUnmatch() => Get.toNamed(AppRoutes.unmatch);
@@ -56,9 +54,17 @@ class RouteManager {
 
   static toLogin() => Get.toNamed(AppRoutes.login);
 
-  /// 第一次打开初始化App
-  static intoInitApp() {
-    RouteManager.toMain();
-    RouteManager.toGuide();
+  ///正常进入主页
+  static toCommonMain() => Get.toNamed(AppRoutes.main);
+
+  static toMain() {
+    if (AuthHelper.instance.isFinishGuide) {
+      ///完成引导
+      toCommonMain();
+    } else {
+      ///有引导页面
+      toCommonMain();
+      toGuide();
+    }
   }
 }

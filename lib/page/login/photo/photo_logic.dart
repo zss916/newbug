@@ -134,6 +134,7 @@ class PhotoLogic extends GetxController {
         });
     if (value != null) {
       value.tagList = userInfo?.tagList ?? [];
+      AppStores.setUserInfo(value: value.user);
       RouteManager.toInterest(userInfo: value);
     }
   }

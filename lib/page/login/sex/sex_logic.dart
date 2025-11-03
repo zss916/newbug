@@ -29,6 +29,8 @@ class SexLogic extends GetxController {
           CustomToast.dismiss();
         });
     if (value != null) {
+      // AppStores.setTagsList(data:value.tagList??[]);
+      AppStores.setUserInfo(value: value.user);
       RouteManager.toPhoto(userInfo: value);
     }
   }

@@ -30,14 +30,11 @@ class EmailLogic extends GetxController {
       AppStores.setUserInfo(value: value);
       Net.instance.updateHeaders(token: value.authToken ?? "");
       AuthHelper.instance.isTodayRegister = value.isTodaySign ?? true;
-      //todo
-      /*if (value.isNeedEdit) {
+      if (value.isNeedEdit) {
         RouteManager.toName(user: value);
       } else {
-        RouteManager.intoInitApp();
-      }*/
-
-      RouteManager.toName(user: value);
+        RouteManager.toMain();
+      }
     }
   }
 }

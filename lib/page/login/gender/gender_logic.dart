@@ -26,6 +26,7 @@ class GenderLogic extends GetxController {
       },
     );
     if (value != null) {
+      AppStores.setUserInfo(value: value.user);
       RouteManager.toSex(userInfo: value);
     }
   }

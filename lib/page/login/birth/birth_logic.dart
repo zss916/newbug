@@ -26,6 +26,7 @@ class BirthLogic extends GetxController {
         });
 
     if (value != null) {
+      AppStores.setUserInfo(value: value.user);
       RouteManager.toGender(userInfo: value);
     }
   }

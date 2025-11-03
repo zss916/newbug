@@ -92,6 +92,7 @@ dependencies:
 
 
 
+
   better_player:
     path: plugins/betterplayer
 

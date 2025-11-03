@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:newbug/core/services/app_config_service.dart';
 import 'package:newbug/core/services/app_data_service.dart';
-import 'package:newbug/core/services/app_profile_service.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/core/stores/stores_service.dart';
 
@@ -13,7 +13,7 @@ class Global {
     ///adjust
     //AdjustTools.init();
 
-    await Get.putAsync<AppProfileService>(() => AppProfileService().init());
+    await Get.putAsync<AppConfigService>(() => AppConfigService().init());
 
     await Future.wait([
       Get.put<StoresService>(StoresService()).init(),

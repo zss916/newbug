@@ -3,12 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/route/index.dart';
+import 'package:newbug/core/services/app_config_service.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/dialog/help/sheet_account.dart';
 import 'package:newbug/page/dialog/help/sheet_help_center.dart';
+import 'package:newbug/page/profile/index/profile_logic.dart';
 
 class ProfileItems extends StatelessWidget {
-  const ProfileItems({super.key});
+  final ProfileLogic logic;
+  const ProfileItems({super.key, required this.logic});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +39,11 @@ class ProfileItems extends StatelessWidget {
               topRight: Radius.circular(16.r),
             ),
             onTap: () {
-              showAccountSheet();
+              showAccountSheet(
+                onLogOut: () {
+                  logic.toLogOUt();
+                },
+              );
             },
           ),
 
@@ -69,7 +76,9 @@ class ProfileItems extends StatelessWidget {
             icon: Assets.imgIcPolicy,
             title: T.privacyPolicy.tr,
             borderRadius: BorderRadius.zero,
-            onTap: () {},
+            onTap: () {
+              AppConfigService.to.toPrivacy();
+            },
           ),
 
           Divider(height: 1, color: Color(0xFFF2F2F2)),
@@ -79,7 +88,9 @@ class ProfileItems extends StatelessWidget {
             iconSize: Offset(19, 19),
             title: T.terms.tr,
             borderRadius: BorderRadius.zero,
-            onTap: () {},
+            onTap: () {
+              AppConfigService.to.toTerms();
+            },
           ),
 
           Divider(height: 1, color: Color(0xFFF2F2F2)),

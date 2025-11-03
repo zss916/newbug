@@ -4,13 +4,13 @@ import 'package:newbug/core/network/model/config_entity.dart';
 import 'package:newbug/core/network/reopsitory/system.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class AppProfileService extends GetxService {
-  static AppProfileService get to => Get.find();
+class AppConfigService extends GetxService {
+  static AppConfigService get to => Get.find();
 
   ConfigEntity? config;
 
   ///初始化
-  Future<AppProfileService> init() async {
+  Future<AppConfigService> init() async {
     return this;
   }
 

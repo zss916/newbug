@@ -4,16 +4,17 @@ import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/route/index.dart';
 
-void showAccountSheet() {
+void showAccountSheet({required Function onLogOut}) {
   Get.bottomSheet(
-    AccountWidget(),
+    AccountWidget(onLogOut: onLogOut),
     isDismissible: false,
     settings: RouteSettings(name: AppRoutes.helpCenterSheet),
   );
 }
 
 class AccountWidget extends StatelessWidget {
-  const AccountWidget({super.key});
+  final Function onLogOut;
+  const AccountWidget({super.key, required this.onLogOut});
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +59,7 @@ class AccountWidget extends StatelessWidget {
                 ),
                 onTap: () {
                   Get.back();
+                  onLogOut.call();
                 },
                 child: Container(
                   width: double.infinity,

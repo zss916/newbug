@@ -17,7 +17,7 @@ class UserEntity {
 
   int? id;
   @JSONField(name: 'user_id')
-  int? userId;
+  String? userId;
   @JSONField(name: 'auth_token')
   String? authToken;
   @JSONField(name: 'im_token')

@@ -25,6 +25,7 @@ class NameLogic extends GetxController {
           CustomToast.dismiss();
         });
     if (value != null) {
+      AppStores.setUserInfo(value: value.user);
       RouteManager.toBirth(userInfo: value);
     }
   }

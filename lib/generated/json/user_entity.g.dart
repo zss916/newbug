@@ -9,7 +9,7 @@ UserEntity $UserEntityFromJson(Map<String, dynamic> json) {
   if (id != null) {
     userEntity.id = id;
   }
-  final int? userId = jsonConvert.convert<int>(json['user_id']);
+  final String? userId = jsonConvert.convert<String>(json['user_id']);
   if (userId != null) {
     userEntity.userId = userId;
   }
@@ -221,7 +221,7 @@ Map<String, dynamic> $UserEntityToJson(UserEntity entity) {
 extension UserEntityExtension on UserEntity {
   UserEntity copyWith({
     int? id,
-    int? userId,
+    String? userId,
     String? authToken,
     String? imToken,
     int? expireAt,

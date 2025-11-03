@@ -13,7 +13,7 @@ class InterestView extends StatelessWidget {
             actions: [
               TextButton(
                 onPressed: () {
-                  CustomToast.text("skip");
+                  logic.toSkip();
                 },
                 child: Text(
                   T.skip.tr,
