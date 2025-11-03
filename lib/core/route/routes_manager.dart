@@ -46,6 +46,9 @@ class RouteManager {
 
   static toPreviewView() => Get.toNamed(AppRoutes.previewView);
 
+  static towWebview({required String title, required String url}) =>
+      Get.toNamed(AppRoutes.webview, arguments: {"title": title, "url": url});
+
   /// 关闭所有页面并跳转至登录页面
   static offAndToLogin() => Get.offAndToNamed(AppRoutes.login);
 

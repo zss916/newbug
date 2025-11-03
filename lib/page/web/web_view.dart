@@ -17,6 +17,7 @@ class _WebViewState extends State<WebView> {
   String url = "";
   String title = "";
   String javaScriptChannelName = "cv";
+  double _progress = 0;
 
   @override
   void initState() {
@@ -42,7 +43,13 @@ class _WebViewState extends State<WebView> {
       ..setBackgroundColor(Colors.black)
       ..setNavigationDelegate(
         NavigationDelegate(
-          onProgress: (int progress) {},
+          onProgress: (int progress) {
+            if (mounted) {
+              setState(() {
+                _progress = progress / 100;
+              });
+            }
+          },
           onPageStarted: (String url) {},
           onPageFinished: (String url) {},
           onWebResourceError: (WebResourceError error) {},
@@ -72,9 +79,15 @@ class _WebViewState extends State<WebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonAppBar(),
-      backgroundColor: Colors.black,
-      body: WebViewWidget(controller: webViewController),
+      appBar: CommonAppBar(title: title),
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          if (_progress > 0 && _progress < 1)
+            LinearProgressIndicator(value: _progress, color: Color(0xFFFF0092)),
+          Expanded(child: WebViewWidget(controller: webViewController)),
+        ],
+      ),
     );
   }
 }

@@ -77,7 +77,11 @@ class ProfileItems extends StatelessWidget {
             title: T.privacyPolicy.tr,
             borderRadius: BorderRadius.zero,
             onTap: () {
-              AppConfigService.to.toPrivacy();
+              // AppConfigService.to.toPrivacy();
+              RouteManager.towWebview(
+                title: T.privacyPolicy.tr,
+                url: AppConfigService.to.privacy,
+              );
             },
           ),
 
@@ -89,7 +93,11 @@ class ProfileItems extends StatelessWidget {
             title: T.terms.tr,
             borderRadius: BorderRadius.zero,
             onTap: () {
-              AppConfigService.to.toTerms();
+              // AppConfigService.to.toTerms();
+              RouteManager.towWebview(
+                title: T.terms.tr,
+                url: AppConfigService.to.terms,
+              );
             },
           ),
 
@@ -103,7 +111,12 @@ class ProfileItems extends StatelessWidget {
               bottomLeft: Radius.circular(16.r),
               bottomRight: Radius.circular(16.r),
             ),
-            onTap: () {},
+            onTap: () {
+              /*RouteManager.towWebview(
+                title: T.childSafetyPolicy.tr,
+                url: AppConfigService.to.privacy,
+              );*/
+            },
           ),
         ],
       ),

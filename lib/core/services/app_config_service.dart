@@ -9,6 +9,10 @@ class AppConfigService extends GetxService {
 
   ConfigEntity? config;
 
+  String get terms => config?.terms ?? "";
+
+  String get privacy => config?.privacy ?? "";
+
   ///初始化
   Future<AppConfigService> init() async {
     return this;

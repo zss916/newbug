@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:newbug/core/helper/auth_helper.dart';
 import 'package:newbug/core/network/model/user_entity.dart';
 import 'package:newbug/core/network/model/user_info.dart';
-import 'package:newbug/core/stores/app_stores.dart';
 import 'package:newbug/core/widget/intro/flutter_intro.dart';
 import 'package:newbug/page/chat/index.dart';
 import 'package:newbug/page/guide/guide_view.dart';
@@ -30,6 +29,7 @@ import 'package:newbug/page/profile/deleteAccount/delete_account_view.dart';
 import 'package:newbug/page/profile/edit/edit_view.dart';
 import 'package:newbug/page/profile/notification/index.dart';
 import 'package:newbug/page/subscribe/subscribe_view.dart';
+import 'package:newbug/page/web/web_view.dart';
 
 part 'app_routes.dart';
 part 'routes_manager.dart';

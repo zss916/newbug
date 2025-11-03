@@ -48,7 +48,11 @@ class CommonAppBar extends AppBar {
                title ?? '',
                maxLines: 1,
                textAlign: TextAlign.center,
-               style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w500),
+               style: TextStyle(
+                 fontSize: 22.sp,
+                 color: Colors.black,
+                 fontWeight: FontWeight.w500,
+               ),
              ),
          leading:
              leading ??

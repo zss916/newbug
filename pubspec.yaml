@@ -33,7 +33,9 @@ dependencies:
   #资源选择器
   image_picker: 1.2.0
   path_provider: 2.1.5
+  #webview
   webview_flutter: 4.13.0
+  flutter_inappwebview: 6.1.5
   wechat_assets_picker: 9.8.0
   wechat_camera_picker: 4.4.0
   flutter_image_compress: 2.4.0
