@@ -1,7 +1,6 @@
 import 'package:newbug/core/network/model/home_cards_entity.dart';
 import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/network/model/right.dart';
-import 'package:newbug/core/network/model/user_entity.dart';
 import 'package:newbug/generated/json/base/json_convert_content.dart';
 
 HomeCardsEntity $HomeCardsEntityFromJson(Map<String, dynamic> json) {
@@ -125,16 +124,6 @@ HomeCardsMatchList $HomeCardsMatchListFromJson(Map<String, dynamic> json) {
   if (isFriend != null) {
     homeCardsMatchList.isFriend = isFriend;
   }
-  final PartyItem? party = jsonConvert.convert<PartyItem>(json['party']);
-  if (party != null) {
-    homeCardsMatchList.party = party;
-  }
-  final BeardInfoType? beard_info = jsonConvert.convert<BeardInfoType>(
-    json['beard_info'],
-  );
-  if (beard_info != null) {
-    homeCardsMatchList.beard_info = beard_info;
-  }
   final bool? hasSendFc = jsonConvert.convert<bool>(json['hasSendFc']);
   if (hasSendFc != null) {
     homeCardsMatchList.hasSendFc = hasSendFc;
@@ -173,8 +162,6 @@ Map<String, dynamic> $HomeCardsMatchListToJson(HomeCardsMatchList entity) {
   data['user_id'] = entity.userId;
   data['follow'] = entity.follow;
   data['isFriend'] = entity.isFriend;
-  data['party'] = entity.party?.toJson();
-  data['beard_info'] = entity.beard_info?.toJson();
   data['hasSendFc'] = entity.hasSendFc;
   data['passLoading'] = entity.passLoading;
   data['likeLoading'] = entity.likeLoading;
@@ -201,8 +188,6 @@ extension HomeCardsMatchListExtension on HomeCardsMatchList {
     int? userId,
     bool? follow,
     bool? isFriend,
-    PartyItem? party,
-    BeardInfoType? beard_info,
     bool? hasSendFc,
     bool? passLoading,
     bool? likeLoading,
@@ -226,8 +211,6 @@ extension HomeCardsMatchListExtension on HomeCardsMatchList {
       ..userId = userId ?? this.userId
       ..follow = follow ?? this.follow
       ..isFriend = isFriend ?? this.isFriend
-      ..party = party ?? this.party
-      ..beard_info = beard_info ?? this.beard_info
       ..hasSendFc = hasSendFc ?? this.hasSendFc
       ..passLoading = passLoading ?? this.passLoading
       ..likeLoading = likeLoading ?? this.likeLoading

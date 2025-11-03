@@ -17,6 +17,8 @@ class PeopleEntity {
   String? nickName;
   int? online;
 
+  ///1 在线
+
   ///0未读 1已读
   int? read;
   @JSONField(name: 'time_out')
@@ -26,6 +28,8 @@ class PeopleEntity {
 
   ///visitor
   int? viewCount;
+
+  String? headimg;
 
   PeopleEntity();
 
@@ -38,6 +42,9 @@ class PeopleEntity {
   String toString() {
     return jsonEncode(this);
   }
+
+  ///是否在线
+  bool get isOnline => online == 1;
 }
 
 @JsonSerializable()

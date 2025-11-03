@@ -217,6 +217,8 @@ class T {
 
   static const String onlineSupport = "onlineSupport";
 
+  static const String online = "online";
+
   static const String newTitle = "newTitle";
 
   static const String copyEmailAddress = "copyEmailAddress";
@@ -454,6 +456,8 @@ class T {
   static const String ageTip = "ageTip";
 
   static const String age = "age";
+
+  static const String visitorsTotal = "visitorsTotalTr";
 }
 
 const en = {
@@ -534,6 +538,7 @@ const en = {
   "me": "Me",
   "visitedTitle": "Who visited your profile",
   "visitorsCountTr": "New visitors: %s",
+  "visitorsTotalTr": "Visitors: %s",
   "privateVideos": "Private Videos",
   "privatePhotos": "Private Photos",
   "getNow": "GET NOW",
@@ -724,4 +729,5 @@ const en = {
   "selectedVideoTitle": "Video: %s Selected",
   "ageTip": "Accurate age = more peers to meet.",
   "age": "Age %s",
+  "online": "Online",
 };

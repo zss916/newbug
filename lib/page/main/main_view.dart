@@ -21,7 +21,6 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> with DelayedInitMixin {
   int currentIndex = 0;
-  late final PageController pageCtrl = PageController(initialPage: 0);
 
   @override
   void afterFirstLayout() {
@@ -49,9 +48,8 @@ class _MainViewState extends State<MainView> with DelayedInitMixin {
   Widget buildBody() {
     return Scaffold(
       backgroundColor: Color(0xFFFAFAFA),
-      body: PageView(
-        physics: const NeverScrollableScrollPhysics(),
-        controller: pageCtrl,
+      body: IndexedStack(
+        index: currentIndex,
         children: [HomeView(), LikeView(), MessageView(), ProfileView()],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -186,7 +184,6 @@ class _MainViewState extends State<MainView> with DelayedInitMixin {
         onTap: (value) {
           setState(() {
             currentIndex = value;
-            pageCtrl.jumpToPage(currentIndex);
             EventService.to.post(HomeMenuEvent(isShow: currentIndex == 0));
           });
         },

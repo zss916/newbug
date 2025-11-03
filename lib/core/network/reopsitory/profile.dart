@@ -12,12 +12,12 @@ abstract class ProfileAPI {
   static Future<UserEntity?> getUserInfo() async {
     try {
       final result = await Net.instance.post(ApiPath.getUserInfo);
-
       if (result["code"] == 0) {
         UserEntity value = await compute(
           (dynamic jsonStr) => UserEntity.fromJson(jsonStr),
           result["data"],
         );
+        // AppStores.setUserInfo(value: value);
         return value;
       } else {
         return null;
@@ -60,7 +60,7 @@ abstract class ProfileAPI {
 
   ///Visitor访客列表
   static Future<(bool, List<PeopleEntity>)> getVisitorList({
-    required int lastId,
+    int? lastId,
   }) async {
     try {
       final result = await Net.instance.post(
@@ -72,7 +72,7 @@ abstract class ProfileAPI {
         List<PeopleEntity> value = await compute(
           (List<dynamic> jsonList) =>
               jsonList.map((e) => PeopleEntity.fromJson(e)).toList(),
-          (result['data'] as List),
+          (result['data']['list'] as List),
         );
         return (true, value);
       } else {

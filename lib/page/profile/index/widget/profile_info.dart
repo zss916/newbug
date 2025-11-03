@@ -12,11 +12,13 @@ class ProfileInfo extends StatelessWidget {
   final String? avatar;
   final String? name;
   final String? identifier;
+  final bool? isVip;
   const ProfileInfo({
     super.key,
     required this.avatar,
     required this.name,
     required this.identifier,
+    required this.isVip,
   });
 
   @override
@@ -26,39 +28,7 @@ class ProfileInfo extends StatelessWidget {
       width: double.maxFinite,
       child: Row(
         children: [
-          Container(
-            width: 105,
-            height: 110,
-            padding: EdgeInsetsDirectional.only(top: 18, end: 1),
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(Assets.avatarSilverAvatarIc),
-                //image: AssetImage(Assets.avatarGoldAvatarIc),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: UnconstrainedBox(
-              child: GestureDetector(
-                onTap: () {
-                  RouteManager.toEditProfile();
-                },
-                child: Container(
-                  width: 75,
-                  height: 75,
-                  decoration: ShapeDecoration(
-                    //color: Colors.black26,
-                    image: (avatar ?? "").isEmpty
-                        ? null
-                        : DecorationImage(
-                            image: CachedNetworkImageProvider(avatar ?? ""),
-                            fit: BoxFit.cover,
-                          ),
-                    shape: OvalBorder(),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          buildAvatar(isVip: isVip ?? false),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,6 +101,43 @@ class ProfileInfo extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget buildAvatar({required bool isVip}) {
+    return Container(
+      width: 105,
+      height: 110,
+      padding: EdgeInsetsDirectional.only(top: 18, end: 1),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(
+            isVip ? Assets.avatarGoldAvatarIc : Assets.avatarSilverAvatarIc,
+          ),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: UnconstrainedBox(
+        child: GestureDetector(
+          onTap: () {
+            RouteManager.toEditProfile();
+          },
+          child: Container(
+            width: 75,
+            height: 75,
+            decoration: ShapeDecoration(
+              //color: Colors.black26,
+              image: (avatar ?? "").isEmpty
+                  ? null
+                  : DecorationImage(
+                      image: CachedNetworkImageProvider(avatar ?? ""),
+                      fit: BoxFit.cover,
+                    ),
+              shape: OvalBorder(),
+            ),
+          ),
+        ),
       ),
     );
   }

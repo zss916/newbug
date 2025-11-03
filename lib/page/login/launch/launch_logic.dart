@@ -19,16 +19,16 @@ class LaunchLogic extends GetxController {
 
   /// 刷新token
   Future<bool> refreshToken() async {
-    UserEntity? user = await AccountAPI.refreshToken();
-    if (user != null) {
+    AuthEntity? auth = await AccountAPI.refreshToken();
+    if (auth != null) {
       //1.保存登录信息
       //2.更新状态
-      AppStores.setUserInfo(value: user);
-      AuthHelper.instance.isTodayRegister = user.isTodaySign ?? false;
+      AppStores.setAuthData(value: auth);
+      AuthHelper.instance.isTodayRegister = auth.isTodaySign ?? false;
     } else {
       AuthHelper.instance.toHandleLogout();
     }
-    return (user?.isNeedEdit ?? false);
+    return (auth?.isNeedEdit ?? false);
   }
 
   /// 登录

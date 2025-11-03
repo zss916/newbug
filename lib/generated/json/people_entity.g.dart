@@ -52,6 +52,10 @@ PeopleEntity $PeopleEntityFromJson(Map<String, dynamic> json) {
   if (viewCount != null) {
     peopleEntity.viewCount = viewCount;
   }
+  final String? headimg = jsonConvert.convert<String>(json['headimg']);
+  if (headimg != null) {
+    peopleEntity.headimg = headimg;
+  }
   return peopleEntity;
 }
 
@@ -68,6 +72,7 @@ Map<String, dynamic> $PeopleEntityToJson(PeopleEntity entity) {
   data['time_out'] = entity.timeOut;
   data['user_id'] = entity.userId;
   data['viewCount'] = entity.viewCount;
+  data['headimg'] = entity.headimg;
   return data;
 }
 
@@ -84,6 +89,7 @@ extension PeopleEntityExtension on PeopleEntity {
     String? timeOut,
     int? userId,
     int? viewCount,
+    String? headimg,
   }) {
     return PeopleEntity()
       ..age = age ?? this.age
@@ -96,7 +102,8 @@ extension PeopleEntityExtension on PeopleEntity {
       ..read = read ?? this.read
       ..timeOut = timeOut ?? this.timeOut
       ..userId = userId ?? this.userId
-      ..viewCount = viewCount ?? this.viewCount;
+      ..viewCount = viewCount ?? this.viewCount
+      ..headimg = headimg ?? this.headimg;
   }
 }
 

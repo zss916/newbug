@@ -1,8 +1,8 @@
 part of 'index.dart';
 
 class NameLogic extends GetxController {
-  UserEntity? user;
-  String get nickName => user?.nickName ?? "";
+  AuthEntity? auth;
+  String get nickName => auth?.nickName ?? "";
 
   @override
   void onInit() {
@@ -12,7 +12,7 @@ class NameLogic extends GetxController {
 
   void setData() {
     if (Get.arguments != null) {
-      user = Get.arguments as UserEntity;
+      auth = Get.arguments as AuthEntity;
       update();
     }
   }

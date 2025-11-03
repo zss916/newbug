@@ -58,7 +58,7 @@ class HomeCardsMatchList {
   bool? isFriend;
 
   /// PartyItem
-  PartyItem? party;
+  //PartyItem? party;
 
   /// 胡须信息
   BeardInfoType? beard_info;

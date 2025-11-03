@@ -17,12 +17,12 @@ class PhotoLogic extends GetxController {
   void setData() {
     if (Get.arguments != null) {
       userInfo = Get.arguments as UserInfo;
-      List<MediaListItem?> initData = (user?.mediaList ?? []);
+      // List<MediaListItem?> initData = (user?.mediaList ?? []);
 
       /*for (int i = 0; i < ((selectList??[]).length); i++) {
        (selectList??[])[i] = (selectList??[])[i]..thumbUrl = await GalleryTools.getThumbnail();
       }*/
-      update();
+      // update();
     }
   }
 

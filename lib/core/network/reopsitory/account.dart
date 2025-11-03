@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:newbug/core/emums/app_emums.dart';
-import 'package:newbug/core/network/model/user_entity.dart';
+import 'package:newbug/core/network/model/auth_entity.dart';
 import 'package:newbug/core/network/model/user_info.dart';
 import 'package:newbug/core/network/net/net.dart';
 import 'package:newbug/core/network/path/netPath.dart';
@@ -8,7 +8,7 @@ import 'package:newbug/core/widget/index.dart';
 
 abstract class AccountAPI {
   ///邮箱登录
-  static Future<UserEntity?> emailLogin({
+  static Future<AuthEntity?> emailLogin({
     required String email,
     required String pwd,
   }) async {
@@ -18,8 +18,8 @@ abstract class AccountAPI {
         queryParameters: {"email": email, "pwd": pwd, "auto_reg": "1"},
       );
       if (result["code"] == 0) {
-        UserEntity value = await compute(
-          (dynamic jsonStr) => UserEntity.fromJson(jsonStr),
+        AuthEntity value = await compute(
+          (dynamic jsonStr) => AuthEntity.fromJson(jsonStr),
           result["data"],
         );
         return value;
@@ -34,15 +34,15 @@ abstract class AccountAPI {
   }
 
   ///google登录
-  static Future<UserEntity?> googleLogin({required String idToken}) async {
+  static Future<AuthEntity?> googleLogin({required String idToken}) async {
     try {
       final result = await Net.instance.post(
         ApiPath.googleLogin,
         queryParameters: {"id_token": idToken},
       );
       if (result["code"] == 0) {
-        UserEntity value = await compute(
-          (dynamic jsonStr) => UserEntity.fromJson(jsonStr),
+        AuthEntity value = await compute(
+          (dynamic jsonStr) => AuthEntity.fromJson(jsonStr),
           result["data"],
         );
         return value;
@@ -57,12 +57,12 @@ abstract class AccountAPI {
   }
 
   ///刷新 token
-  static Future<UserEntity?> refreshToken() async {
+  static Future<AuthEntity?> refreshToken() async {
     try {
       final result = await Net.instance.post(ApiPath.refreshToken);
       if (result["code"] == 0) {
-        UserEntity value = await compute(
-          (dynamic jsonStr) => UserEntity.fromJson(jsonStr),
+        AuthEntity value = await compute(
+          (dynamic jsonStr) => AuthEntity.fromJson(jsonStr),
           result["data"],
         );
         return value;
@@ -91,7 +91,6 @@ abstract class AccountAPI {
     //1 用户昵称；2 生日信息；3 性别；4 性向；5 Sign；6 Tag；7 Photo；9 最后提交；10 Desires； 11 国家； 12 desires  tag
     Map<String, dynamic> data = {};
     data["step"] = step;
-
     if (step == 1) {
       data["nick_name"] = nickName;
     } else if (step == 2) {

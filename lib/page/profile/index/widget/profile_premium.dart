@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/global.dart';
 import 'package:newbug/core/config/translation/index.dart';
-import 'package:newbug/core/route/index.dart';
 
 class ProfilePremium extends StatelessWidget {
-  const ProfilePremium({super.key});
+  final Function onTap;
+  const ProfilePremium({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class ProfilePremium extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              RouteManager.toSubscribe();
+              onTap.call();
             },
             child: Container(
               margin: EdgeInsetsDirectional.only(top: 16.h),

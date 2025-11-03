@@ -24,7 +24,8 @@ class RouteManager {
 
   static toGuide() => Get.toNamed(AppRoutes.guide);
 
-  static toVisitor() => Get.toNamed(AppRoutes.visitor);
+  static toVisitor({required bool isUserVip}) =>
+      Get.toNamed(AppRoutes.visitor, arguments: {"isUserVip": isUserVip});
 
   static toUnmatch() => Get.toNamed(AppRoutes.unmatch);
 

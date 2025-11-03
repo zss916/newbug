@@ -44,14 +44,33 @@ class ProfileView extends StatelessWidget {
                   avatar: logic.avatar,
                   name: logic.nickName,
                   identifier: logic.uid,
+                  isVip: logic.isVip,
                 ),
-                ProfileVisitor(visitorsCount: "12"),
+                ProfileVisitor(
+                  visitorsCount: logic.visitorNewCount,
+                  visitorTotalCount: logic.visitorTotalCount,
+                  list: logic.headList,
+                  isBlur: !logic.isVip,
+                ),
                 ProfileTab(
-                  videosCount: "35",
-                  photosCount: "35",
-                  chatsCount: "35",
+                  videosCount: logic.privacyVideo,
+                  photosCount: logic.privacyImage,
+                  chatsCount: logic.flashChat,
+                  onTapPrivateVideos: () {
+                    logic.toPrivateVideo();
+                  },
+                  onTapPrivatePhotos: () {
+                    logic.toPrivatePhoto();
+                  },
+                  onTapFlashChat: () {
+                    logic.toFlashChat();
+                  },
                 ),
-                ProfilePremium(),
+                ProfilePremium(
+                  onTap: () {
+                    logic.toSubscribe();
+                  },
+                ),
                 ProfileItems(logic: logic),
               ],
             ),

@@ -2,19 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
-import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/generated/assets.dart';
-import 'package:newbug/page/profile/sheet/pay/pay_sheet.dart';
 
 class ProfileTab extends StatelessWidget {
-  final String videosCount;
-  final String photosCount;
-  final String chatsCount;
+  final int videosCount;
+  final int photosCount;
+  final int chatsCount;
+  final Function? onTapPrivateVideos;
+  final Function? onTapPrivatePhotos;
+  final Function? onTapFlashChat;
+
   const ProfileTab({
     super.key,
     required this.chatsCount,
     required this.photosCount,
     required this.videosCount,
+    this.onTapPrivateVideos,
+    this.onTapPrivatePhotos,
+    this.onTapFlashChat,
   });
 
   @override
@@ -28,10 +33,7 @@ class ProfileTab extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.circular(12),
               onTap: () {
-                EventService.to.post(
-                  ShowMatchCountTipEvent(isShow: true, count: 99),
-                );
-                //showPaySheet(index: 0);
+                onTapPrivateVideos?.call();
               },
               child: AspectRatio(
                 aspectRatio: 114 / 142,
@@ -82,7 +84,7 @@ class ProfileTab extends StatelessWidget {
                           TextSpan(
                             children: [
                               TextSpan(
-                                text: '35',
+                                text: "$videosCount",
                                 style: TextStyle(
                                   overflow: TextOverflow.ellipsis,
                                   color: const Color(0xFFFF0092),
@@ -135,10 +137,7 @@ class ProfileTab extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.circular(12),
               onTap: () {
-                EventService.to.post(
-                  ShowMatchCountTipEvent(isShow: false, count: 99),
-                );
-                //showPaySheet(index: 1);
+                onTapPrivatePhotos?.call();
               },
               child: AspectRatio(
                 aspectRatio: 114 / 142,
@@ -189,7 +188,7 @@ class ProfileTab extends StatelessWidget {
                           TextSpan(
                             children: [
                               TextSpan(
-                                text: '35',
+                                text: "$photosCount",
                                 style: TextStyle(
                                   overflow: TextOverflow.ellipsis,
                                   color: const Color(0xFF7D60FF),
@@ -242,7 +241,7 @@ class ProfileTab extends StatelessWidget {
             child: InkWell(
               borderRadius: BorderRadius.circular(12),
               onTap: () {
-                showPaySheet(index: 2);
+                onTapFlashChat?.call();
               },
               child: AspectRatio(
                 aspectRatio: 114 / 142,
@@ -293,7 +292,7 @@ class ProfileTab extends StatelessWidget {
                           TextSpan(
                             children: [
                               TextSpan(
-                                text: '35',
+                                text: '$chatsCount',
                                 style: TextStyle(
                                   overflow: TextOverflow.ellipsis,
                                   color: const Color(0xFFFFB12B),

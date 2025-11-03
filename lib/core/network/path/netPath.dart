@@ -473,4 +473,7 @@ class ApiPath {
 
   ///恢复订单 todo
   static const String restore = "by/v7w8x";
+
+  ///用户更新位置
+  //static const String updateswitch = "/account/updateswitch";
 }

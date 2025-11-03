@@ -85,7 +85,9 @@ class _PieMenuState extends State<PieMenu> with SingleTickerProviderStateMixin {
     widget.onToggle?.call(false);
     _animationController.removeListener(listener);
     _animationController.removeStatusListener(statusListener);
-    Intro.of(context).dispose();
+    if (isFirst) {
+      Intro.of(context).dispose();
+    }
     _animationController.dispose();
     subs?.cancel();
     super.dispose();

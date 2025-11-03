@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:newbug/core/network/model/auth_entity.dart';
 import 'package:newbug/core/network/model/tag_entity.dart';
 import 'package:newbug/core/network/model/user_entity.dart';
 import 'package:newbug/core/stores/stores_service.dart';
@@ -11,6 +12,7 @@ class AppStores {
   static const String userKey = "cvUserInfoKey";
   static const String finishGuideKey = "cvFinishGuideKey";
   static const String tagsListKey = "cvTagsListKey";
+  static const String authKey = "cvAuthKey";
 
   /// 设置adjustID
   static void setAdjustID({required String adjustID}) {
@@ -26,6 +28,18 @@ class AppStores {
   static void setUserInfo({UserEntity? value}) {
     if (value != null) {
       StoresService.to.setString(userKey, jsonEncode(value));
+    }
+  }
+
+  ///获取 user info
+  static UserEntity getUserInfo() {
+    return UserEntity.fromJson(jsonDecode(StoresService.to.getString(userKey)));
+  }
+
+  ///设置 auth
+  static void setAuthData({AuthEntity? value}) {
+    if (value != null) {
+      StoresService.to.setString(authKey, jsonEncode(value));
     }
   }
 
@@ -51,16 +65,11 @@ class AppStores {
     StoresService.to.clear();
   }
 
-  ///获取 user info
-  static UserEntity getUserInfo() {
-    return UserEntity.fromJson(jsonDecode(StoresService.to.getString(userKey)));
-  }
-
   /// 获取Authorization
   static String? getAuthorization() {
-    String value = StoresService.to.getString(userKey);
+    String value = StoresService.to.getString(authKey);
     if (value.isNotEmpty) {
-      return UserEntity.fromJson(jsonDecode(value)).authToken;
+      return AuthEntity.fromJson(jsonDecode(value)).authToken;
     } else {
       return null;
     }

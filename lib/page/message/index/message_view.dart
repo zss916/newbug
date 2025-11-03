@@ -161,7 +161,7 @@ class MessageView extends StatelessWidget {
         SliverToBoxAdapter(
           child: GestureDetector(
             onTap: () {
-              RouteManager.toVisitor();
+              RouteManager.toVisitor(isUserVip: false);
             },
             child: Column(
               children: [
