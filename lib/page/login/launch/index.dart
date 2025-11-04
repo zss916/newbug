@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:newbug/core/helper/auth_helper.dart';
 import 'package:newbug/core/network/model/auth_entity.dart';
 import 'package:newbug/core/network/reopsitory/account.dart';
+import 'package:newbug/core/network/reopsitory/profile.dart';
 import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/stores/app_stores.dart';
 import 'package:newbug/core/widget/index.dart';

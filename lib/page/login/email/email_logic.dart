@@ -27,7 +27,6 @@ class EmailLogic extends GetxController {
     if (value != null) {
       KeyChainTool.putKeyChain(account: email, password: password);
       TextInput.finishAutofillContext();
-      await AppStores.getUserInfo();
       AppStores.setAuthData(value: value);
 
       ///AppStores.setUserInfo(value: UserEntity()..authToken = value.authToken);
@@ -36,6 +35,10 @@ class EmailLogic extends GetxController {
       if (value.isNeedEdit) {
         RouteManager.toName(user: null);
       } else {
+        ///todo 优化一下
+        /* if (AppStores.getUserInfo() == null) {
+          await ProfileAPI.getUserInfo();
+        }*/
         RouteManager.toMain();
       }
     }

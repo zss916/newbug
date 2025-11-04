@@ -3,11 +3,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/global.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/route/index.dart';
 import 'package:newbug/generated/assets.dart';
+
+//showTurnOnNotification();
 
 /// 显示打开通知权限的对话框
 void showTurnOnNotification() {
-  Get.dialog(TurnOnNotificationWidget());
+  Get.dialog(
+    TurnOnNotificationWidget(),
+    routeSettings: RouteSettings(name: AppRoutes.notificationDialog),
+  );
 }
 
 class TurnOnNotificationWidget extends StatelessWidget {

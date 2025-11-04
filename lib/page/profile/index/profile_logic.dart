@@ -31,17 +31,17 @@ class ProfileLogic extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    //initData();
+    initData();
   }
 
   @override
   void onReady() {
     super.onReady();
-    CustomToast.loading();
+    /*CustomToast.loading();
     Future.wait([
       loadUserInfo(),
       loadWlmOrVisitorCount(),
-    ]).whenComplete(() => CustomToast.dismiss());
+    ]).whenComplete(() => CustomToast.dismiss());*/
   }
 
   void initData() {

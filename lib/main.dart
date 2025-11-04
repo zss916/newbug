@@ -37,6 +37,11 @@ class MyApp extends StatelessWidget {
             theme: AppTheme.to.light,
             builder: (context, child) => child ?? const Material(),
           ),
+
+          ///解决滑动时高斯模糊闪动问题
+          scrollBehavior: const MaterialScrollBehavior().copyWith(
+            overscroll: false,
+          ),
           defaultTransition: Transition.cupertino,
           // home: MainView(),
           //home: DeleteAccountView(),

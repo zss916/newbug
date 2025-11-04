@@ -6,18 +6,17 @@ import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/route/index.dart';
 import 'package:newbug/generated/assets.dart';
 
-//   showWildPhoto();
-
 /// 显示弹窗
-void showWildPhoto() {
+void showBlockDialog({Function? onConfirm}) {
   Get.dialog(
-    WildPhotoWidget(),
-    routeSettings: RouteSettings(name: AppRoutes.wildDialog),
+    BlockWidget(onConfirm: onConfirm),
+    routeSettings: RouteSettings(name: AppRoutes.blockDialog),
   );
 }
 
-class WildPhotoWidget extends StatelessWidget {
-  const WildPhotoWidget({super.key});
+class BlockWidget extends StatelessWidget {
+  final Function? onConfirm;
+  const BlockWidget({super.key, required this.onConfirm});
 
   @override
   Widget build(BuildContext context) {
@@ -39,16 +38,14 @@ class WildPhotoWidget extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Image.asset(
-                      Assets.imgWildPhoto,
-                      width: 100.r,
-                      height: 100.r,
-                    ),
                     Container(
-                      margin: EdgeInsetsDirectional.only(top: 18.h),
-                      width: double.maxFinite,
+                      margin: EdgeInsetsDirectional.only(
+                        bottom: 12.h,
+                        top: 25.h,
+                      ),
+                      width: double.infinity,
                       child: Text(
-                        T.wildPhoto.tr,
+                        T.blockTitle.tr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: const Color(0xFF262626),
@@ -93,7 +90,7 @@ class WildPhotoWidget extends StatelessWidget {
                                 ),
                               ),
                               child: Text(
-                                T.later.tr,
+                                T.cancel.tr,
                                 style: TextStyle(
                                   color: Color(0xFFFF0092),
                                   fontSize: 16.sp,
@@ -108,6 +105,7 @@ class WildPhotoWidget extends StatelessWidget {
                           child: GestureDetector(
                             onTap: () {
                               Get.back();
+                              onConfirm?.call();
                             },
                             child: Container(
                               width: double.maxFinite,
@@ -120,7 +118,7 @@ class WildPhotoWidget extends StatelessWidget {
                                 ),
                               ),
                               child: Text(
-                                T.addPhoto.tr,
+                                T.confirm.tr,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16.sp,

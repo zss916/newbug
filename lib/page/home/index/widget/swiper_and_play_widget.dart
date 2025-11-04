@@ -2,6 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety_flutter3/flutter_swiper_null_safety_flutter3.dart';
+import 'package:get/get.dart';
+import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/widget/app_blur_widget.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/home/index/widget/lose_touch.dart';
@@ -9,7 +12,7 @@ import 'package:newbug/page/home/index/widget/no_action.dart';
 import 'package:newbug/page/home/index/widget/video/better_net_video.dart';
 
 class SwiperAndPlayWidget extends StatefulWidget {
-  final List<String> items;
+  final List<MediaListItem> items;
   const SwiperAndPlayWidget({super.key, required this.items});
 
   @override
@@ -38,26 +41,25 @@ class _SwiperAndPlayWidgetState extends State<SwiperAndPlayWidget> {
             return Swiper(
               controller: swiperController,
               itemBuilder: (BuildContext context, int index) {
+                MediaListItem item = widget.items[index];
                 return Container(
-                  key: ValueKey(widget.items[index]),
+                  key: ValueKey(item),
                   clipBehavior: Clip.hardEdge,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    image: widget.items[index].contains(".mp4")
+                    image: item.isVideo
                         ? null
                         : DecorationImage(
                             fit: BoxFit.fill,
-                            image: CachedNetworkImageProvider(
-                              widget.items[index],
-                            ),
+                            image: CachedNetworkImageProvider(item.imageUrl),
                           ),
                   ),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      if (widget.items[index].contains(".mp4"))
+                      if (item.isVideo)
                         BetterNetVideo(
-                          video: widget.items[index],
+                          video: widget.items[index].url ?? "",
                           ratio: ratio,
                           onVideoStatus: (isPlaying) {
                             if (isPlaying) {
@@ -84,53 +86,55 @@ class _SwiperAndPlayWidgetState extends State<SwiperAndPlayWidget> {
 
         buildStatus(-1),
 
-        PositionedDirectional(
-          top: 0,
-          start: 0,
-          end: 0,
-          child: Container(
-            margin: EdgeInsetsDirectional.only(
-              start: 30.w,
-              end: 30.w,
-              top: 20.h,
-            ),
-            width: double.maxFinite,
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                final len = widget.items.length;
-                final screenWidth = MediaQuery.of(context).size.width;
-                double itemWidth =
-                    (screenWidth - 28.w - 60.w - ((len - 1) * 4.w)) / len;
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(widget.items.length, (index) {
-                    return ValueListenableBuilder<int>(
-                      builder: (context, value, child) {
-                        return AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          width: itemWidth,
-                          height: 4.h,
-                          decoration: BoxDecoration(
-                            color: value == index
-                                ? Colors.white
-                                : Colors.black.withValues(alpha: 0.7),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                        );
-                      },
-                      valueListenable: selectedIndex,
-                    );
-                  }),
-                );
-              },
+        if (widget.items.length >= 2)
+          PositionedDirectional(
+            top: 0,
+            start: 0,
+            end: 0,
+            child: Container(
+              margin: EdgeInsetsDirectional.only(
+                start: 30.w,
+                end: 30.w,
+                top: 20.h,
+              ),
+              width: double.maxFinite,
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final len = widget.items.length;
+                  final screenWidth = MediaQuery.of(context).size.width;
+                  double itemWidth =
+                      (screenWidth - 28.w - 60.w - ((len - 1) * 4.w)) / len;
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(widget.items.length, (index) {
+                      return ValueListenableBuilder<int>(
+                        builder: (context, value, child) {
+                          return AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            width: itemWidth,
+                            height: 4.h,
+                            decoration: BoxDecoration(
+                              color: value == index
+                                  ? Colors.white
+                                  : Colors.black.withValues(alpha: 0.7),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          );
+                        },
+                        valueListenable: selectedIndex,
+                      );
+                    }),
+                  );
+                },
+              ),
             ),
           ),
-        ),
 
         ///isBlur
         AppBlurWidget(
-          isBlur: false,
-          sigma: 25,
+          isBlur: true,
+          sigma: 30,
+          stackFit: StackFit.expand,
           foreground: Container(
             alignment: Alignment.center,
             width: double.maxFinite,
@@ -141,7 +145,7 @@ class _SwiperAndPlayWidgetState extends State<SwiperAndPlayWidget> {
                 Image.asset(Assets.imgWildPhotoIc, width: 56, height: 56),
                 Divider(height: 18.h, color: Colors.transparent),
                 Text(
-                  'Wild Photo',
+                  T.wildPhoto.tr,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 22,

@@ -86,4 +86,6 @@ class HomeCardsMatchList {
   String toString() {
     return jsonEncode(this);
   }
+
+  bool get isOnline => online == 1;
 }

@@ -5,8 +5,8 @@ import 'package:newbug/core/route/index.dart';
 import 'package:newbug/page/dialog/love/love_widget.dart';
 
 /// 显示点赞弹窗
-void showLoveDialog() {
-  Get.dialog(
+Future<void> showLoveDialog() {
+  return Get.dialog(
     DialogLove(),
     barrierDismissible: false,
     routeSettings: RouteSettings(name: AppRoutes.loveDialog),
@@ -24,7 +24,7 @@ class _DialogLoveState extends State<DialogLove> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(Duration(milliseconds: 500), () {
       Get.back();
     });
   }

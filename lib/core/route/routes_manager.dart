@@ -39,7 +39,8 @@ class RouteManager {
 
   static toSubscribe() => Get.toNamed(AppRoutes.subscribe);
 
-  static toHomeDetail() => Get.toNamed(AppRoutes.homeDetail);
+  static toFlashChat({HomeCardsMatchList? value}) =>
+      Get.toNamed(AppRoutes.flashChat, arguments: {"match": value});
 
   static toChat() => Get.toNamed(AppRoutes.chat);
 

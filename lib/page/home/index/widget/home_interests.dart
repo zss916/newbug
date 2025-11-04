@@ -5,7 +5,8 @@ import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/page/home/index/widget/wrap_interest.dart';
 
 class HomeInterests extends StatelessWidget {
-  const HomeInterests({super.key});
+  final List<String> tags;
+  const HomeInterests({super.key, required this.tags});
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +28,7 @@ class HomeInterests extends StatelessWidget {
         Container(
           width: double.maxFinite,
           margin: EdgeInsetsDirectional.only(start: 14.w, end: 14.w, top: 8.h),
-          child: WrapInterest(
-            interests: [
-              "ddddddd",
-              "dsafdsaf",
-              "dsf",
-              "dsfdsafdsafsad",
-              "sdfdsa",
-            ],
-          ),
+          child: WrapInterest(interests: [...tags]),
         ),
       ],
     );

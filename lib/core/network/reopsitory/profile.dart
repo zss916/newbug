@@ -6,6 +6,7 @@ import 'package:newbug/core/network/model/tag_entity.dart';
 import 'package:newbug/core/network/model/user_entity.dart';
 import 'package:newbug/core/network/net/net.dart';
 import 'package:newbug/core/network/path/netPath.dart';
+import 'package:newbug/core/stores/app_stores.dart';
 
 abstract class ProfileAPI {
   ///用户信息
@@ -17,7 +18,7 @@ abstract class ProfileAPI {
           (dynamic jsonStr) => UserEntity.fromJson(jsonStr),
           result["data"],
         );
-        // AppStores.setUserInfo(value: value);
+        AppStores.setUserInfo(value: value);
         return value;
       } else {
         return null;

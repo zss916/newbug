@@ -19,7 +19,7 @@ class AppRoutes {
   static const String deleteAccount = '/deleteAccount';
   static const String privateAlbum = '/privateAlbum';
   static const String subscribe = '/subscribe';
-  static const String homeDetail = '/homeDetail';
+  static const String flashChat = '/flashChat';
   static const String chat = '/chat';
   static const String selectedAlbum = '/selectedAlbum';
   static const String previewView = '/previewView';
@@ -61,7 +61,7 @@ class AppRoutes {
     GetPage(name: deleteAccount, page: () => DeleteAccountView()),
     GetPage(name: privateAlbum, page: () => AlbumView()),
     GetPage(name: subscribe, page: () => SubscribeView()),
-    GetPage(name: homeDetail, page: () => HomeDetailView()),
+    GetPage(name: flashChat, page: () => FlashChatView()),
     GetPage(name: chat, page: () => ChatView()),
     GetPage(name: selectedAlbum, page: () => SelectedAlbumView()),
     GetPage(name: previewView, page: () => PreviewView()),
@@ -89,4 +89,12 @@ class AppRoutes {
   static const String privateAlbumSheet = 'privateAlbumSheet';
 
   static const String chatMoreSheet = 'chatMoreSheet';
+
+  static const String notificationDialog = 'notificationDialog';
+
+  static const String wildDialog = 'wildDialog';
+
+  static const String blockDialog = 'blockDialog';
+
+  static const String reportSheet = 'reportSheet';
 }

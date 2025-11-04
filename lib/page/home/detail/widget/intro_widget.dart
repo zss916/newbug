@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IntroWidget extends StatelessWidget {
-  const IntroWidget({super.key});
+  final String sign;
+  const IntroWidget({super.key, required this.sign});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class IntroWidget extends StatelessWidget {
       ),
       width: double.maxFinite,
       child: Text(
-        'so if you’ve got a favorite bookstore, a weird hobby, or just want to swap stories over a virtual coffee, hit me up. Let’s make this more than just a scroll, yeah?​',
+        sign,
         style: TextStyle(
           color: const Color(0xFF616161),
           fontSize: 16,

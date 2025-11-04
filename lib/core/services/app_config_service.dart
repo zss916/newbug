@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/network/model/config_entity.dart';
 import 'package:newbug/core/network/reopsitory/system.dart';
+import 'package:newbug/core/stores/app_stores.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AppConfigService extends GetxService {
@@ -12,6 +13,9 @@ class AppConfigService extends GetxService {
   String get terms => config?.terms ?? "";
 
   String get privacy => config?.privacy ?? "";
+
+  List<ConfigReportList> get reportList =>
+      config?.reportList ?? <ConfigReportList>[];
 
   ///初始化
   Future<AppConfigService> init() async {
@@ -27,8 +31,15 @@ class AppConfigService extends GetxService {
   ///获取配置
   Future<ConfigEntity?> getConfig() async {
     ConfigEntity? value = await SystemAPI.config();
+    if (value != null) {
+      AppStores.setAppConfig(value: value);
+    }
     config = value;
     return value;
+  }
+
+  void getReportList() {
+    ConfigEntity data = AppStores.getAppConfig();
   }
 
   void toTerms() => openWeb(url: config?.html?.terms ?? '');

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:newbug/core/network/model/auth_entity.dart';
+import 'package:newbug/core/network/model/config_entity.dart';
 import 'package:newbug/core/network/model/tag_entity.dart';
 import 'package:newbug/core/network/model/user_entity.dart';
 import 'package:newbug/core/stores/stores_service.dart';
@@ -13,6 +14,19 @@ class AppStores {
   static const String finishGuideKey = "cvFinishGuideKey";
   static const String tagsListKey = "cvTagsListKey";
   static const String authKey = "cvAuthKey";
+  static const String appConfigKey = "cvAppConfigKey";
+
+  ///设置config
+  static void setAppConfig({required ConfigEntity value}) {
+    StoresService.to.setString(appConfigKey, jsonEncode(value.toJson()));
+  }
+
+  ///获取config
+  static ConfigEntity getAppConfig() {
+    return ConfigEntity.fromJson(
+      jsonDecode(StoresService.to.getString(appConfigKey)),
+    );
+  }
 
   /// 设置adjustID
   static void setAdjustID({required String adjustID}) {
@@ -27,13 +41,20 @@ class AppStores {
   ///设置 user info
   static void setUserInfo({UserEntity? value}) {
     if (value != null) {
-      StoresService.to.setString(userKey, jsonEncode(value));
+      StoresService.to.setString(userKey, jsonEncode(value.toJson()));
     }
   }
 
   ///获取 user info
-  static UserEntity getUserInfo() {
-    return UserEntity.fromJson(jsonDecode(StoresService.to.getString(userKey)));
+  static UserEntity? getUserInfo() {
+    String value = StoresService.to.getString(userKey);
+    if (value.isNotEmpty) {
+      return UserEntity.fromJson(
+        jsonDecode(StoresService.to.getString(userKey)),
+      );
+    } else {
+      return null;
+    }
   }
 
   ///设置 auth

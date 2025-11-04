@@ -5,8 +5,8 @@ import 'package:newbug/core/route/index.dart';
 import 'package:newbug/page/dialog/next/next_widget.dart';
 
 /// 下一页
-void showNextDialog() {
-  Get.dialog(
+Future<void> showNextDialog() {
+  return Get.dialog(
     DialogNext(),
     barrierDismissible: false,
     routeSettings: RouteSettings(name: AppRoutes.nextDialog),
@@ -24,7 +24,7 @@ class _DialogNextState extends State<DialogNext> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(Duration(milliseconds: 500), () {
       Get.back();
     });
   }

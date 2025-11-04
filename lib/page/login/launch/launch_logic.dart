@@ -10,6 +10,9 @@ class LaunchLogic extends GetxController {
         RouteManager.offAllToLogin();
       } else {
         loginAction();
+        if (AppStores.getUserInfo() == null) {
+          await ProfileAPI.getUserInfo();
+        }
         RouteManager.toMain();
       }
     } else {

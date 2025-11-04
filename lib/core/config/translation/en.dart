@@ -419,6 +419,10 @@ class T {
 
   static const String block = "block";
 
+  static const String blockFail = "blockFail";
+
+  static const String blockSuccessful = "blockSuccessful";
+
   static const String delete = "delete";
 
   static const String selectAlbumTip = "selectAlbumTip";
@@ -458,6 +462,12 @@ class T {
   static const String age = "age";
 
   static const String visitorsTotal = "visitorsTotalTr";
+
+  static const String blockTitle = "blockTitle";
+
+  static const String blockContent = "blockContent";
+
+  static const String reportContent = "reportContent";
 }
 
 const en = {
@@ -730,4 +740,10 @@ const en = {
   "ageTip": "Accurate age = more peers to meet.",
   "age": "Age %s",
   "online": "Online",
+  "blockFail": "Blocking Failed",
+  "blockSuccessful": "Blocked Successfully",
+  "blockTitle": "Are you sure you want to block this user?",
+  "blockContent":
+      "Once blocked, you won't be able to view their information or interact with them.",
+  "reportContent": "Does this person bother you?",
 };

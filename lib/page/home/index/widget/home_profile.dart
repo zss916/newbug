@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/network/model/home_cards_entity.dart';
 import 'package:newbug/generated/assets.dart';
 
 class HomeProfile extends StatelessWidget {
-  const HomeProfile({super.key});
+  final HomeCardsMatchList item;
+  const HomeProfile({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,7 @@ class HomeProfile extends StatelessWidget {
                     Container(
                       constraints: BoxConstraints(maxWidth: maxWidth),
                       child: Text(
-                        'Amanda,29',
+                        '${item.nickName ?? ""},${item.age}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -35,27 +39,27 @@ class HomeProfile extends StatelessWidget {
                       ),
                     ),
                     VerticalDivider(width: 12.w, color: Colors.transparent),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: ShapeDecoration(
-                        color: const Color(0xFF262626),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(999),
+                    if (item.isOnline)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: ShapeDecoration(
+                          color: const Color(0xFF262626),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                        ),
+                        child: Text(
+                          T.online.tr,
+                          style: TextStyle(
+                            color: const Color(0xFF99FF66),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
-                      child: Text(
-                        'Online',
-                        style: TextStyle(
-                          color: const Color(0xFF99FF66),
-                          fontSize: 13,
-                          fontFamily: 'Golos Text',
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
                     Spacer(),
                   ],
                 ),
@@ -67,7 +71,7 @@ class HomeProfile extends StatelessWidget {
             children: [
               Image.asset(Assets.imgLocation, width: 20, height: 20),
               Text(
-                'New York',
+                '${item.location}',
                 style: TextStyle(
                   color: const Color(0xFF7D60FF),
                   fontSize: 17,

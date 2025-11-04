@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:newbug/core/network/model/tag_entity.dart';
-import 'package:newbug/page/login/interest/widget/interest_tag.dart';
+import 'package:newbug/page/home/index/widget/interest_value_tag.dart';
 
 class WrapInterest extends StatelessWidget {
   final List<String> interests;
@@ -13,8 +12,7 @@ class WrapInterest extends StatelessWidget {
       spacing: 8.0,
       runSpacing: 8.0,
       children: List.generate(interests.length, (i) {
-        //return InterestTag(isSelected: true, title: interests[i]);
-        return InterestTag(tag: TagEntity());
+        return InterestValueTag(isSelected: true, title: interests[i]);
       }),
     );
   }
