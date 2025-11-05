@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/page/like/like_logic.dart';
 import 'package:newbug/page/like/widget/title_tab.dart';
 import 'package:newbug/page/like/widget/wlm_list_view.dart';
@@ -97,7 +98,7 @@ class _LikeBodyState extends State<LikeBody> {
       _ when viewState == 0 => YouLikedView(logic: logic),
       _ when viewState == 1 => FollowEmptyView(
         onTap: () {
-          //todo
+          EventService.to.post(HomeTab());
         },
         bottomPadding: 100.h,
       ),

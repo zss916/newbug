@@ -1,6 +1,7 @@
 import 'dart:async' show StreamSubscription;
 
 import 'package:flutter/material.dart';
+import 'package:newbug/core/config/action_type.dart';
 import 'package:newbug/core/network/model/home_cards_entity.dart';
 import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/stores/event.dart';
@@ -117,7 +118,7 @@ class _PageviewWidgetState extends State<PageViewWidget> {
       showNextDialog().whenComplete(() {
         controller.jumpToPage(selectIndex);
       });
-      widget.logic.chooseUser(type: 1);
+      widget.logic.chooseUser(type: ActionType.pass);
     } else {
       EventService.to.post(HomeMenuEvent(isShow: false));
       widget.logic.toUnMatchView();
@@ -130,7 +131,7 @@ class _PageviewWidgetState extends State<PageViewWidget> {
       showLoveDialog().whenComplete(() {
         controller.jumpToPage(selectIndex);
       });
-      widget.logic.chooseUser(type: 2);
+      widget.logic.chooseUser(type: ActionType.like);
     } else {
       EventService.to.post(HomeMenuEvent(isShow: false));
       widget.logic.toUnMatchView();

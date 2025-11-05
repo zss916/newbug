@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:newbug/core/helper/custom_annotation.dart';
 import 'package:newbug/core/mixin/delayed_init_mixin.dart';
+import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/home/index/home_view.dart';
 import 'package:newbug/page/home/index/widget/home_menu.dart';
@@ -20,6 +24,24 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> with DelayedInitMixin {
   int currentIndex = 0;
+  StreamSubscription<HomeTab>? subs;
+
+  @override
+  void initState() {
+    super.initState();
+    subs = EventService.to.listen<HomeTab>((event) {
+      setState(() {
+        currentIndex = 0;
+        safeFind<MainLogic>()?.tabIndex = currentIndex;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    subs?.cancel();
+    super.dispose();
+  }
 
   @override
   void afterFirstLayout() {
@@ -32,10 +54,9 @@ class _MainViewState extends State<MainView> with DelayedInitMixin {
     return GetBuilder<MainLogic>(
       init: MainLogic(),
       builder: (logic) {
-        return SizedBox(
-          width: Get.width,
-          height: Get.height,
+        return SizedBox.expand(
           child: Stack(
+            fit: StackFit.expand,
             alignment: Alignment.topCenter,
             children: [
               buildBody(logic),

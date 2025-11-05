@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:newbug/core/config/action_type.dart';
+import 'package:newbug/core/config/form_type.dart';
 import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/network/model/people_entity.dart';
 import 'package:newbug/core/widget/generated/assets.dart';
 import 'package:newbug/page/like/like_logic.dart';
 import 'package:newbug/page/like/widget/like_item.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class WlmListView extends StatelessWidget {
   final LikeLogic logic;
@@ -12,10 +15,16 @@ class WlmListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.maxFinite,
-      height: double.maxFinite,
+    return SmartRefresher(
+      enablePullUp: true,
+      enablePullDown: true,
+      physics: ClampingScrollPhysics(),
+      controller: logic.wlmRefreshCtrl,
+      onRefresh: () => logic.refreshData(),
+      onLoading: () => logic.loadMoreData(),
       child: ListView.separated(
+        padding: EdgeInsetsDirectional.zero,
+        physics: ClampingScrollPhysics(),
         itemCount: logic.wlmList.length,
         itemBuilder: (context, index) {
           PeopleEntity item = logic.wlmList[index];
@@ -59,7 +68,13 @@ class WlmListView extends StatelessWidget {
                     children: [
                       Expanded(
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            logic.chooseUser(
+                              from: FromType.likeWhoLikesMe,
+                              type: ActionType.pass,
+                              userId: item.userId ?? 0,
+                            );
+                          },
                           child: Container(
                             width: double.infinity,
                             height: 44,
@@ -86,7 +101,13 @@ class WlmListView extends StatelessWidget {
                       VerticalDivider(width: 8.w, color: Colors.transparent),
                       Expanded(
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            logic.chooseUser(
+                              from: FromType.youLike,
+                              type: ActionType.like,
+                              userId: item.userId ?? 0,
+                            );
+                          },
                           child: Container(
                             width: double.infinity,
                             height: 44,

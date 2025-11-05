@@ -7,6 +7,7 @@ import 'package:newbug/core/network/model/people_entity.dart';
 import 'package:newbug/core/widget/generated/assets.dart';
 import 'package:newbug/page/like/like_logic.dart';
 import 'package:newbug/page/like/widget/liked_item.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class YouLikedView extends StatelessWidget {
   final LikeLogic logic;
@@ -14,9 +15,13 @@ class YouLikedView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.maxFinite,
-      height: double.maxFinite,
+    return SmartRefresher(
+      enablePullUp: true,
+      enablePullDown: true,
+      physics: ClampingScrollPhysics(),
+      controller: logic.youLikeRefreshCtrl,
+      onRefresh: () => logic.refreshList(),
+      onLoading: () => logic.loadMoreList(),
       child: ListView.separated(
         itemCount: logic.youLikedList.length,
         itemBuilder: (context, index) {
@@ -53,7 +58,7 @@ class YouLikedView extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    ///todo
+                    //todo
                   },
                   child: Container(
                     margin: EdgeInsetsDirectional.symmetric(
