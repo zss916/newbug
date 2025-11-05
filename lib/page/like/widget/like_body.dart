@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/page/like/like_logic.dart';
 import 'package:newbug/page/like/widget/title_tab.dart';
@@ -45,6 +46,7 @@ class _LikeBodyState extends State<LikeBody> {
           ),
           width: double.maxFinite,
           child: TitleTab(
+            logic: widget.logic,
             onChange: (index) {
               pageCtrl.jumpToPage(index);
             },
@@ -75,17 +77,16 @@ class _LikeBodyState extends State<LikeBody> {
       _ when viewState == 0 => WlmListView(logic: logic),
       _ when viewState == 1 => MatchView(
         onTap: () {
-          //todo
+          EventService.to.post(HomeTab());
         },
         onImprove: () {
-          //todo
+          RouteManager.toEditProfile();
         },
         bottomPadding: 100.h,
       ),
       _ when viewState == 2 => WrongView(
         onTap: () {
-          //todo
-          logic.loadWlm();
+          logic.refreshData();
         },
         bottomPadding: 100.h,
       ),

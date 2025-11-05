@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/helper/custom_annotation.dart';
 import 'package:newbug/core/mixin/delayed_init_mixin.dart';
@@ -115,12 +116,30 @@ class _MainViewState extends State<MainView> with DelayedInitMixin {
                   height: 35,
                   alignment: AlignmentDirectional.center,
                   child: UnconstrainedBox(
-                    child: Image.asset(
-                      currentIndex == 1
-                          ? Assets.imgLikeActiveIc
-                          : Assets.imgLikeIc,
-                      width: 27,
-                      height: 27,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Image.asset(
+                          currentIndex == 1
+                              ? Assets.imgLikeActiveIc
+                              : Assets.imgLikeIc,
+                          width: 27,
+                          height: 27,
+                        ),
+                        if (logic.showReadMark)
+                          PositionedDirectional(
+                            top: 1.r,
+                            end: 1.r,
+                            child: Container(
+                              width: 10.r,
+                              height: 10.r,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
                 ),

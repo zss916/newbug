@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/network/model/people_entity.dart';
+import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/widget/generated/assets.dart';
 import 'package:newbug/page/like/like_logic.dart';
 import 'package:newbug/page/like/widget/liked_item.dart';
@@ -58,7 +59,7 @@ class YouLikedView extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    //todo
+                    RouteManager.toChat();
                   },
                   child: Container(
                     margin: EdgeInsetsDirectional.symmetric(

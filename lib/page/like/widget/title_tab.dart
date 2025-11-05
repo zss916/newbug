@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/page/like/like_logic.dart';
 
 class TitleTab extends StatefulWidget {
   final Function(int index) onChange;
-  const TitleTab({super.key, required this.onChange});
+  final LikeLogic logic;
+  const TitleTab({super.key, required this.onChange, required this.logic});
 
   @override
   State<TitleTab> createState() => _TitleTabState();
@@ -13,7 +15,6 @@ class TitleTab extends StatefulWidget {
 
 class _TitleTabState extends State<TitleTab> {
   int currentIndex = 0;
-  bool isVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -34,18 +35,19 @@ class _TitleTabState extends State<TitleTab> {
                 isSelected: currentIndex == 0,
                 title: T.whoLikesYou.tr,
               ),
-              PositionedDirectional(
-                top: 1.r,
-                end: 1.r,
-                child: Container(
-                  width: 10.r,
-                  height: 10.r,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: (!isVisible) ? Colors.red : Colors.transparent,
+              if (widget.logic.showReadMark)
+                PositionedDirectional(
+                  top: 1.r,
+                  end: 1.r,
+                  child: Container(
+                    width: 10.r,
+                    height: 10.r,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.red,
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
         ),
@@ -64,19 +66,12 @@ class _TitleTabState extends State<TitleTab> {
             alignment: Alignment.center,
             children: [
               buildTabItem(isSelected: currentIndex == 1, title: T.youLiked.tr),
-              if (isVisible)
-                PositionedDirectional(
-                  top: 1.r,
-                  end: 1.r,
-                  child: Container(
-                    width: 10.r,
-                    height: 10.r,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.red,
-                    ),
-                  ),
-                ),
+
+              PositionedDirectional(
+                top: 1.r,
+                end: 1.r,
+                child: SizedBox(width: 10.r, height: 10.r),
+              ),
             ],
           ),
         ),

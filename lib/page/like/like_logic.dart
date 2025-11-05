@@ -1,10 +1,14 @@
 import 'package:get/get.dart';
+import 'package:newbug/core/helper/custom_annotation.dart';
 import 'package:newbug/core/network/model/people_entity.dart';
 import 'package:newbug/core/network/model/right.dart';
+import 'package:newbug/core/network/model/unread_data_entity.dart';
+import 'package:newbug/core/network/reopsitory/chat.dart';
 import 'package:newbug/core/network/reopsitory/home.dart';
 import 'package:newbug/core/network/reopsitory/likes.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/page/like/like_service.dart';
+import 'package:newbug/page/main/main_logic.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class LikeLogic extends GetxController implements ILoadService {
@@ -36,11 +40,15 @@ class LikeLogic extends GetxController implements ILoadService {
     initialLoadStatus: LoadStatus.canLoading,
   );
 
+  ///是否显示红点
+  bool showReadMark = false;
+
   @override
   void onReady() {
     super.onReady();
     refreshData();
     refreshList();
+    loadWlmOrVisitorCount();
   }
 
   @override
@@ -50,6 +58,22 @@ class LikeLogic extends GetxController implements ILoadService {
     super.onClose();
   }
 
+  ///标记已读(清除like 的小红点)
+  Future<void> toMarkRead() async {
+    bool isSuccessful = await LikesAPI.toRead(from: 1001);
+    showReadMark = isSuccessful;
+    update();
+    safeFind<MainLogic>()?.showReadMark = isSuccessful;
+    safeFind<MainLogic>()?.update();
+  }
+
+  ///获取红点
+  Future<void> loadWlmOrVisitorCount() async {
+    UnreadDataEntity? value = await ChatAPI.queryWlmOrVisitorCount();
+    showReadMark = (value?.wlmNewNum ?? 0) > 0;
+    update();
+  }
+
   ///加载数据
   Future<void> loadWlm({int page = 1}) async {
     if (page == 1) {
@@ -57,8 +81,8 @@ class LikeLogic extends GetxController implements ILoadService {
     }
     final (bool isSucceeful, List<PeopleEntity> value) =
         await LikesAPI.getLikesList(tag: 1, lastId: wlmLastId);
-
     if (isSucceeful) {
+      toMarkRead();
       if (page == 1) {
         wlmList.clear();
         wlmList.addAll(value);
