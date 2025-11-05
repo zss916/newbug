@@ -55,7 +55,7 @@ class AppRoutes {
       ),
     ),
     GetPage(name: visitor, page: () => VisitorView()),
-    GetPage(name: unmatch, page: () => UnMatchView()),
+    //GetPage(name: unmatch, page: () => UnMatchView()),
     GetPage(name: notification, page: () => NotificationView()),
     GetPage(name: editProfile, page: () => EditView()),
     GetPage(name: deleteAccount, page: () => DeleteAccountView()),

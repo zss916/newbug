@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/network/model/home_cards_entity.dart';
-import 'package:newbug/generated/assets.dart';
+import 'package:newbug/core/widget/location_widget.dart';
+import 'package:newbug/page/location/location_utils.dart';
 
 class HomeProfile extends StatelessWidget {
   final HomeCardsMatchList item;
@@ -67,19 +68,10 @@ class HomeProfile extends StatelessWidget {
             },
           ),
 
-          Row(
-            children: [
-              Image.asset(Assets.imgLocation, width: 20, height: 20),
-              Text(
-                '${item.location}',
-                style: TextStyle(
-                  color: const Color(0xFF7D60FF),
-                  fontSize: 17,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
+          if (LocationUtils.isShowLocationSync(item.location ?? 0))
+            LocationWidget(
+              address: LocationUtils.getCacheLocationInfo()?.address ?? "",
+            ),
         ],
       ),
     );

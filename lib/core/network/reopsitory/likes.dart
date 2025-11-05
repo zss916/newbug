@@ -4,12 +4,15 @@ import 'package:newbug/core/network/net/net.dart';
 import 'package:newbug/core/network/path/netPath.dart';
 
 abstract class LikesAPI {
-  /// 获取likes列表
-  static Future<(bool, List<PeopleEntity>)> getLikesList() async {
+  /// 获取likes列表(wlm tag = 1, you liked tag = 3)
+  static Future<(bool, List<PeopleEntity>)> getLikesList({
+    required int tag,
+    int? lastId,
+  }) async {
     try {
       final result = await Net.instance.post(
         ApiPath.likeList,
-        queryParameters: {"tag": 3},
+        queryParameters: {"tag": tag, "last_id": lastId},
       );
       if (result["code"] == 0) {
         List<PeopleEntity> value = await compute(

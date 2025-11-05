@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LikeLeft extends StatelessWidget {
-  const LikeLeft({super.key});
+  final String timeOut;
+  const LikeLeft({super.key, required this.timeOut});
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +30,14 @@ class LikeLeft extends StatelessWidget {
               ),
             ),
             TextSpan(
-              text: '7',
+              text: timeOut,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
               ),
             ),
-            TextSpan(
+            /* TextSpan(
               text: ' ',
               style: TextStyle(
                 color: const Color(0xFFD9D9D9),
@@ -51,7 +52,7 @@ class LikeLeft extends StatelessWidget {
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w500,
               ),
-            ),
+            ),*/
             TextSpan(
               text: ' \n',
               style: TextStyle(

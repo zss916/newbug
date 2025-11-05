@@ -1,4 +1,5 @@
 import 'package:newbug/core/network/model/google_play_billing_entity.dart';
+import 'package:newbug/core/network/model/location_entity.dart';
 import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/network/model/right.dart';
 import 'package:newbug/core/network/model/user_entity.dart';
@@ -173,6 +174,12 @@ UserEntity $UserEntityFromJson(Map<String, dynamic> json) {
   if (beardInfo != null) {
     userEntity.beardInfo = beardInfo;
   }
+  final LocationEntity? locationInfo = jsonConvert.convert<LocationEntity>(
+    json['locationInfo'],
+  );
+  if (locationInfo != null) {
+    userEntity.locationInfo = locationInfo;
+  }
   return userEntity;
 }
 
@@ -216,6 +223,7 @@ Map<String, dynamic> $UserEntityToJson(UserEntity entity) {
   data['calling_duration'] = entity.callingDuration;
   data['accumulate_balance'] = entity.accumulateBalance;
   data['beard_info'] = entity.beardInfo?.toJson();
+  data['locationInfo'] = entity.locationInfo?.toJson();
   return data;
 }
 
@@ -259,6 +267,7 @@ extension UserEntityExtension on UserEntity {
     int? callingDuration,
     int? accumulateBalance,
     BeardInfoType? beardInfo,
+    LocationEntity? locationInfo,
   }) {
     return UserEntity()
       ..userId = userId ?? this.userId
@@ -298,7 +307,8 @@ extension UserEntityExtension on UserEntity {
       ..media = media ?? this.media
       ..callingDuration = callingDuration ?? this.callingDuration
       ..accumulateBalance = accumulateBalance ?? this.accumulateBalance
-      ..beardInfo = beardInfo ?? this.beardInfo;
+      ..beardInfo = beardInfo ?? this.beardInfo
+      ..locationInfo = locationInfo ?? this.locationInfo;
   }
 }
 

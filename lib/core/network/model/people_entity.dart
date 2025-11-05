@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/generated/json/base/json_field.dart';
 import 'package:newbug/generated/json/people_entity.g.dart';
 
@@ -11,7 +12,7 @@ class PeopleEntity {
   int? id;
   int? location;
   @JSONField(name: 'media_list')
-  List<PeopleMediaList>? mediaList;
+  List<MediaListItem>? mediaList;
   int? nearby;
   @JSONField(name: 'nick_name')
   String? nickName;
@@ -45,26 +46,7 @@ class PeopleEntity {
 
   ///是否在线
   bool get isOnline => online == 1;
-}
 
-@JsonSerializable()
-class PeopleMediaList {
-  int? duration;
-  int? height;
-  int? size;
-  int? type;
-  String? url;
-  int? width;
-
-  PeopleMediaList();
-
-  factory PeopleMediaList.fromJson(Map<String, dynamic> json) =>
-      $PeopleMediaListFromJson(json);
-
-  Map<String, dynamic> toJson() => $PeopleMediaListToJson(this);
-
-  @override
-  String toString() {
-    return jsonEncode(this);
-  }
+  ///是否上新
+  bool get isNew => read == 0;
 }

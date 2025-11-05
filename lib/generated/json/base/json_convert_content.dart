@@ -369,14 +369,6 @@ class JsonConvert {
               .toList()
           as M;
     }
-    if (<PeopleMediaList>[] is M) {
-      return data
-              .map<PeopleMediaList>(
-                (Map<String, dynamic> e) => PeopleMediaList.fromJson(e),
-              )
-              .toList()
-          as M;
-    }
     if (<PrivateMsgStatusEntity>[] is M) {
       return data
               .map<PrivateMsgStatusEntity>(
@@ -497,7 +489,6 @@ class JsonConvertClassCollection {
     (PayRights).toString(): PayRights.fromJson,
     (PayShops).toString(): PayShops.fromJson,
     (PeopleEntity).toString(): PeopleEntity.fromJson,
-    (PeopleMediaList).toString(): PeopleMediaList.fromJson,
     (PrivateMsgStatusEntity).toString(): PrivateMsgStatusEntity.fromJson,
     (Right).toString(): Right.fromJson,
     (TagEntity).toString(): TagEntity.fromJson,

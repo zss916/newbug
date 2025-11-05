@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:newbug/core/config/global.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/widget/index.dart';
+import 'package:newbug/page/like/like_logic.dart';
 import 'package:newbug/page/like/widget/like_body.dart';
 
 class LikeView extends StatelessWidget {
@@ -27,7 +28,12 @@ class LikeView extends StatelessWidget {
         centerTitle: false,
       ),
       backgroundColor: Color(0xFFFAFAFA),
-      body: LikeBody(),
+      body: GetBuilder<LikeLogic>(
+        init: LikeLogic(),
+        builder: (logic) {
+          return LikeBody(logic: logic);
+        },
+      ),
     );
   }
 }

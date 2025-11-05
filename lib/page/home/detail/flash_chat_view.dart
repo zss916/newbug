@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/network/model/home_cards_entity.dart';
-import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/widget/generated/assets.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/page/home/detail/flash_chat_logic.dart';
@@ -31,7 +30,7 @@ class FlashChatView extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      buildCard(cards: logic.value?.mediaList ?? []),
+                      buildCard(value: logic.value ?? HomeCardsMatchList()),
                       HomeProfile(item: logic.value ?? HomeCardsMatchList()),
                       buildDetailItem(
                         state: 1,
@@ -53,7 +52,7 @@ class FlashChatView extends StatelessWidget {
                 width: double.maxFinite,
                 child: InputSend(
                   onSend: (value) {
-                    ///
+                    logic.toSayHi(msg: value);
                   },
                 ),
               ),
@@ -70,11 +69,16 @@ class FlashChatView extends StatelessWidget {
     );
   }*/
 
-  Widget buildCard({required List<MediaListItem> cards}) {
+  Widget buildCard({required HomeCardsMatchList value}) {
     return Stack(
       alignment: AlignmentDirectional.center,
       children: [
-        HomeCard(child: SwiperAndPlayWidget(items: [...cards])),
+        HomeCard(
+          child: SwiperAndPlayWidget(
+            data: value,
+            items: [...(value.mediaList ?? [])],
+          ),
+        ),
         PositionedDirectional(
           bottom: 10,
           end: 10,

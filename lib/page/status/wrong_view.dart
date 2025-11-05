@@ -54,7 +54,9 @@ class WrongView extends StatelessWidget {
         ),
 
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            onTap?.call();
+          },
           child: Container(
             margin: EdgeInsetsDirectional.only(start: 32.w, end: 32.w),
             width: double.maxFinite,

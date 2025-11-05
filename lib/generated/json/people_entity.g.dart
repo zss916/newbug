@@ -1,3 +1,4 @@
+import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/network/model/people_entity.dart';
 import 'package:newbug/generated/json/base/json_convert_content.dart';
 
@@ -15,12 +16,9 @@ PeopleEntity $PeopleEntityFromJson(Map<String, dynamic> json) {
   if (location != null) {
     peopleEntity.location = location;
   }
-  final List<PeopleMediaList>? mediaList =
-      (json['media_list'] as List<dynamic>?)
-          ?.map(
-            (e) => jsonConvert.convert<PeopleMediaList>(e) as PeopleMediaList,
-          )
-          .toList();
+  final List<MediaListItem>? mediaList = (json['media_list'] as List<dynamic>?)
+      ?.map((e) => jsonConvert.convert<MediaListItem>(e) as MediaListItem)
+      .toList();
   if (mediaList != null) {
     peopleEntity.mediaList = mediaList;
   }
@@ -81,7 +79,7 @@ extension PeopleEntityExtension on PeopleEntity {
     int? age,
     int? id,
     int? location,
-    List<PeopleMediaList>? mediaList,
+    List<MediaListItem>? mediaList,
     int? nearby,
     String? nickName,
     int? online,
@@ -104,64 +102,5 @@ extension PeopleEntityExtension on PeopleEntity {
       ..userId = userId ?? this.userId
       ..viewCount = viewCount ?? this.viewCount
       ..headimg = headimg ?? this.headimg;
-  }
-}
-
-PeopleMediaList $PeopleMediaListFromJson(Map<String, dynamic> json) {
-  final PeopleMediaList peopleMediaList = PeopleMediaList();
-  final int? duration = jsonConvert.convert<int>(json['duration']);
-  if (duration != null) {
-    peopleMediaList.duration = duration;
-  }
-  final int? height = jsonConvert.convert<int>(json['height']);
-  if (height != null) {
-    peopleMediaList.height = height;
-  }
-  final int? size = jsonConvert.convert<int>(json['size']);
-  if (size != null) {
-    peopleMediaList.size = size;
-  }
-  final int? type = jsonConvert.convert<int>(json['type']);
-  if (type != null) {
-    peopleMediaList.type = type;
-  }
-  final String? url = jsonConvert.convert<String>(json['url']);
-  if (url != null) {
-    peopleMediaList.url = url;
-  }
-  final int? width = jsonConvert.convert<int>(json['width']);
-  if (width != null) {
-    peopleMediaList.width = width;
-  }
-  return peopleMediaList;
-}
-
-Map<String, dynamic> $PeopleMediaListToJson(PeopleMediaList entity) {
-  final Map<String, dynamic> data = <String, dynamic>{};
-  data['duration'] = entity.duration;
-  data['height'] = entity.height;
-  data['size'] = entity.size;
-  data['type'] = entity.type;
-  data['url'] = entity.url;
-  data['width'] = entity.width;
-  return data;
-}
-
-extension PeopleMediaListExtension on PeopleMediaList {
-  PeopleMediaList copyWith({
-    int? duration,
-    int? height,
-    int? size,
-    int? type,
-    String? url,
-    int? width,
-  }) {
-    return PeopleMediaList()
-      ..duration = duration ?? this.duration
-      ..height = height ?? this.height
-      ..size = size ?? this.size
-      ..type = type ?? this.type
-      ..url = url ?? this.url
-      ..width = width ?? this.width;
   }
 }

@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:newbug/core/network/model/people_entity.dart';
 
 class LikeAvatar extends StatelessWidget {
-  const LikeAvatar({super.key});
+  final PeopleEntity item;
+  const LikeAvatar({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -11,9 +14,7 @@ class LikeAvatar extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage(
-                "https://img1.baidu.com/it/u=2407322510,2912386112&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=670",
-              ),
+              image: CachedNetworkImageProvider(item.headimg ?? ""),
               fit: BoxFit.cover,
             ),
             border: Border.all(width: 1, color: Colors.black),
@@ -22,19 +23,20 @@ class LikeAvatar extends StatelessWidget {
           width: 35,
           height: 35,
         ),
-        PositionedDirectional(
-          top: 0,
-          end: 0,
-          child: Container(
-            width: 10,
-            height: 10,
-            decoration: BoxDecoration(
-              color: Color(0xFF18CD00),
-              border: Border.all(width: 1, color: Colors.black),
-              borderRadius: BorderRadius.circular(50),
+        if (item.isOnline)
+          PositionedDirectional(
+            top: 0,
+            end: 0,
+            child: Container(
+              width: 10,
+              height: 10,
+              decoration: BoxDecoration(
+                color: Color(0xFF18CD00),
+                border: Border.all(width: 1, color: Colors.black),
+                borderRadius: BorderRadius.circular(50),
+              ),
             ),
           ),
-        ),
       ],
     );
   }

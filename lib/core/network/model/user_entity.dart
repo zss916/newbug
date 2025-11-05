@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:newbug/core/helper/custom_annotation.dart';
 import 'package:newbug/core/network/model/google_play_billing_entity.dart';
+import 'package:newbug/core/network/model/location_entity.dart';
 import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/network/model/right.dart';
 import 'package:newbug/generated/json/base/json_field.dart';
@@ -69,6 +71,9 @@ class UserEntity {
   @JSONField(name: 'beard_info')
   BeardInfoType? beardInfo;
 
+  @CustomAnnotation(description: "local")
+  LocationEntity? locationInfo;
+
   UserEntity();
 
   factory UserEntity.fromJson(Map<String, dynamic> json) =>
@@ -88,6 +93,9 @@ class UserEntity {
   DateTime? get brithValue => (brithday ?? 0) < 0
       ? null
       : DateTime.fromMillisecondsSinceEpoch((brithday ?? 0) * 1000);
+
+  ///是否是vip
+  bool get isVip => right?.vip == 1;
 }
 
 @JsonSerializable()

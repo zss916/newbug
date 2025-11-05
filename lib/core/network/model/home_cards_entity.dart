@@ -88,4 +88,6 @@ class HomeCardsMatchList {
   }
 
   bool get isOnline => online == 1;
+
+  int get cardFlag => type == 0 ? 0 : 1;
 }

@@ -62,6 +62,19 @@ class _InputSendState extends State<InputSend> {
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.zero,
               ),
+              onSubmitted: (value) {
+                String content = textEditCtrl.text.trim();
+                if (content.isNotEmpty) {
+                  widget.onSend(content);
+                  setState(() {
+                    textEditCtrl.clear();
+                    isCanSend = false;
+                  });
+                }
+              },
+              onEditingComplete: () {
+                // debugPrint("onEditingComplete");
+              },
             ),
           ),
           Material(
@@ -73,6 +86,7 @@ class _InputSendState extends State<InputSend> {
                   widget.onSend(content);
                   setState(() {
                     textEditCtrl.clear();
+                    isCanSend = false;
                   });
                 }
               },

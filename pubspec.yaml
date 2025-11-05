@@ -95,6 +95,9 @@ dependencies:
 
 
 
+  #geolocator: 14.0.2
+  geolocator:
+    path: plugins/geolocator/geolocator
 
   better_player:
     path: plugins/betterplayer

@@ -7,8 +7,10 @@ class LikeBlurWidget extends StatelessWidget {
   final bool isBlur;
   final int index;
   final Widget child;
+  final Decoration? decoration;
   const LikeBlurWidget({
     super.key,
+    required this.decoration,
     required this.isBlur,
     required this.index,
     required this.child,
@@ -30,10 +32,12 @@ class LikeBlurWidget extends StatelessWidget {
         ),
         child: Container(
           clipBehavior: Clip.hardEdge,
-          padding: EdgeInsetsDirectional.all(index == 0 ? 10 : 8),
-          decoration: BoxDecoration(
-            color: Colors.black.withValues(alpha: isBlur ? 0.55 : 0),
-          ),
+          padding: EdgeInsetsDirectional.all(8.r),
+          decoration:
+              decoration ??
+              BoxDecoration(
+                color: Colors.black.withValues(alpha: isBlur ? 0.55 : 0),
+              ),
           width: double.maxFinite,
           height: double.maxFinite,
           child: child,

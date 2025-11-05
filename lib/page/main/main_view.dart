@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/mixin/delayed_init_mixin.dart';
-import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/home/index/home_view.dart';
 import 'package:newbug/page/home/index/widget/home_menu.dart';
@@ -38,14 +37,17 @@ class _MainViewState extends State<MainView> with DelayedInitMixin {
           height: Get.height,
           child: Stack(
             alignment: Alignment.topCenter,
-            children: [buildBody(), HomeMenu()],
+            children: [
+              buildBody(logic),
+              HomeMenu(tabIndex: logic.tabIndex),
+            ],
           ),
         );
       },
     );
   }
 
-  Widget buildBody() {
+  Widget buildBody(MainLogic logic) {
     return Scaffold(
       backgroundColor: Color(0xFFFAFAFA),
       body: IndexedStack(
@@ -184,7 +186,8 @@ class _MainViewState extends State<MainView> with DelayedInitMixin {
         onTap: (value) {
           setState(() {
             currentIndex = value;
-            EventService.to.post(HomeMenuEvent(isShow: currentIndex == 0));
+            logic.tabIndex = currentIndex;
+            // EventService.to.post(HomeMenuEvent(isShow: currentIndex == 0));
           });
         },
       ),

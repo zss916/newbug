@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/constants.dart';
 import 'package:newbug/core/config/global.dart';
-import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/core/widget/index.dart';
-import 'package:newbug/page/home/index/widget/home_card.dart';
 import 'package:newbug/page/home/index/widget/home_more.dart';
 import 'package:newbug/page/home/index/widget/home_sc_listener.dart';
 import 'package:newbug/page/home/index/widget/pageview_widget.dart';
-import 'package:newbug/page/home/index/widget/swiper_and_play_widget.dart';
+import 'package:newbug/page/home/unmatch/unmatch_view.dart';
 import 'package:newbug/page/status/no_more_view.dart';
 import 'package:newbug/page/status/wrong_view.dart';
 
@@ -38,19 +36,21 @@ class HomeView extends StatelessWidget {
               ),
             ),
             centerTitle: false,
-            actions: [
-              HomeMore(
-                onBlock: () {
-                  logic.toBlock();
-                },
-                onReport: () {
-                  logic.toReport();
-                },
-              ),
-            ],
+            actions: logic.viewState == 0
+                ? [
+                    HomeMore(
+                      onBlock: () {
+                        logic.toBlock();
+                      },
+                      onReport: () {
+                        logic.toReport();
+                      },
+                    ),
+                  ]
+                : [],
           ),
           backgroundColor: Color(0xFFFAFAFA),
-          body: buildBody(viewState: -1, logic: logic),
+          body: buildBody(viewState: logic.viewState, logic: logic),
         );
       },
     );
@@ -58,8 +58,19 @@ class HomeView extends StatelessWidget {
 
   Widget buildBody({required int viewState, required HomeLogic logic}) {
     return switch (viewState) {
-      _ when viewState == 0 => WrongView(),
-      _ when viewState == 1 => NoMoreView(),
+      _ when viewState == 0 => HomeScListener(
+        builder: (_, controller) => buildContent(controller, true, logic),
+        onScrollEnd: (isShow) {
+          EventService.to.post(HomeMenuEvent(isShow: isShow));
+        },
+      ),
+      _ when viewState == 1 => WrongView(
+        onTap: () {
+          logic.loadData();
+        },
+      ),
+      _ when viewState == 2 => NoMoreView(),
+      _ when viewState == 3 => UnMatchView(data: logic.privacyList),
       _ => HomeScListener(
         builder: (_, controller) => buildContent(controller, true, logic),
         onScrollEnd: (isShow) {
@@ -69,9 +80,9 @@ class HomeView extends StatelessWidget {
     };
   }
 
-  Widget buildCard({required List<MediaListItem> cards}) {
+  /* Widget buildCard({required List<MediaListItem> cards}) {
     return HomeCard(child: SwiperAndPlayWidget(items: [...cards]));
-  }
+  }*/
 
   Widget buildContent(
     ScrollController controller,

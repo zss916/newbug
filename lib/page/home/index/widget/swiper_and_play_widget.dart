@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety_flutter3/flutter_swiper_null_safety_flutter3.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/network/model/home_cards_entity.dart';
 import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/widget/app_blur_widget.dart';
 import 'package:newbug/generated/assets.dart';
@@ -13,7 +14,12 @@ import 'package:newbug/page/home/index/widget/video/better_net_video.dart';
 
 class SwiperAndPlayWidget extends StatefulWidget {
   final List<MediaListItem> items;
-  const SwiperAndPlayWidget({super.key, required this.items});
+  final HomeCardsMatchList data;
+  const SwiperAndPlayWidget({
+    super.key,
+    required this.items,
+    required this.data,
+  });
 
   @override
   State<SwiperAndPlayWidget> createState() => _SwiperAndPlayWidgetState();
@@ -47,6 +53,12 @@ class _SwiperAndPlayWidgetState extends State<SwiperAndPlayWidget> {
                   clipBehavior: Clip.hardEdge,
                   decoration: BoxDecoration(
                     color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(48.r),
+                      topRight: Radius.circular(48.r),
+                      bottomLeft: Radius.circular(48.r),
+                      bottomRight: Radius.circular(146.r),
+                    ),
                     image: item.isVideo
                         ? null
                         : DecorationImage(
@@ -69,6 +81,50 @@ class _SwiperAndPlayWidgetState extends State<SwiperAndPlayWidget> {
                             }
                           },
                         ),
+
+                      buildStatus(widget.data.type ?? 0),
+
+                      ///isBlur
+                      AppBlurWidget(
+                        isBlur: item.isPrivateMedia,
+                        sigma: 30,
+                        stackFit: StackFit.expand,
+                        foreground: Container(
+                          alignment: Alignment.center,
+                          width: double.maxFinite,
+                          height: double.maxFinite,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                Assets.imgWildPhotoIc,
+                                width: 56,
+                                height: 56,
+                              ),
+                              Divider(height: 18.h, color: Colors.transparent),
+                              Text(
+                                T.wildPhoto.tr,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600,
+                                  height: 1.14,
+                                ),
+                              ),
+                              Divider(height: 6.h, color: Colors.transparent),
+                              Text(
+                                T.wildPhotoTip.tr,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  height: 1.14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 );
@@ -83,8 +139,6 @@ class _SwiperAndPlayWidgetState extends State<SwiperAndPlayWidget> {
             );
           },
         ),
-
-        buildStatus(-1),
 
         if (widget.items.length >= 2)
           PositionedDirectional(
@@ -129,42 +183,15 @@ class _SwiperAndPlayWidgetState extends State<SwiperAndPlayWidget> {
               ),
             ),
           ),
-
-        ///isBlur
-        AppBlurWidget(
-          isBlur: true,
-          sigma: 30,
-          stackFit: StackFit.expand,
-          foreground: Container(
-            alignment: Alignment.center,
-            width: double.maxFinite,
-            height: double.maxFinite,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(Assets.imgWildPhotoIc, width: 56, height: 56),
-                Divider(height: 18.h, color: Colors.transparent),
-                Text(
-                  T.wildPhoto.tr,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600,
-                    height: 1.14,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
       ],
     );
   }
 
-  Widget buildStatus(int status) {
-    return switch (status) {
-      _ when status == 0 => LoseTouch(),
-      _ when status == 1 => NotAction(),
+  Widget buildStatus(int type) {
+    return switch (type) {
+      _ when type == 0 => SizedBox.shrink(),
+      _ when type == 1 => LoseTouch(),
+      _ when type == 2 => NotAction(),
       _ => SizedBox.shrink(),
     };
   }

@@ -1,18 +1,22 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:newbug/core/config/constants.dart';
-import 'package:newbug/core/config/global.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/widget/app_blur_widget.dart';
-import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/generated/assets.dart';
+import 'package:newbug/page/location/location_utils.dart';
 
 class UnMatchView extends StatelessWidget {
-  const UnMatchView({super.key});
+  final List<String> data;
+  const UnMatchView({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
+    return buildBody(data);
+  }
+
+  /*  Widget buildPage() {
     return Scaffold(
       appBar: CommonAppBar(
         backgroundColor: Color(0xFFFAFAFA),
@@ -30,11 +34,11 @@ class UnMatchView extends StatelessWidget {
         centerTitle: true,
       ),
       backgroundColor: Color(0xFFFAFAFA),
-      body: buildBody(),
+      body: buildBody(data),
     );
-  }
+  }*/
 
-  Widget buildBody() => Stack(
+  Widget buildBody(List<String> data) => Stack(
     alignment: AlignmentDirectional.topCenter,
     children: [
       Column(
@@ -89,10 +93,10 @@ class UnMatchView extends StatelessWidget {
                 start: 14.w,
                 end: 14.w,
                 top: 14.w,
-                bottom: 14.h,
+                bottom: 100.h,
               ),
               shrinkWrap: true,
-              itemCount: 20,
+              itemCount: data.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 14,
@@ -109,9 +113,7 @@ class UnMatchView extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(
-                            "https://img1.baidu.com/it/u=4215474319,2725351576&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=889",
-                          ),
+                          image: CachedNetworkImageProvider(data[index]),
                         ),
                         border: Border.all(width: 1, color: Colors.black),
                         borderRadius: BorderRadiusDirectional.only(
@@ -170,48 +172,55 @@ class UnMatchView extends StatelessWidget {
                                       ),
                                     ),
                                     child: Text(
-                                      'Online',
+                                      T.online.tr,
                                       style: TextStyle(
                                         color: const Color(0xFF99FF66),
-                                        fontSize: 9.sp,
+                                        fontSize: 9,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
-                              Container(
-                                alignment: AlignmentDirectional.centerStart,
-                                width: double.maxFinite,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Image.asset(
-                                      Assets.imgLocation,
-                                      width: 12,
-                                      height: 12,
-                                    ),
-                                    Container(
-                                      margin: EdgeInsetsDirectional.only(
-                                        start: 2.w,
+
+                              if ((LocationUtils.getCacheLocationInfo()
+                                          ?.address ??
+                                      "")
+                                  .isNotEmpty)
+                                Container(
+                                  alignment: AlignmentDirectional.centerStart,
+                                  width: double.maxFinite,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Image.asset(
+                                        Assets.imgLocation,
+                                        width: 12,
+                                        height: 12,
                                       ),
-                                      constraints: BoxConstraints(
-                                        maxWidth: 60.w,
-                                      ),
-                                      child: Text(
-                                        'New York',
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          color: const Color(0xFF7D60FF),
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w700,
+                                      Container(
+                                        margin: EdgeInsetsDirectional.only(
+                                          start: 2.w,
+                                        ),
+                                        constraints: BoxConstraints(
+                                          maxWidth: 60.w,
+                                        ),
+                                        child: Text(
+                                          LocationUtils.getCacheLocationInfo()
+                                                  ?.address ??
+                                              "--",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            color: const Color(0xFF7D60FF),
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w700,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
                             ],
                           ),
                         ),
@@ -245,47 +254,52 @@ class UnMatchView extends StatelessWidget {
         bottom: 0,
         start: 0,
         end: 0,
-        child: Container(
-          width: double.maxFinite,
-          height: 115.h,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.transparent, Colors.white54, Colors.white],
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                width: double.maxFinite,
-                height: 48.h,
-                margin: EdgeInsetsDirectional.only(
-                  start: 24.w,
-                  end: 24.w,
-                  bottom: 16.h,
-                ),
-                alignment: AlignmentDirectional.center,
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: ShapeDecoration(
-                  color: const Color(0xFFFF0092),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                ),
-                child: Text(
-                  'Unlock who visited you',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    height: 1.31,
-                    letterSpacing: -0.32,
-                  ),
-                ),
+        child: GestureDetector(
+          onTap: () {
+            //todo
+          },
+          child: Container(
+            width: double.maxFinite,
+            height: 115.h,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.transparent, Colors.white54, Colors.white],
               ),
-            ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  width: double.maxFinite,
+                  height: 48.h,
+                  margin: EdgeInsetsDirectional.only(
+                    start: 24.w,
+                    end: 24.w,
+                    bottom: 16.h,
+                  ),
+                  alignment: AlignmentDirectional.center,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFFFF0092),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                  ),
+                  child: Text(
+                    'Unlock who visited you',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      height: 1.31,
+                      letterSpacing: -0.32,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

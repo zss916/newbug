@@ -7,7 +7,8 @@ import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/page/home/index/widget/pie_menu.dart';
 
 class HomeMenu extends StatefulWidget {
-  const HomeMenu({super.key});
+  final int tabIndex;
+  const HomeMenu({super.key, required this.tabIndex});
 
   @override
   State<HomeMenu> createState() => _HomeMenuState();
@@ -47,14 +48,14 @@ class _HomeMenuState extends State<HomeMenu> {
     return Stack(
       alignment: Alignment.center,
       children: [
-        if (isShowMenu)
+        if (widget.tabIndex == 0 && isShowMenu)
           if (isShowPop)
             Container(
               width: double.maxFinite,
               height: double.maxFinite,
               color: Color(0x33000000),
             ),
-        if (isShowMenu)
+        if (widget.tabIndex == 0 && isShowMenu)
           PositionedDirectional(
             top:
                 Get.statusBarHeight +

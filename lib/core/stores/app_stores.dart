@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:newbug/core/network/model/auth_entity.dart';
 import 'package:newbug/core/network/model/config_entity.dart';
+import 'package:newbug/core/network/model/location_entity.dart';
 import 'package:newbug/core/network/model/tag_entity.dart';
 import 'package:newbug/core/network/model/user_entity.dart';
 import 'package:newbug/core/stores/stores_service.dart';
@@ -15,6 +16,17 @@ class AppStores {
   static const String tagsListKey = "cvTagsListKey";
   static const String authKey = "cvAuthKey";
   static const String appConfigKey = "cvAppConfigKey";
+  static const String appLocationKey = "appLocationKey";
+
+  ///保存是否显示定位弹窗
+  static void setNeedShowLocationDialog({required bool needShow}) {
+    StoresService.to.setBool(appLocationKey, needShow);
+  }
+
+  ///获取是否显示
+  static bool getNeedShowLocationDialog() {
+    return StoresService.to.getBool(appLocationKey);
+  }
 
   ///设置config
   static void setAppConfig({required ConfigEntity value}) {
@@ -52,6 +64,27 @@ class AppStores {
       return UserEntity.fromJson(
         jsonDecode(StoresService.to.getString(userKey)),
       );
+    } else {
+      return null;
+    }
+  }
+
+  ///保存定位地址
+  static bool setLocationInfo({LocationEntity? locationInfo}) {
+    UserEntity? value = getUserInfo();
+    if (value != null) {
+      setUserInfo(value: value..locationInfo = locationInfo);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  ///获取定位地址
+  static LocationEntity? getLocationInfo() {
+    UserEntity? value = getUserInfo();
+    if (value != null) {
+      return value.locationInfo;
     } else {
       return null;
     }

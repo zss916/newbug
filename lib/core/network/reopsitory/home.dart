@@ -9,7 +9,7 @@ import 'package:newbug/core/widget/index.dart';
 
 abstract class HomeAPI {
   ///首页用户卡片
-  static Future<(bool, List<HomeCardsMatchList>)> getHomeSwiperCards({
+  static Future<HomeCardsEntity?> getHomeSwiperCards({
     required int tab,
     String? lastId,
   }) async {
@@ -24,18 +24,24 @@ abstract class HomeAPI {
         queryParameters: data,
       );
       if (result["code"] == 0) {
-        List<HomeCardsMatchList> value = await compute(
+        /*List<HomeCardsMatchList> value = await compute(
           (List<dynamic> jsonList) =>
               jsonList.map((e) => HomeCardsMatchList.fromJson(e)).toList(),
           (result['data']['match_list'] as List),
+        );*/
+
+        HomeCardsEntity value = await compute(
+          (dynamic jsonStr) => HomeCardsEntity.fromJson(jsonStr),
+          result["data"],
         );
-        return (true, value);
+
+        return value;
       } else {
         CustomToast.fail("Failed");
-        return (false, <HomeCardsMatchList>[]);
+        return null;
       }
     } catch (error) {
-      return (false, <HomeCardsMatchList>[]);
+      return null;
     }
   }
 

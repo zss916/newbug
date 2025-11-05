@@ -468,6 +468,8 @@ class T {
   static const String blockContent = "blockContent";
 
   static const String reportContent = "reportContent";
+
+  static const String wildPhotoTip = "wildPhotoTip";
 }
 
 const en = {
@@ -746,4 +748,5 @@ const en = {
   "blockContent":
       "Once blocked, you won't be able to view their information or interact with them.",
   "reportContent": "Does this person bother you?",
+  "wildPhotoTip": "Visible to Connections only",
 };

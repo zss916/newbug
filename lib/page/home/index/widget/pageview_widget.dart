@@ -2,7 +2,6 @@ import 'dart:async' show StreamSubscription;
 
 import 'package:flutter/material.dart';
 import 'package:newbug/core/network/model/home_cards_entity.dart';
-import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/page/dialog/love/dialog_love.dart';
@@ -46,7 +45,7 @@ class _PageviewWidgetState extends State<PageViewWidget> {
           toLikeAction();
           break;
         case MenuActionEmu.flashChat:
-          toFlashChat(matchValue: widget.logic.data[selectIndex]);
+          toFlashChat(matchValue: widget.logic.matchList[selectIndex]);
           break;
         case MenuActionEmu.next:
           toNextAction();
@@ -69,18 +68,18 @@ class _PageviewWidgetState extends State<PageViewWidget> {
     return PageView.builder(
       controller: controller,
       physics: NeverScrollableScrollPhysics(),
-      itemCount: widget.logic.data.length,
+      itemCount: widget.logic.matchList.length,
       onPageChanged: (index) {
         widget.logic.selected = index;
       },
       itemBuilder: (context, index) {
-        HomeCardsMatchList item = widget.logic.data[index];
+        HomeCardsMatchList item = widget.logic.matchList[index];
         return SingleChildScrollView(
           //  physics: ClampingScrollPhysics(),
           controller: widget.controller,
           child: Column(
             children: [
-              buildCard(cards: item.mediaList ?? []),
+              buildCard(item: item),
               HomeProfile(item: item),
               HomeAboutMe(sign: item.sign ?? ""),
               HomeInterests(tags: item.tags ?? []),
@@ -103,29 +102,38 @@ class _PageviewWidgetState extends State<PageViewWidget> {
     );
   }
 
-  Widget buildCard({required List<MediaListItem> cards}) {
-    return HomeCard(child: SwiperAndPlayWidget(items: [...cards]));
+  Widget buildCard({required HomeCardsMatchList item}) {
+    return HomeCard(
+      child: SwiperAndPlayWidget(
+        data: item,
+        items: [...(item.mediaList ?? [])],
+      ),
+    );
   }
 
   void toNextAction() {
-    if (selectIndex + 1 < widget.logic.data.length) {
+    if (selectIndex + 1 < widget.logic.matchList.length) {
       selectIndex++;
       showNextDialog().whenComplete(() {
         controller.jumpToPage(selectIndex);
       });
+      widget.logic.chooseUser(type: 1);
     } else {
-      debugPrint("最后一个");
+      EventService.to.post(HomeMenuEvent(isShow: false));
+      widget.logic.toUnMatchView();
     }
   }
 
   void toLikeAction() {
-    if (selectIndex + 1 < widget.logic.data.length) {
+    if (selectIndex + 1 < widget.logic.matchList.length) {
       selectIndex++;
       showLoveDialog().whenComplete(() {
         controller.jumpToPage(selectIndex);
       });
+      widget.logic.chooseUser(type: 2);
     } else {
-      debugPrint("最后一个");
+      EventService.to.post(HomeMenuEvent(isShow: false));
+      widget.logic.toUnMatchView();
     }
   }
 
