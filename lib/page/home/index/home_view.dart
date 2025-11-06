@@ -71,6 +71,9 @@ class HomeView extends StatelessWidget {
       ),
       _ when viewState == 2 => NoMoreView(),
       _ when viewState == 3 => UnMatchView(data: logic.privacyList),
+      _ when viewState == 4 => Center(
+        child: CircularProgressIndicator(color: Color(0xFFFF0092)),
+      ),
       _ => HomeScListener(
         builder: (_, controller) => buildContent(controller, true, logic),
         onScrollEnd: (isShow) {
@@ -79,10 +82,6 @@ class HomeView extends StatelessWidget {
       ),
     };
   }
-
-  /* Widget buildCard({required List<MediaListItem> cards}) {
-    return HomeCard(child: SwiperAndPlayWidget(items: [...cards]));
-  }*/
 
   Widget buildContent(
     ScrollController controller,

@@ -470,6 +470,8 @@ class T {
   static const String reportContent = "reportContent";
 
   static const String wildPhotoTip = "wildPhotoTip";
+
+  static const String unLockVisited = "unLockVisited";
 }
 
 const en = {
@@ -749,4 +751,5 @@ const en = {
       "Once blocked, you won't be able to view their information or interact with them.",
   "reportContent": "Does this person bother you?",
   "wildPhotoTip": "Visible to Connections only",
+  "unLockVisited": "Unlock who visited you",
 };

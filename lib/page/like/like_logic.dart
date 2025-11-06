@@ -63,8 +63,10 @@ class LikeLogic extends GetxController implements ILoadService {
     bool isSuccessful = await LikesAPI.toRead(from: 1001);
     showReadMark = isSuccessful;
     update();
-    safeFind<MainLogic>()?.showReadMark = isSuccessful;
-    safeFind<MainLogic>()?.update();
+    if (isSuccessful) {
+      safeFind<MainLogic>()?.wlmNewNum = 0;
+      safeFind<MainLogic>()?.update();
+    }
   }
 
   ///获取红点
@@ -92,14 +94,14 @@ class LikeLogic extends GetxController implements ILoadService {
       if (wlmList.isNotEmpty) {
         wlmLastId = wlmList.last.id;
       }
-      refreshAndLoadCtl(page == 1, value.length);
       wlmViewState = wlmList.isEmpty ? 1 : 0;
-      update();
     } else {
-      refreshAndLoadCtl(page == 1, value.length);
       wlmViewState = 2;
-      update();
     }
+    //todo
+    //wlmViewState = 0;
+    update();
+    refreshAndLoadCtl(page == 1, value.length);
   }
 
   Future<void> loadYouLiked({int page = 1}) async {

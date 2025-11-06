@@ -8,6 +8,7 @@ import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/widget/app_blur_widget.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/generated/assets.dart';
+import 'package:newbug/page/message/index/message_logic.dart';
 import 'package:newbug/page/message/index/widget/location_widget.dart';
 import 'package:newbug/page/message/index/widget/net_lose_widget.dart';
 import 'package:newbug/page/message/index/widget/red_point.dart';
@@ -18,71 +19,76 @@ class MessageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CommonAppBar(
-        backgroundColor: Color(0xFFF7DEF9),
-        leading: SizedBox.shrink(),
-        surfaceTintColor: Color(0xFFF7DEF9),
-        leadingWidth: 0,
-        titleWidget: Text(
-          T.message.tr,
-          style: TextStyle(
-            color: const Color(0xFF262626),
-            fontSize: 26,
-            fontFamily: AppFonts.font1,
-          ),
-        ),
-        centerTitle: false,
-        actions: [
-          Container(
-            margin: EdgeInsetsDirectional.only(end: 10.w),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(5),
-              onTap: () {
-                ///
-              },
-              child: Image.asset(Assets.imgCustomer, width: 36, height: 36),
-            ),
-          ),
-
-          Container(
-            margin: EdgeInsetsDirectional.only(end: 16.w),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(5),
-              onTap: () {
-                ///
-              },
-              child: Image.asset(
-                Assets.imgMessageNotification,
-                width: 36,
-                height: 36,
+    return GetBuilder<MessageLogic>(
+      init: MessageLogic(),
+      builder: (logic) {
+        return Scaffold(
+          appBar: CommonAppBar(
+            backgroundColor: Color(0xFFF7DEF9),
+            leading: SizedBox.shrink(),
+            surfaceTintColor: Color(0xFFF7DEF9),
+            leadingWidth: 0,
+            titleWidget: Text(
+              T.message.tr,
+              style: TextStyle(
+                color: const Color(0xFF262626),
+                fontSize: 26,
+                fontFamily: AppFonts.font1,
               ),
             ),
-          ),
-        ],
-      ),
-      backgroundColor: Color(0xFFF7DEF9),
-      body: Column(
-        children: [
-          buildTopAnchors(),
-          Expanded(
-            child: Container(
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadiusDirectional.vertical(
-                  top: Radius.circular(33),
+            centerTitle: false,
+            actions: [
+              Container(
+                margin: EdgeInsetsDirectional.only(end: 10.w),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(5),
+                  onTap: () {
+                    ///
+                  },
+                  child: Image.asset(Assets.imgCustomer, width: 36, height: 36),
                 ),
               ),
-              width: double.maxFinite,
-              height: double.maxFinite,
-              child: buildMessages(),
 
-              ///child: buildMessageEmpty(),
-            ),
+              Container(
+                margin: EdgeInsetsDirectional.only(end: 16.w),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(5),
+                  onTap: () {
+                    ///
+                  },
+                  child: Image.asset(
+                    Assets.imgMessageNotification,
+                    width: 36,
+                    height: 36,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+          backgroundColor: Color(0xFFF7DEF9),
+          body: Column(
+            children: [
+              buildTopAnchors(),
+              Expanded(
+                child: Container(
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadiusDirectional.vertical(
+                      top: Radius.circular(33),
+                    ),
+                  ),
+                  width: double.maxFinite,
+                  height: double.maxFinite,
+                  child: buildMessages(),
+
+                  ///child: buildMessageEmpty(),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 

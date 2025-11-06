@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_null_safety_flutter3/flutter_swiper_null_safety_flutter3.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/emums/app_emums.dart';
 import 'package:newbug/core/network/model/home_cards_entity.dart';
 import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/widget/app_blur_widget.dart';
@@ -187,11 +188,12 @@ class _SwiperAndPlayWidgetState extends State<SwiperAndPlayWidget> {
     );
   }
 
+  ///0-默认推荐卡片， 1-建联后未有效且7天不活跃， 2-建联成功后5天未破冰
   Widget buildStatus(int type) {
     return switch (type) {
-      _ when type == 0 => SizedBox.shrink(),
-      _ when type == 1 => LoseTouch(),
-      _ when type == 2 => NotAction(),
+      _ when type == ContactSatusEnum.common.index => SizedBox.shrink(),
+      _ when type == ContactSatusEnum.losTouch.index => LoseTouch(),
+      _ when type == ContactSatusEnum.noAction.index => NotAction(),
       _ => SizedBox.shrink(),
     };
   }

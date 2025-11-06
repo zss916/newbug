@@ -30,3 +30,7 @@ enum UserStatusEmu {
 
 ///   //0，请求订阅商品信息 1请求flashchat商品信息 2、请求privatevideo商品信息 3、请求private photo商品信息
 enum PayEmu { vip, flashChat, privateVideo, privatePhoto }
+
+///用户和他人联系状态
+///0-默认推荐卡片， 1-建联后未有效且7天不活跃， 2-建联成功后5天未破冰
+enum ContactSatusEnum { common, losTouch, noAction }

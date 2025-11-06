@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       hideFooterWhenNotFull: true,
       enableLoadingWhenNoData: true,
       enableRefreshVibrate: true,
+      enableLoadMoreVibrate: true,
       child: ScreenUtilInit(
         enableScaleText: () => false,
         designSize: Size(402, 874),

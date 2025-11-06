@@ -16,7 +16,7 @@ class HomeMenu extends StatefulWidget {
 
 class _HomeMenuState extends State<HomeMenu> {
   bool isShowPop = false;
-  bool isShowMenu = true;
+  bool isShowMenu = false;
   StreamSubscription<HomeMenuEvent>? subs;
 
   @override

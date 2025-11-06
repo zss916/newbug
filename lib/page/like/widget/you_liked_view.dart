@@ -59,7 +59,9 @@ class YouLikedView extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    RouteManager.toChat();
+                    ///todo 获取到 用户信息
+                    // RouteManager.toFlashChat();
+                    RouteManager.toSubscribe();
                   },
                   child: Container(
                     margin: EdgeInsetsDirectional.symmetric(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/widget/app_blur_widget.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/location/location_utils.dart';
@@ -256,7 +257,8 @@ class UnMatchView extends StatelessWidget {
         end: 0,
         child: GestureDetector(
           onTap: () {
-            //todo
+            //todo Unlimited 特权排在首位
+            RouteManager.toSubscribe();
           },
           child: Container(
             width: double.maxFinite,
@@ -288,7 +290,7 @@ class UnMatchView extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    'Unlock who visited you',
+                    T.unLockVisited.tr,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,

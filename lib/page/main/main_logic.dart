@@ -4,8 +4,12 @@ import 'package:newbug/core/network/reopsitory/chat.dart';
 import 'package:newbug/page/location/location_utils.dart';
 
 class MainLogic extends GetxController {
-  int tabIndex = 0;
-  bool showReadMark = false;
+  int wlmNewNum = 0;
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
 
   @override
   void onReady() {
@@ -14,10 +18,15 @@ class MainLogic extends GetxController {
     loadWlmOrVisitorCount();
   }
 
-  ///获取红点
+  @override
+  void onClose() {
+    super.onClose();
+  }
+
+  ///获取Wlm红点
   Future<void> loadWlmOrVisitorCount() async {
     UnreadDataEntity? value = await ChatAPI.queryWlmOrVisitorCount();
-    showReadMark = (value?.wlmNewNum ?? 0) > 0;
+    wlmNewNum = (value?.wlmNewNum ?? 0);
     update();
   }
 }

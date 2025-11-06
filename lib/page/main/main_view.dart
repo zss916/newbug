@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:newbug/core/helper/custom_annotation.dart';
 import 'package:newbug/core/mixin/delayed_init_mixin.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/generated/assets.dart';
@@ -33,7 +31,6 @@ class _MainViewState extends State<MainView> with DelayedInitMixin {
     subs = EventService.to.listen<HomeTab>((event) {
       setState(() {
         currentIndex = 0;
-        safeFind<MainLogic>()?.tabIndex = currentIndex;
       });
     });
   }
@@ -61,7 +58,7 @@ class _MainViewState extends State<MainView> with DelayedInitMixin {
             alignment: Alignment.topCenter,
             children: [
               buildBody(logic),
-              HomeMenu(tabIndex: logic.tabIndex),
+              HomeMenu(tabIndex: currentIndex),
             ],
           ),
         );
@@ -126,18 +123,11 @@ class _MainViewState extends State<MainView> with DelayedInitMixin {
                           width: 27,
                           height: 27,
                         ),
-                        if (logic.showReadMark)
+                        if (logic.wlmNewNum > 0)
                           PositionedDirectional(
-                            top: 1.r,
-                            end: 1.r,
-                            child: Container(
-                              width: 10.r,
-                              height: 10.r,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.red,
-                              ),
-                            ),
+                            top: 0,
+                            end: 0,
+                            child: RedPoint(count: logic.wlmNewNum),
                           ),
                       ],
                     ),
@@ -226,8 +216,6 @@ class _MainViewState extends State<MainView> with DelayedInitMixin {
         onTap: (value) {
           setState(() {
             currentIndex = value;
-            logic.tabIndex = currentIndex;
-            // EventService.to.post(HomeMenuEvent(isShow: currentIndex == 0));
           });
         },
       ),

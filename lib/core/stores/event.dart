@@ -70,3 +70,8 @@ class ShowMatchCountTipEvent {
 class HomeTab {
   HomeTab();
 }
+
+/*class HomeViewState {
+  final int viewState;
+  HomeViewState({required this.viewState});
+}*/
