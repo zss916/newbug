@@ -32,4 +32,8 @@ extension TimestampExtension on int {
   ).format(DateTime.fromMillisecondsSinceEpoch(this * 1000));
 
   String get formatted => NumberFormat('00').format(this);
+
+  String get msgTime => DateFormat(
+    'hh:mm:ss',
+  ).format(DateTime.fromMillisecondsSinceEpoch(this * 1000));
 }

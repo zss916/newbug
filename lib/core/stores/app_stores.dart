@@ -61,9 +61,7 @@ class AppStores {
   static UserEntity? getUserInfo() {
     String value = StoresService.to.getString(userKey);
     if (value.isNotEmpty) {
-      return UserEntity.fromJson(
-        jsonDecode(StoresService.to.getString(userKey)),
-      );
+      return UserEntity.fromJson(jsonDecode(value));
     } else {
       return null;
     }
@@ -129,12 +127,25 @@ class AppStores {
     }
   }
 
+  ///获取IM token
+  static String? getIMToken() {
+    String value = StoresService.to.getString(authKey);
+    if (value.isNotEmpty) {
+      return AuthEntity.fromJson(jsonDecode(value)).imToken;
+    } else {
+      return null;
+    }
+  }
+
   ///获取user id
-  /*static int? getUid() {
-    return UserEntity.fromJson(
-      jsonDecode(StoresService.to.getString(userKey)),
-    ).userId;
-  }*/
+  static int? getUid() {
+    String value = StoresService.to.getString(userKey);
+    if (value.isNotEmpty) {
+      return UserEntity.fromJson(jsonDecode(value)).userId;
+    } else {
+      return null;
+    }
+  }
 
   ///设置是否完成引导
   static void setGuideStatus({required bool isFinishGuide}) {

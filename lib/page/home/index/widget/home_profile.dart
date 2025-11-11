@@ -16,6 +16,7 @@ class HomeProfile extends StatelessWidget {
       margin: EdgeInsetsDirectional.only(start: 14.w, end: 14.w, top: 14.h),
       width: double.maxFinite,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           LayoutBuilder(
             builder: (context, constraints) {

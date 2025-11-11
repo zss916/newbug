@@ -77,7 +77,7 @@ class _LikeBodyState extends State<LikeBody> {
       _ when viewState == 0 => WlmListView(logic: logic),
       _ when viewState == 1 => MatchView(
         onTap: () {
-          EventService.to.post(HomeTab());
+          EventService.to.post(MainTab(tab: 0));
         },
         onImprove: () {
           RouteManager.toEditProfile();
@@ -99,7 +99,7 @@ class _LikeBodyState extends State<LikeBody> {
       _ when viewState == 0 => YouLikedView(logic: logic),
       _ when viewState == 1 => FollowEmptyView(
         onTap: () {
-          EventService.to.post(HomeTab());
+          EventService.to.post(MainTab(tab: 0));
         },
         bottomPadding: 100.h,
       ),

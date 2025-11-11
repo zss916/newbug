@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:newbug/core/helper/auth_helper.dart';
+import 'package:newbug/core/im/cv_im.dart';
 import 'package:newbug/core/network/model/unread_data_entity.dart';
 import 'package:newbug/core/network/model/user_entity.dart';
 import 'package:newbug/core/network/reopsitory/account.dart';
@@ -13,7 +14,7 @@ import 'package:newbug/page/profile/sheet/pay/pay_sheet.dart';
 class ProfileLogic extends GetxController {
   UserEntity? user;
   String get avatar => user?.headimg ?? '';
-  String get uid => user?.userId ?? '--';
+  String get uid => (user?.userId) == null ? "--" : "${user?.userId}";
   String get nickName => "${user?.nickName ?? ''},${user?.age}";
   bool get isVip => user?.right?.vip == 1;
   int get privacyVideo => user?.right?.privacyvideo ?? 0;
@@ -37,11 +38,11 @@ class ProfileLogic extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    /*CustomToast.loading();
+    CustomToast.loading();
     Future.wait([
       loadUserInfo(),
       loadWlmOrVisitorCount(),
-    ]).whenComplete(() => CustomToast.dismiss());*/
+    ]).whenComplete(() => CustomToast.dismiss());
   }
 
   void initData() {
@@ -72,6 +73,7 @@ class ProfileLogic extends GetxController {
       () => CustomToast.dismiss(),
     );
     if (isLogout) {
+      CvIM.logout();
       AuthHelper.instance.toHandleLogout();
       RouteManager.offAllToLogin();
     }

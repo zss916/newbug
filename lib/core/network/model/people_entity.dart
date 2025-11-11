@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/generated/json/base/json_field.dart';
 import 'package:newbug/generated/json/people_entity.g.dart';
+import 'package:newbug/page/location/location_utils.dart';
 
 export 'package:newbug/generated/json/people_entity.g.dart';
 
@@ -49,4 +50,14 @@ class PeopleEntity {
 
   ///是否上新
   bool get isNew => read == 0;
+
+  ///获取定位地址
+  String get address =>
+      (LocationUtils.getCacheLocationInfo()?.address ?? "").isEmpty
+      ? "--"
+      : LocationUtils.getCacheLocationInfo()?.address ?? "--";
+
+  ///是否显示address
+  bool get isShowAddress =>
+      (LocationUtils.getCacheLocationInfo()?.address ?? "").isNotEmpty;
 }

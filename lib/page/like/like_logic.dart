@@ -41,7 +41,7 @@ class LikeLogic extends GetxController implements ILoadService {
   );
 
   ///是否显示红点
-  bool showReadMark = false;
+  int wlmNewNum = 0;
 
   @override
   void onReady() {
@@ -61,9 +61,9 @@ class LikeLogic extends GetxController implements ILoadService {
   ///标记已读(清除like 的小红点)
   Future<void> toMarkRead() async {
     bool isSuccessful = await LikesAPI.toRead(from: 1001);
-    showReadMark = isSuccessful;
-    update();
     if (isSuccessful) {
+      wlmNewNum = 0;
+      update();
       safeFind<MainLogic>()?.wlmNewNum = 0;
       safeFind<MainLogic>()?.update();
     }
@@ -72,9 +72,11 @@ class LikeLogic extends GetxController implements ILoadService {
   ///获取红点
   Future<void> loadWlmOrVisitorCount() async {
     UnreadDataEntity? value = await ChatAPI.queryWlmOrVisitorCount();
-    showReadMark = (value?.wlmNewNum ?? 0) > 0;
+    wlmNewNum = (value?.wlmNewNum ?? 0);
     update();
   }
+
+  bool isFinished = false;
 
   ///加载数据
   Future<void> loadWlm({int page = 1}) async {
@@ -86,10 +88,10 @@ class LikeLogic extends GetxController implements ILoadService {
     if (isSucceeful) {
       toMarkRead();
       if (page == 1) {
-        wlmList.clear();
-        wlmList.addAll(value);
+        wlmList.assignAll(value);
       } else {
         wlmList.addAll(value);
+        isFinished = value.isEmpty;
       }
       if (wlmList.isNotEmpty) {
         wlmLastId = wlmList.last.id;

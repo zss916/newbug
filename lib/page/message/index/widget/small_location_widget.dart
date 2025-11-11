@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newbug/generated/assets.dart';
 
-class LocationWidget extends StatelessWidget {
-  const LocationWidget({super.key});
+class SmallLocationWidget extends StatelessWidget {
+  final String address;
+  const SmallLocationWidget({super.key, required this.address});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class LocationWidget extends StatelessWidget {
           Container(
             constraints: BoxConstraints(maxWidth: 60.w),
             child: Text(
-              'Columbusddd',
+              address,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(

@@ -23,14 +23,14 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> with DelayedInitMixin {
   int currentIndex = 0;
-  StreamSubscription<HomeTab>? subs;
+  StreamSubscription<MainTab>? subs;
 
   @override
   void initState() {
     super.initState();
-    subs = EventService.to.listen<HomeTab>((event) {
+    subs = EventService.to.listen<MainTab>((event) {
       setState(() {
-        currentIndex = 0;
+        currentIndex = event.tab;
       });
     });
   }

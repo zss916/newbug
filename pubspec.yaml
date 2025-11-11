@@ -81,15 +81,20 @@ dependencies:
   encrypt: 5.0.3
   #platform_device_id_plus: ^1.0.7
   mobile_device_identifier: ^0.0.3
+
+
   #钥匙串
   flutter_secure_storage: 9.2.4
   #flutter_cache_manager: 3.4.1
   http: 1.5.0
   video_compress: 3.1.4
   collection: 1.19.1
-
-
-
+  #融云
+  rongcloud_im_wrapper_plugin: 5.24.6
+  #加载更多
+  easy_load_more: 2.0.0
+  #上拉加载，下拉刷新
+  #smart_scroll: 1.0.1
 
 
 

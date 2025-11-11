@@ -4,6 +4,7 @@ import 'package:newbug/core/network/model/auth_entity.dart';
 import 'package:newbug/core/network/model/user_info.dart';
 import 'package:newbug/core/network/net/net.dart';
 import 'package:newbug/core/network/path/netPath.dart';
+import 'package:newbug/core/stores/app_stores.dart';
 import 'package:newbug/core/widget/index.dart';
 
 abstract class AccountAPI {
@@ -65,6 +66,9 @@ abstract class AccountAPI {
           (dynamic jsonStr) => AuthEntity.fromJson(jsonStr),
           result["data"],
         );
+
+        ///直接保存最新的
+        AppStores.setAuthData(value: value);
         return value;
       } else {
         CustomToast.fail("Failed");

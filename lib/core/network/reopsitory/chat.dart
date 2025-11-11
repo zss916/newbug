@@ -33,7 +33,7 @@ abstract class ChatAPI {
     }
   }
 
-  ///批量获取用户信息
+  ///查询在线用户列表
   static Future<(bool, List<OnlineUserEntity>)> getOnlineList() async {
     try {
       final result = await Net.instance.post(ApiPath.getOnlineList);

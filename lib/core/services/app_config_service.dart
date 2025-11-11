@@ -14,6 +14,15 @@ class AppConfigService extends GetxService {
 
   String get privacy => config?.privacy ?? "";
 
+  ///客服账号
+  String get serviceAccount => config?.sysAccount?.serviceAccount ?? "";
+
+  ///通知账号
+  String get noticeAccount => config?.sysAccount?.noticeAccount ?? "";
+
+  ///推送账号
+  String get pushAccount => config?.sysAccount?.pushAccount ?? "";
+
   List<ConfigReportList> get reportList =>
       config?.reportList ?? <ConfigReportList>[];
 

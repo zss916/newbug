@@ -42,7 +42,8 @@ class RouteManager {
   static toFlashChat({HomeCardsMatchList? value}) =>
       Get.toNamed(AppRoutes.flashChat, arguments: {"match": value});
 
-  static toChat() => Get.toNamed(AppRoutes.chat);
+  static toChat({String? targetId}) =>
+      Get.toNamed(AppRoutes.chat, arguments: {"targetId": targetId});
 
   static toSelectedAlbum() => Get.toNamed(AppRoutes.selectedAlbum);
 

@@ -28,6 +28,7 @@ class EmailLogic extends GetxController {
       KeyChainTool.putKeyChain(account: email, password: password);
       TextInput.finishAutofillContext();
       AppStores.setAuthData(value: value);
+      CvIM.connect(value.imToken);
 
       ///AppStores.setUserInfo(value: UserEntity()..authToken = value.authToken);
       // Net.instance.updateHeaders(token: value.authToken ?? "");

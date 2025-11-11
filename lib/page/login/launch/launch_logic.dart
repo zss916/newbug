@@ -10,9 +10,6 @@ class LaunchLogic extends GetxController {
         RouteManager.offAllToLogin();
       } else {
         loginAction();
-        if (AppStores.getUserInfo() == null) {
-          await ProfileAPI.getUserInfo();
-        }
         RouteManager.toMain();
       }
     } else {
@@ -24,9 +21,6 @@ class LaunchLogic extends GetxController {
   Future<bool> refreshToken() async {
     AuthEntity? auth = await AccountAPI.refreshToken();
     if (auth != null) {
-      //1.保存登录信息
-      //2.更新状态
-      AppStores.setAuthData(value: auth);
       AuthHelper.instance.isTodayRegister = auth.isTodaySign ?? false;
     } else {
       AuthHelper.instance.toHandleLogout();
@@ -35,10 +29,14 @@ class LaunchLogic extends GetxController {
   }
 
   /// 登录
-  void loginAction() {
+  Future<void> loginAction() async {
     //1.刷新Authorization
     //2.IM容云链接
     //3.开启在线用户状态更新
     //4.开启状态上报
+    CvIM.connect(AppStores.getIMToken());
+    if (AppStores.getUserInfo() == null) {
+      await ProfileAPI.getUserInfo();
+    }
   }
 }

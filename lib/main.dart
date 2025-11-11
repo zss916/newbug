@@ -55,6 +55,7 @@ class MyApp extends StatelessWidget {
             initialRoute: AppRoutes.launch,
             //home: PhotoView(),
             //home: WrongView(),
+            // home: LoadPage(),
           ),
         ),
       ),

@@ -90,4 +90,13 @@ class HomeCardsMatchList {
   bool get isOnline => online == 1;
 
   int get cardFlag => type == 0 ? 0 : 1;
+
+  /*  ///获取定位地址
+  String get address =>
+      (LocationUtils.getCacheLocationInfo()?.address ?? "").isEmpty
+          ? "--"
+          : LocationUtils.getCacheLocationInfo()?.address ?? "--";
+
+  ///是否显示address
+  bool get isShowAddress => (LocationUtils.getCacheLocationInfo()?.address ?? "").isNotEmpty;*/
 }

@@ -7,7 +7,7 @@ import 'package:newbug/generated/json/base/json_convert_content.dart';
 
 UserEntity $UserEntityFromJson(Map<String, dynamic> json) {
   final UserEntity userEntity = UserEntity();
-  final String? userId = jsonConvert.convert<String>(json['user_id']);
+  final int? userId = jsonConvert.convert<int>(json['user_id']);
   if (userId != null) {
     userEntity.userId = userId;
   }
@@ -229,7 +229,7 @@ Map<String, dynamic> $UserEntityToJson(UserEntity entity) {
 
 extension UserEntityExtension on UserEntity {
   UserEntity copyWith({
-    String? userId,
+    int? userId,
     String? nickName,
     String? headimg,
     int? age,

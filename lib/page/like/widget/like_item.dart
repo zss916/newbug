@@ -11,7 +11,6 @@ import 'package:newbug/page/like/widget/like_avatar.dart';
 import 'package:newbug/page/like/widget/like_blur_widget.dart';
 import 'package:newbug/page/like/widget/like_left.dart';
 import 'package:newbug/page/like/widget/like_new_label.dart';
-import 'package:newbug/page/location/location_utils.dart';
 
 class LikeItem extends StatelessWidget {
   final int index;
@@ -92,7 +91,7 @@ class LikeItem extends StatelessWidget {
           ),
         ),
       ),
-      if (LocationUtils.isShowLocationSync(item.location ?? 0))
+      if (item.isShowAddress)
         Container(
           margin: EdgeInsetsDirectional.only(top: 3.h),
           padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 3.h),
@@ -121,9 +120,7 @@ class LikeItem extends StatelessWidget {
               Container(
                 constraints: BoxConstraints(minWidth: 20.w, maxWidth: 100.w),
                 child: Text(
-                  (LocationUtils.getCacheLocationInfo()?.address ?? "").isEmpty
-                      ? "--"
-                      : LocationUtils.getCacheLocationInfo()?.address ?? "--",
+                  item.address,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

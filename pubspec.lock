@@ -272,6 +272,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.1"
+  easy_load_more:
+    dependency: "direct main"
+    description:
+      name: easy_load_more
+      sha256: "322f62d9f76250ba681e3c2b1803d9afcc53173ab2f543ad0c9a92fe804f6b6a"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.0"
   email_validator:
     dependency: "direct main"
     description:
@@ -1118,6 +1126,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.0.0"
+  rongcloud_im_wrapper_plugin:
+    dependency: "direct main"
+    description:
+      name: rongcloud_im_wrapper_plugin
+      sha256: "8c701b1293f49ec56d01277116e2cc8816e599986c691e4c925f9d9238dd9e0e"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "5.24.6"
   rxdart:
     dependency: transitive
     description:

@@ -35,7 +35,7 @@ class _TitleTabState extends State<TitleTab> {
                 isSelected: currentIndex == 0,
                 title: T.whoLikesYou.tr,
               ),
-              if (widget.logic.showReadMark)
+              if (widget.logic.wlmNewNum > 0)
                 PositionedDirectional(
                   top: 1.r,
                   end: 1.r,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:newbug/core/im/cv_im.dart';
 import 'package:newbug/core/services/app_config_service.dart';
 import 'package:newbug/core/services/app_data_service.dart';
 import 'package:newbug/core/stores/event.dart';
@@ -13,6 +14,9 @@ class Global {
     ///adjust
     //AdjustTools.init();
 
+    ///IM 初始化
+    CvIM.init();
+    //await Get.put<ImService>(ImService()).init();
     await Get.putAsync<AppConfigService>(() => AppConfigService().init());
 
     await Future.wait([
@@ -29,8 +33,6 @@ class AppFonts {
   static const String font1 = 'font1';
   static const String font2 = 'font2';
 }
-
-
 
 /*"https://img1.baidu.com/it/u=3311890800,2189225060&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=1000",
           "https://img0.baidu.com/it/u=895039573,196690770&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=750",

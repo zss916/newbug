@@ -67,8 +67,9 @@ class ShowMatchCountTipEvent {
   ShowMatchCountTipEvent({required this.isShow, required this.count});
 }
 
-class HomeTab {
-  HomeTab();
+class MainTab {
+  final int tab;
+  MainTab({required this.tab});
 }
 
 /*class HomeViewState {

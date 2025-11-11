@@ -52,7 +52,8 @@ class HeaderInterceptor extends InterceptorsWrapper {
     options.headers["ob-osversion"] = AppDataService.to.osVersion;
 
     ///设备id
-    options.headers["dev-id"] = AppDataService.to.deviceid;
+    // options.headers["dev-id"] = AppDataService.to.deviceid;
+    options.headers["dev-id"] = "${AppDataService.to.deviceid}123";
 
     ///todo 1c9a2b6888f94b1cab921a4019e384fc
     ///todo a114e1a8b533fee162b4bb1f43dbc550653ae49dda026d8c509f011d19741a07

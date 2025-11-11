@@ -1,3 +1,4 @@
+import 'package:easy_load_more/easy_load_more.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -11,7 +12,6 @@ import 'package:newbug/core/stores/app_stores.dart';
 import 'package:newbug/core/widget/generated/assets.dart';
 import 'package:newbug/page/like/like_logic.dart';
 import 'package:newbug/page/like/widget/like_item.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class WlmListView extends StatelessWidget {
   final LikeLogic logic;
@@ -23,7 +23,7 @@ class WlmListView extends StatelessWidget {
       fit: StackFit.expand,
       alignment: Alignment.topCenter,
       children: [
-        Positioned.fill(
+        /* Positioned.fill(
           child: SmartRefresher(
             enablePullUp: true,
             enablePullDown: true,
@@ -166,6 +166,163 @@ class WlmListView extends StatelessWidget {
               },
               separatorBuilder: (context, index) =>
                   Divider(height: 1, color: Color(0xFFEDEDED)),
+            ),
+          ),
+        ),*/
+        Positioned.fill(
+          child: RefreshIndicator(
+            onRefresh: () {
+              logic.refreshData();
+              return Future.delayed(Duration(seconds: 2));
+            },
+            child: EasyLoadMore(
+              isFinished: logic.isFinished,
+              runOnEmptyResult: false,
+              onLoadMore: () {
+                logic.loadMoreData();
+                return Future.value(true);
+              },
+              child: ListView.separated(
+                padding: EdgeInsetsDirectional.zero,
+                physics: ClampingScrollPhysics(),
+                itemCount: logic.wlmList.length,
+                itemBuilder: (context, index) {
+                  PeopleEntity item = logic.wlmList[index];
+                  List<MediaListItem> list = item.mediaList ?? [];
+                  return SizedBox(
+                    width: double.maxFinite,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          width: double.maxFinite,
+                          height: 192,
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            padding: EdgeInsetsDirectional.only(
+                              top: 10.h,
+                              bottom: 8.h,
+                              start: 16.w,
+                              end: 16.w,
+                            ),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: list.length,
+                            itemBuilder: (context, index) {
+                              MediaListItem subitem = list[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  if (!(AppStores.getUserInfo()?.isVip ??
+                                      false)) {
+                                    RouteManager.toSubscribe();
+                                  } else {
+                                    ///todo user vip
+                                  }
+                                },
+                                child: LikeItem(
+                                  index: index,
+                                  item: item,
+                                  subItem: subitem,
+                                ),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) =>
+                                    VerticalDivider(
+                                      width: 8.w,
+                                      color: Colors.transparent,
+                                    ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsetsDirectional.symmetric(
+                            horizontal: 16.w,
+                            vertical: 12.h,
+                          ),
+                          width: double.maxFinite,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    logic.chooseUser(
+                                      from: FromType.likeWhoLikesMe,
+                                      type: ActionType.pass,
+                                      userId: item.userId ?? 0,
+                                    );
+                                  },
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 44,
+                                    alignment: AlignmentDirectional.center,
+                                    decoration: ShapeDecoration(
+                                      color: const Color(0xFFF0EDFF),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          100,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Stack(
+                                      alignment: AlignmentDirectional.center,
+                                      children: [
+                                        Image.asset(
+                                          Assets.imgLikeNext,
+                                          width: 34,
+                                          height: 34,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              VerticalDivider(
+                                width: 8.w,
+                                color: Colors.transparent,
+                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    logic.chooseUser(
+                                      from: FromType.youLike,
+                                      type: ActionType.like,
+                                      userId: item.userId ?? 0,
+                                    );
+                                  },
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 44,
+                                    alignment: AlignmentDirectional.center,
+                                    decoration: ShapeDecoration(
+                                      color: const Color(0xFF7E61FF),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                          100,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Stack(
+                                      alignment: AlignmentDirectional.center,
+                                      children: [
+                                        Image.asset(
+                                          Assets.imgLikeFollow,
+                                          width: 34,
+                                          height: 34,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Divider(height: 8.h, color: Colors.transparent),
+                      ],
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) =>
+                    Divider(height: 1, color: Color(0xFFEDEDED)),
+              ),
             ),
           ),
         ),

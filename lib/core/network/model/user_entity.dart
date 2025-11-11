@@ -7,13 +7,14 @@ import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/network/model/right.dart';
 import 'package:newbug/generated/json/base/json_field.dart';
 import 'package:newbug/generated/json/user_entity.g.dart';
+import 'package:newbug/page/location/location_utils.dart';
 
 export 'package:newbug/generated/json/user_entity.g.dart';
 
 @JsonSerializable()
 class UserEntity {
   @JSONField(name: 'user_id')
-  String? userId;
+  int? userId;
   @JSONField(name: 'nick_name')
   String? nickName;
   String? headimg;
@@ -96,6 +97,19 @@ class UserEntity {
 
   ///是否是vip
   bool get isVip => right?.vip == 1;
+
+  ///是否在线
+  bool get isOnline => online == 1;
+
+  ///获取定位地址
+  String get address =>
+      (LocationUtils.getCacheLocationInfo()?.address ?? "").isEmpty
+      ? "--"
+      : LocationUtils.getCacheLocationInfo()?.address ?? "--";
+
+  ///是否显示address
+  bool get isShowAddress =>
+      (LocationUtils.getCacheLocationInfo()?.address ?? "").isNotEmpty;
 }
 
 @JsonSerializable()
