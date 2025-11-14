@@ -18,16 +18,23 @@ class VisitorView extends StatelessWidget {
       backgroundColor: Color(0xFFFAFAFA),
       body: GetBuilder<VisitorLogic>(
         init: VisitorLogic(),
-        builder: (logic) => buildBody(viewState: logic.viewState, logic: logic),
+        builder: (logic) =>
+            buildBody(visitorViewState: logic.visitorViewState, logic: logic),
       ),
     );
   }
 
-  Widget buildBody({required int viewState, required VisitorLogic logic}) {
-    return switch (viewState) {
-      _ when viewState == 0 => BuildVisitorsList(logic: logic),
-      _ when viewState == 1 => buildEmpty(),
-      _ when viewState == 2 => buildLockView(logic: logic),
+  Widget buildBody({
+    required int visitorViewState,
+    required VisitorLogic logic,
+  }) {
+    return switch (visitorViewState) {
+      _ when visitorViewState == 0 => BuildVisitorsList(logic: logic),
+      _ when visitorViewState == 1 => buildEmpty(),
+      _ when visitorViewState == 2 => buildLockView(logic: logic),
+      _ when visitorViewState == 3 => Center(
+        child: CircularProgressIndicator(color: Color(0xFFFF0092)),
+      ),
       _ => SizedBox.shrink(),
     };
   }

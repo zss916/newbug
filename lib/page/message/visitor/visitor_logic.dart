@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:newbug/core/network/model/people_entity.dart';
 import 'package:newbug/core/network/reopsitory/profile.dart';
-import 'package:newbug/core/widget/index.dart';
 
 class VisitorLogic extends GetxController {
   List<PeopleEntity> data = [];
 
-  int viewState = 2;
+  ///common 0, empty 1, lockList 2, loading 3
+  int visitorViewState = 3;
   bool isUserVip = false;
 
   @override
@@ -25,16 +25,12 @@ class VisitorLogic extends GetxController {
 
   ///加载数据
   Future<void> loadData() async {
-    CustomToast.loading();
-    final (
-      bool isSuccessful,
-      List<PeopleEntity> value,
-    ) = await ProfileAPI.getVisitorList().whenComplete(
-      () => CustomToast.dismiss(),
-    );
+    final (bool isSuccessful, List<PeopleEntity> value) =
+        await ProfileAPI.getVisitorList();
     if (isSuccessful) {
-      data = value;
-      update();
+      data.assignAll(value);
     }
+    visitorViewState = value.isEmpty ? 1 : 2;
+    update();
   }
 }

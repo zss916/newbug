@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/chat/custom_message_widget/count_down_widget.dart';
-import 'package:newbug/page/profile/album/preview/widget/preview_image.dart';
 
 class BuildSinglePhoto extends StatelessWidget {
   final String url;
@@ -57,7 +56,7 @@ class BuildSinglePhoto extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Expanded(child: PreviewImage(url: url)),
+            // Expanded(child: PreviewImage(url: url)),
             if (isPrivate == true)
               Container(
                 decoration: BoxDecoration(

@@ -57,6 +57,7 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
         ? buildFireStatusWidget()
         : MessageWrapperWidget(
             isLocal: widget.isLocal,
+            extraContent: '',
             child: isPrivate
                 ? buildPrivatePackageWidget(isVideo: isVideo)
                 : buildPublicPackageWidget(isVideo: isVideo),

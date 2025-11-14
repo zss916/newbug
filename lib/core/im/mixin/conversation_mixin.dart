@@ -19,6 +19,10 @@ mixin class ConversationMixin {
           debugPrint("RongIM Conversation getList total:${t?.length ?? 0}");
           List<RCIMIWConversation> conversations = t ?? <RCIMIWConversation>[];
           onGetConversations?.call(conversations);
+
+          /* for (RCIMIWConversation value in conversations) {
+            debugPrint("RongIM Conversation item: ${value.toJson()}");
+          }*/
         },
         onError: (int? code) {
           debugPrint("RongIM Conversation onError: $code");

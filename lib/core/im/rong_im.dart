@@ -27,7 +27,7 @@ class RongIM
     engine = await createEngineMixin(appKey: appKey);
 
     ///注册自定义消息
-    registerCustomMessages(engine: engine);
+    await registerCustomMessages(engine: engine);
 
     ///连接状态监听
     setOnConnectStatus(engine: engine);
@@ -36,7 +36,6 @@ class RongIM
     setOnMessageReceived(
       engine: engine,
       onReceiveMsg: (RCIMIWMessage? message) {
-        ///todo 新消息触发会话列表和消息页面刷新
         EventService.to.post(ReceiveMsgEvent(message));
       },
     );
@@ -106,32 +105,87 @@ class RongIM
   }
 
   ///发送消息
-  Future<bool> sendBaseMessage({required RCIMIWMessage message}) async {
-    return await sendBaseMessageMixin(engine: engine, message: message);
+  Future<bool> sendBaseMessage({
+    required RCIMIWMessage message,
+    Function(RCIMIWMessage? message)? onSendStart,
+    Function(int? code, RCIMIWMessage? message)? onSendResult,
+  }) async {
+    return await sendBaseMessageMixin(
+      engine: engine,
+      message: message,
+      onSendStart: onSendStart,
+      onSendResult: onSendResult,
+    );
   }
 
   ///发送Text消息
   Future<bool> sendTextMessage({
     required String targetId,
     required String text,
-    Function(bool)? onSendResult,
+    Function(RCIMIWMessage? message)? onSendStart,
+    Function(int? code, RCIMIWMessage? message)? onSendResult,
   }) async {
     return await sendTextMessageMixin(
       engine: engine,
       targetId: targetId,
       text: text,
+      onSendStart: onSendStart,
       onSendResult: onSendResult,
+    );
+  }
+
+  ///发送图片消息
+  Future<bool> sendImageMessage({
+    required String targetId,
+    required String path,
+    Function(int? code, RCIMIWMediaMessage? message)? onSendMsgSent,
+    Function(RCIMIWMediaMessage? message)? onSendMsgSending,
+    Function(RCIMIWMediaMessage? message)? onSendMsgSaved,
+    Function(RCIMIWMediaMessage? message)? onSendMsgCanceled,
+  }) async {
+    return await sendImageMessageMixin(
+      engine: engine,
+      targetId: targetId,
+      path: path,
+      onSendMsgSent: onSendMsgSent,
+      onSendMsgSending: onSendMsgSending,
+      onSendMsgSaved: onSendMsgSaved,
+      onSendMsgCanceled: onSendMsgCanceled,
+    );
+  }
+
+  ///发送视频消息
+  Future<bool> sendVideoMessage({
+    required String targetId,
+    required String path,
+    int? duration,
+    Function(int? code, RCIMIWMediaMessage? message)? onSendMsgSent,
+    Function(RCIMIWMediaMessage? message)? onSendMsgSending,
+    Function(RCIMIWMediaMessage? message)? onSendMsgSaved,
+    Function(RCIMIWMediaMessage? message)? onSendMsgCanceled,
+  }) async {
+    return await sendVideoMessageMixin(
+      engine: engine,
+      targetId: targetId,
+      path: path,
+      duration: duration,
+      onSendMsgSent: onSendMsgSent,
+      onSendMsgSending: onSendMsgSending,
+      onSendMsgSaved: onSendMsgSaved,
+      onSendMsgCanceled: onSendMsgCanceled,
     );
   }
 
   ///获取历史消息
   Future<bool> getHistoryMessages({
     required String targetId,
+    int sentTime = 0,
     Function(List<RCIMIWMessage>)? onHistoryMessage,
   }) async {
     return getHistoryMessagesMixin(
       engine: engine,
       targetId: targetId,
+      sentTime: sentTime,
       onHistoryMessage: onHistoryMessage,
     );
   }

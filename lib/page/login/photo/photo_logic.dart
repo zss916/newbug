@@ -1,6 +1,6 @@
 part of 'index.dart';
 
-class PhotoLogic extends GetxController {
+class PhotoLogic extends GetxController with MixinUpload {
   UserInfo? userInfo;
   UserEntity? get user => userInfo?.user;
 
@@ -67,17 +67,6 @@ class PhotoLogic extends GetxController {
 
   /// 编辑
   Future<void> onEdit(int index, {List<MediaListItem?>? selectList}) async {}
-
-  /// 上传
-  Future<String?> toUpload({required File file}) async {
-    UploadEntity? entity = await SystemAPI.upLoadUrl(file);
-    String? url = await HttpTools.upload(
-      path: entity?.uploadUrl ?? "",
-      file: file,
-      url: entity?.cdnUrl ?? "",
-    );
-    return url;
-  }
 
   ///编辑照片或视频
   Future<void> toEditMedia() async {

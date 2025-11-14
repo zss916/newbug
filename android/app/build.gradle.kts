@@ -38,8 +38,17 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+
 }
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    implementation(fileTree(mapOf("include" to listOf("*.jar", "*.aar"), "dir" to "libs")))
+    implementation("cn.rongcloud.sdk:im_libcore:5.12.1")
+    implementation("cn.rongcloud.sdk:im_chatroom:5.12.1")
+    implementation("com.google.code.gson:gson:2.10.1")
 }

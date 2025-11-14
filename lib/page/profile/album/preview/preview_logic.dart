@@ -1,3 +1,43 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:newbug/core/im/custom_message/private_message.dart';
+import 'package:newbug/core/im/custom_message/public_message.dart';
+import 'package:rongcloud_im_wrapper_plugin/rongcloud_im_wrapper_plugin.dart';
 
-class PreviewLogic extends GetxController {}
+enum PreviewViewType {
+  singleImagePhoto,
+  singlePublicPhoto,
+  singlePrivatePhoto,
+  singleSightVideo,
+  singlePublicVideo,
+  singlePrivateVideo,
+  multiplePhoto,
+  multipleVideo,
+  other,
+}
+
+class PreviewLogic extends GetxController {
+  int viewType = PreviewViewType.other.index;
+  RCIMIWImageMessage? imageMessage;
+  PublicMessage? publicMessage;
+  PrivateMessage? privateMessage;
+  RCIMIWSightMessage? videoMessage;
+
+  @override
+  void onInit() {
+    super.onInit();
+    if (Get.arguments != null) {
+      viewType = Get.arguments["viewId"] as int;
+      if (viewType == PreviewViewType.singleImagePhoto.index) {
+        imageMessage = Get.arguments["data"]["message"] as RCIMIWImageMessage;
+      } else if (viewType == PreviewViewType.singlePublicPhoto.index) {
+        publicMessage = Get.arguments["data"]["message"] as PublicMessage;
+      } else if (viewType == PreviewViewType.singlePrivatePhoto.index) {
+        privateMessage = Get.arguments["data"]["message"] as PrivateMessage;
+      } else if (viewType == PreviewViewType.singleSightVideo.index) {
+        videoMessage = Get.arguments["data"]["message"] as RCIMIWSightMessage;
+      }
+      debugPrint("viewType ===>> $viewType");
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:convert' as json_lib show json;
 
 import 'package:flutter/material.dart';
 import 'package:newbug/core/im/custom_message/custom_message_type.dart';
@@ -17,11 +17,11 @@ class PublicMessage extends RCIMIWUserCustomMessage {
 
   @override
   void decode(String jsonStr) {
-    Map<String, dynamic>? map = json.decode(jsonStr);
+    Map<String, dynamic>? map = json_lib.json.decode(jsonStr);
     content = map?['content'];
     if (content != null && content!.isNotEmpty) {
       try {
-        data = MediaListItem.fromJson(json.decode(content!));
+        data = MediaListItem.fromJson(json_lib.json.decode(content!));
       } catch (e) {
         // Handle the exception
         debugPrint("PublicMessage decode error: $e");
@@ -30,7 +30,7 @@ class PublicMessage extends RCIMIWUserCustomMessage {
   }
 
   @override
-  String encode() => json.encode({'content': content});
+  String encode() => json_lib.json.encode({'content': content});
 
   @override
   String messageObjectName() => CustomMessageType.public.name;

@@ -6,7 +6,6 @@ import 'package:newbug/core/config/global.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/network/model/user_entity.dart';
 import 'package:newbug/core/route/index.dart';
-import 'package:newbug/core/services/app_config_service.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/generated/assets.dart';
@@ -45,8 +44,7 @@ class MessageView extends StatelessWidget {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(5),
                   onTap: () {
-                    //todo 客服 tochat
-                    String serviceId = AppConfigService.to.serviceAccount;
+                    logic.toChatServiceAccount();
                   },
                   child: Image.asset(Assets.imgCustomer, width: 36, height: 36),
                 ),
@@ -57,8 +55,7 @@ class MessageView extends StatelessWidget {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(5),
                   onTap: () {
-                    //todo 通知
-                    String noticeId = AppConfigService.to.noticeAccount;
+                    logic.toNotice();
                   },
                   child: Image.asset(
                     Assets.imgMessageNotification,

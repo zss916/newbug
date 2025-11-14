@@ -11,6 +11,13 @@ mixin class ListenerMixin {
           break;
         case RCIMIWConnectionStatus.connected:
           debugPrint("RongIM 连接成功");
+
+          /*    engine.registerCustomMessage("connectfriends:public", (json) {
+            PublicMessage2 msg = PublicMessage2.fromJson(json);
+            msg.decode(json['content']);
+            return msg;
+          });*/
+
           break;
         case RCIMIWConnectionStatus.connecting:
           debugPrint("RongIM 连接中");

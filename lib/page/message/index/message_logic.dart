@@ -7,6 +7,8 @@ import 'package:newbug/core/im/utils/im_event.dart';
 import 'package:newbug/core/network/model/unread_data_entity.dart';
 import 'package:newbug/core/network/model/user_entity.dart';
 import 'package:newbug/core/network/reopsitory/chat.dart';
+import 'package:newbug/core/route/index.dart';
+import 'package:newbug/core/services/app_config_service.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -34,21 +36,23 @@ class MessageLogic extends GetxController {
   ///用户数据
   Map<String, UserEntity> userInfoMap = {};
 
-  // StreamSubscription<SendEvent>? sendSubs;
-  StreamSubscription<ReceiveMsgEvent>? receiveSubs;
-
   RefreshController loadMoreCtrl = RefreshController(initialRefresh: false);
 
   ///最后一条消息的发送时间
   int startTime = 0;
 
+  ///聊天页面发送消息监听
+  StreamSubscription<SendEvent>? sendSubs;
+  StreamSubscription<ReceiveMsgEvent>? receiveSubs;
+
   @override
   void onInit() {
     super.onInit();
-    /* sendSubs = EventService.to.listen<SendEvent>((event) {
-      debugPrint("SendEvent ====>>>>> getConversations");
-      // getConversations();
-    });*/
+
+    ///监听发送消息刷新Conversations
+    sendSubs = EventService.to.listen<SendEvent>((event) {
+      loadAllConversations();
+    });
 
     ///接受融云消息监听
     receiveSubs = EventService.to.listen<ReceiveMsgEvent>((event) {
@@ -65,6 +69,7 @@ class MessageLogic extends GetxController {
 
   @override
   void onClose() {
+    sendSubs?.cancel();
     loadMoreCtrl.dispose();
     receiveSubs?.cancel();
     super.onClose();
@@ -209,6 +214,23 @@ class MessageLogic extends GetxController {
     }
   }
 
+  ///客服聊天
+  void toChatServiceAccount() {
+    String serviceId = AppConfigService.to.serviceAccount;
+  }
+
+  ///通知
+  void toNotice() {
+    String noticeId = AppConfigService.to.noticeAccount;
+  }
+
+  ///点击聊天
+  void toChat({String? targetId, UserEntity? userInfo}) {
+    if (targetId != null) {
+      RouteManager.toChat(targetId: targetId, userInfo: userInfo);
+    }
+  }
+
   ///去重复
   List<T> removeDuplicates<T>(
     List<T> list,
@@ -226,7 +248,6 @@ class MessageLogic extends GetxController {
         output.add(list[i]);
       }
     }
-
     return output;
   }
 }

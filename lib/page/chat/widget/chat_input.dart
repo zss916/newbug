@@ -1,28 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:newbug/core/album/gallery/gallery_tools.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/route/index.dart';
 import 'package:newbug/generated/assets.dart';
+import 'package:newbug/page/chat/chat_widget/keyboard_state.dart';
 import 'package:newbug/page/chat/sheet/showPrivateAlbum.dart';
 import 'package:newbug/page/chat/widget/chat_pick_image.dart';
+import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 
 class InputSend extends StatefulWidget {
   final Function(String) onSend;
-  const InputSend({super.key, required this.onSend});
+  final Function(bool)? onKeyboardChanged;
+  final Function(List<AssetEntity>)? onSelectPublicAlbum;
+  const InputSend({
+    super.key,
+    required this.onSend,
+    this.onKeyboardChanged,
+    this.onSelectPublicAlbum,
+  });
 
   @override
   _InputSendState createState() => _InputSendState();
 }
 
-class _InputSendState extends State<InputSend> {
+class _InputSendState extends State<InputSend>
+    with WidgetsBindingObserver, KeyboardState {
   final TextEditingController textEditCtrl = TextEditingController();
 
   bool isCanSend = false;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void dispose() {
     textEditCtrl.dispose();
     super.dispose();
+  }
+
+  @override
+  void onKeyboardChanged(bool visible) {
+    if (visible) {
+      widget.onKeyboardChanged?.call(true);
+    }
   }
 
   @override
@@ -38,9 +62,15 @@ class _InputSendState extends State<InputSend> {
       child: Row(
         children: [
           ChatPickImage(
-            onPublicAlbum: () {},
+            onPublicAlbum: () {
+              openPublicAlbum(context);
+            },
             onPrivateAlbum: () {
-              showPrivateAlbum(onConfirm: () {});
+              showPrivateAlbum(
+                onConfirm: () {
+                  RouteManager.toPrivateAlbum();
+                },
+              );
             },
           ),
           Expanded(
@@ -114,5 +144,18 @@ class _InputSendState extends State<InputSend> {
         ],
       ),
     );
+  }
+
+  ///打开公共相册
+  Future<void> openPublicAlbum(BuildContext context) async {
+    GalleryTools.openGallery(
+      context: context,
+      maxAssets: 1,
+      type: RequestType.common,
+    ).then((List<AssetEntity> assets) {
+      if (assets.isNotEmpty) {
+        widget.onSelectPublicAlbum?.call(assets);
+      }
+    });
   }
 }

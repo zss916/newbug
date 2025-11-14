@@ -110,6 +110,10 @@ class UserEntity {
   ///是否显示address
   bool get isShowAddress =>
       (LocationUtils.getCacheLocationInfo()?.address ?? "").isNotEmpty;
+
+  ///显示昵称和年龄
+  String get showNickAndAge =>
+      (age == null) ? nickName ?? "" : '${nickName ?? ""},${age}';
 }
 
 @JsonSerializable()

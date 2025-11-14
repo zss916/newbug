@@ -27,9 +27,13 @@ extension DateTimeExtension on DateTime {
 
 extension TimestampExtension on int {
   ///时间戳转换为格式：13 Feb 7:30 PM
-  String get timestampFormatted => DateFormat(
+  String get timestampFormatted2 => DateFormat(
     'dd MMM h:mm a',
   ).format(DateTime.fromMillisecondsSinceEpoch(this * 1000));
+
+  String get timestampFormatted => DateFormat(
+    'yyyy-MM-dd HH:mm:ss',
+  ).format(DateTime.fromMillisecondsSinceEpoch(this));
 
   String get formatted => NumberFormat('00').format(this);
 

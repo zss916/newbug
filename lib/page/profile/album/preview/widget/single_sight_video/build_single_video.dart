@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/chat/custom_message_widget/count_down_widget.dart';
-import 'package:newbug/page/profile/album/preview/widget/single_video/preview_video_plus.dart';
+import 'package:newbug/page/profile/album/preview/widget/single_sight_video/preview_video_plus.dart';
 
 class BuildSingleVideo extends StatelessWidget {
   final String url;

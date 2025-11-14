@@ -1,11 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/generated/assets.dart';
+import 'package:newbug/page/chat/index.dart';
 import 'package:newbug/page/chat/sheet/sheetChatMore.dart';
 
 class ChatAppBar extends StatelessWidget {
-  const ChatAppBar({super.key});
+  final ChatLogic logic;
+  const ChatAppBar({super.key, required this.logic});
 
   @override
   Widget build(BuildContext context) {
@@ -49,15 +52,15 @@ class ChatAppBar extends StatelessWidget {
                     color: Colors.white,
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(
-                        "https://img1.baidu.com/it/u=2407322510,2912386112&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=670",
+                      image: CachedNetworkImageProvider(
+                        logic.userInfo?.headimg ?? "",
                       ),
                     ),
                     border: Border.all(width: 1, color: Colors.black),
                     borderRadius: BorderRadius.circular(100),
                   ),
                 ),
-                if (true)
+                if (logic.userInfo?.isOnline ?? false)
                   PositionedDirectional(
                     top: 1,
                     end: 1,
@@ -79,7 +82,7 @@ class ChatAppBar extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Amanda,29',
+                  "${logic.userInfo?.showNickAndAge}",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -88,22 +91,27 @@ class ChatAppBar extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(Assets.imgLocation, width: 14.r, height: 14.r),
-                    Text(
-                      'Columbusddd',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: const Color(0xFF7D60FF),
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w500,
+                if (logic.userInfo?.isShowAddress ?? false)
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Image.asset(
+                        Assets.imgLocation,
+                        width: 14.r,
+                        height: 14.r,
                       ),
-                    ),
-                  ],
-                ),
+                      Text(
+                        logic.userInfo?.address ?? "",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: const Color(0xFF7D60FF),
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
               ],
             ),
           ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_disposable.dart';
 import 'package:newbug/core/im/rong_im.dart';
 import 'package:newbug/core/im/utils/base64.dart';
-import 'package:newbug/core/stores/app_stores.dart';
 import 'package:rongcloud_im_wrapper_plugin/rongcloud_im_wrapper_plugin.dart';
 
 class CvIM extends GetxService {
@@ -41,16 +40,58 @@ class CvIM extends GetxService {
     );
   }
 
-  ///发送 (自己10011052) （主播10004891，10000727，10004888）
-  static Future<bool> toSend({
+  ///文字消息
+  static Future<bool> toSendText({
     required String targetId,
     required String text,
-    Function(bool)? onSendResult,
+    Function(RCIMIWMessage? message)? onSendStart,
+    Function(int? code, RCIMIWMessage? message)? onSendResult,
   }) async {
     return await RongIM.instance.sendTextMessage(
       text: text,
       targetId: targetId,
+      onSendStart: onSendStart,
       onSendResult: onSendResult,
+    );
+  }
+
+  ///发送图片消息
+  static Future<bool> toSendImage({
+    required String targetId,
+    required String path,
+    Function(RCIMIWMediaMessage? message)? onSendMsgSaved,
+    Function(RCIMIWMediaMessage? message)? onSendMsgSending,
+    Function(int? code, RCIMIWMediaMessage? message)? onSendMsgSent,
+    Function(RCIMIWMediaMessage? message)? onSendMsgCanceled,
+  }) async {
+    return await RongIM.instance.sendImageMessage(
+      path: path,
+      targetId: targetId,
+      onSendMsgSent: onSendMsgSent,
+      onSendMsgSending: onSendMsgSending,
+      onSendMsgSaved: onSendMsgSaved,
+      onSendMsgCanceled: onSendMsgCanceled,
+    );
+  }
+
+  ///发送视频消息
+  static Future<bool> toSendVideo({
+    required String targetId,
+    required String path,
+    int? duration,
+    Function(int? code, RCIMIWMediaMessage? message)? onSendMsgSent,
+    Function(RCIMIWMediaMessage? message)? onSendMsgSending,
+    Function(RCIMIWMediaMessage? message)? onSendMsgSaved,
+    Function(RCIMIWMediaMessage? message)? onSendMsgCanceled,
+  }) async {
+    return await RongIM.instance.sendVideoMessage(
+      path: path,
+      duration: duration,
+      targetId: targetId,
+      onSendMsgSent: onSendMsgSent,
+      onSendMsgSending: onSendMsgSending,
+      onSendMsgSaved: onSendMsgSaved,
+      onSendMsgCanceled: onSendMsgCanceled,
     );
   }
 
@@ -92,13 +133,20 @@ class CvIM extends GetxService {
   }
 
   ///获取历史消息
-  static void getHistoryMessageList() {
-    int? uid = AppStores.getUid();
-    if (uid == null) {
-      debugPrint("CvIM getHistoryMessageList => uid is null");
+  static Future<void> getHistoryMessageList({
+    String? targetId,
+    int sentTime = 0,
+    Function(List<RCIMIWMessage>)? onHistoryMessage,
+  }) async {
+    if (targetId == null) {
+      debugPrint("CvIM getHistoryMessageList => uid is null,$targetId");
       return;
     }
-    RongIM.instance.getHistoryMessages(targetId: "$uid");
+    await RongIM.instance.getHistoryMessages(
+      targetId: targetId,
+      sentTime: sentTime,
+      onHistoryMessage: onHistoryMessage,
+    );
   }
 
   ///退出登录

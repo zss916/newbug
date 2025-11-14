@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/chat/custom_message_widget/count_down_widget.dart';
-import 'package:newbug/page/profile/album/preview/widget/preview_image.dart';
 
 class BuildMultiplePhoto extends StatefulWidget {
   final bool isPrivate;
@@ -89,7 +88,7 @@ class _BuildMultiplePhotoState extends State<BuildMultiplePhoto> {
                       physics: const NeverScrollableScrollPhysics(),
                       controller: controller,
                       children: [
-                        for (var item in widget.urls) PreviewImage(url: item),
+                        //for (var item in widget.urls) PreviewImage(url: item),
                       ],
                       onPageChanged: (index) {
                         setState(() {

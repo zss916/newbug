@@ -42,12 +42,23 @@ class RouteManager {
   static toFlashChat({HomeCardsMatchList? value}) =>
       Get.toNamed(AppRoutes.flashChat, arguments: {"match": value});
 
-  static toChat({String? targetId}) =>
-      Get.toNamed(AppRoutes.chat, arguments: {"targetId": targetId});
+  static toChat({String? targetId, UserEntity? userInfo}) {
+    Map<String, dynamic> map = {};
+    if (targetId != null) {
+      map["targetId"] = targetId;
+    }
+    if (userInfo != null) {
+      map["userInfo"] = userInfo;
+    }
+    Get.toNamed(AppRoutes.chat, arguments: map);
+  }
 
   static toSelectedAlbum() => Get.toNamed(AppRoutes.selectedAlbum);
 
-  static toPreviewView() => Get.toNamed(AppRoutes.previewView);
+  static toPreviewView({int? viewId, dynamic data}) => Get.toNamed(
+    AppRoutes.previewView,
+    arguments: {"viewId": viewId, "data": data},
+  );
 
   static towWebview({required String title, required String url}) =>
       Get.toNamed(AppRoutes.webview, arguments: {"title": title, "url": url});

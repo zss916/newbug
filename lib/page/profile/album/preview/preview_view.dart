@@ -1,25 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:newbug/page/profile/album/preview/preview_logic.dart';
 import 'package:newbug/page/profile/album/preview/widget/build_multiple_photo.dart';
-import 'package:newbug/page/profile/album/preview/widget/build_single_photo.dart';
 import 'package:newbug/page/profile/album/preview/widget/multiple_video/build_multiple_video.dart';
-import 'package:newbug/page/profile/album/preview/widget/single_video/build_single_video.dart';
+import 'package:newbug/page/profile/album/preview/widget/other.dart';
+import 'package:newbug/page/profile/album/preview/widget/single_image_photo/build_single_image_photo.dart';
+import 'package:newbug/page/profile/album/preview/widget/single_private_photo/build_single_private_photo.dart';
+import 'package:newbug/page/profile/album/preview/widget/single_public_photo/build_single_public_photo.dart';
+import 'package:newbug/page/profile/album/preview/widget/single_sight_video/build_single_sight_video.dart';
+import 'package:newbug/page/profile/album/preview/widget/single_sight_video/build_single_video.dart';
 
 class PreviewView extends StatelessWidget {
   const PreviewView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return buildBody(state: 3);
+    return GetBuilder<PreviewLogic>(
+      init: PreviewLogic(),
+      builder: (logic) {
+        return buildBody(state: logic.viewType, logic: logic);
+      },
+    );
   }
 
-  Widget buildBody({required int state}) {
+  Widget buildBody({required int state, required PreviewLogic logic}) {
     return switch (state) {
-      _ when state == 0 => BuildSinglePhoto(
-        isPrivate: false,
-        url:
-            "https://img0.baidu.com/it/u=895039573,196690770&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=750",
-      ),
-      _ when state == 1 => BuildMultiplePhoto(
+      _ when state == PreviewViewType.singleImagePhoto.index =>
+        BuildSingleImagePhoto(message: logic.imageMessage),
+      _ when state == PreviewViewType.singlePublicPhoto.index =>
+        BuildSinglePublicPhoto(url: logic.publicMessage?.data?.imageUrl ?? ""),
+      _ when state == PreviewViewType.singlePrivatePhoto.index =>
+        BuildSinglePrivatePhoto(
+          url: logic.privateMessage?.data?.imageUrl ?? "",
+        ),
+      _ when state == PreviewViewType.singleSightVideo.index =>
+        BuildSingleSightVideo(
+          videoMessage: logic.videoMessage,
+          isPrivate: false,
+        ),
+
+      ///todo
+      _ when state == PreviewViewType.multiplePhoto.index => BuildMultiplePhoto(
         isPrivate: true,
         urls: [
           "https://img1.baidu.com/it/u=4215474319,2725351576&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=889",
@@ -27,14 +48,21 @@ class PreviewView extends StatelessWidget {
           "https://img1.baidu.com/it/u=2407322510,2912386112&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=670",
         ],
       ),
-      _ when state == 2 => BuildSingleVideo(
+      _ when state == PreviewViewType.singlePublicVideo.index => BuildSingleVideo(
+        isPrivate: false,
+        url:
+            "https://szsl-normal.oss-cn-hangzhou.aliyuncs.com/%E9%A3%9E%E4%B9%A620250901-133635.mp4",
+        thumb:
+            "https://img0.baidu.com/it/u=4215474319,2725351576&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=889",
+      ),
+      _ when state == PreviewViewType.singlePrivateVideo.index => BuildSingleVideo(
         isPrivate: true,
         url:
             "https://szsl-normal.oss-cn-hangzhou.aliyuncs.com/%E9%A3%9E%E4%B9%A620250901-133635.mp4",
         thumb:
             "https://img0.baidu.com/it/u=4215474319,2725351576&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=889",
       ),
-      _ when state == 3 => BuildMultipleVideo(
+      _ when state == PreviewViewType.multipleVideo.index => BuildMultipleVideo(
         isPrivate: true,
         urls: [
           "https://szsl-normal.oss-cn-hangzhou.aliyuncs.com/%E9%A3%9E%E4%B9%A620250901-133635.mp4",
@@ -49,6 +77,7 @@ class PreviewView extends StatelessWidget {
           "https://img1.baidu.com/it/u=2407322510,2912386112&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=670",
         ],
       ),
+      _ when state == PreviewViewType.other.index => OtherPage(),
       _ => SizedBox.shrink(),
     };
   }

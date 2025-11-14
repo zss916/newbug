@@ -10,7 +10,7 @@ import 'package:rongcloud_im_wrapper_plugin/rongcloud_im_wrapper_plugin.dart';
 
 mixin class CustomMessageMixin {
   ///注册自定义消息
-  void registerCustomMessages({RCIMIWEngine? engine}) {
+  Future<void> registerCustomMessages({RCIMIWEngine? engine}) async {
     ///建联消息
     _registerSomeoneCustomMsg(
       engine,
@@ -19,7 +19,7 @@ mixin class CustomMessageMixin {
     );
 
     ///公开消息
-    _registerSomeoneCustomMsg(
+    await _registerSomeoneCustomMsg(
       engine,
       CustomMessageType.public.name,
       (json) => PublicMessage.fromJson(json)..decode(json['content']),
@@ -62,11 +62,11 @@ mixin class CustomMessageMixin {
   }
 
   /// 注册某一个自定义消息
-  void _registerSomeoneCustomMsg(
+  Future<void> _registerSomeoneCustomMsg(
     RCIMIWEngine? engine,
     String objectName,
     RCIMIWUserCustomMessage Function(Map<String, dynamic> json) messageDcoder,
-  ) {
-    engine?.registerCustomMessage(objectName, messageDcoder);
+  ) async {
+    await engine?.registerCustomMessage(objectName, messageDcoder);
   }
 }
