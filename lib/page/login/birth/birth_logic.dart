@@ -3,6 +3,7 @@ part of 'index.dart';
 class BirthLogic extends GetxController {
   UserInfo? userInfo;
   DateTime? get birthDateTime => userInfo?.user?.brithValue;
+  FormType? type;
 
   @override
   void onInit() {
@@ -12,7 +13,9 @@ class BirthLogic extends GetxController {
 
   void setData() {
     if (Get.arguments != null) {
-      userInfo = Get.arguments as UserInfo;
+      Map<String, dynamic> map = Get.arguments as Map<String, dynamic>;
+      userInfo = map['userInfo'] as UserInfo?;
+      type = map['form'] as FormType?;
       update();
     }
   }
@@ -27,7 +30,12 @@ class BirthLogic extends GetxController {
 
     if (value != null) {
       AppStores.setUserInfo(value: value.user);
-      RouteManager.toGender(userInfo: value);
+      if (type == FormType.editProfile) {
+        EventService.to.post(RefreshUserEvent(user: value.user));
+        Get.back();
+      } else if (type == FormType.login) {
+        RouteManager.toGender(form: FormType.login, userInfo: value);
+      }
     }
   }
 }

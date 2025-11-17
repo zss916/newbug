@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/event/app_event.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/generated/assets.dart';
 
@@ -13,6 +14,7 @@ class GuideView extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Get.back();
+        EventService.to.post(HomeMenuEvent(isShow: true));
         EventService.to.post(OpenMenuEvent(isOpen: true));
       },
       child: Container(

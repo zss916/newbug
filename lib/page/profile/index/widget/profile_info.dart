@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/network/model/user_entity.dart';
 import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/generated/assets.dart';
@@ -13,12 +14,14 @@ class ProfileInfo extends StatelessWidget {
   final String? name;
   final String? identifier;
   final bool? isVip;
+  final UserEntity? user;
   const ProfileInfo({
     super.key,
     required this.avatar,
     required this.name,
     required this.identifier,
     required this.isVip,
+    this.user,
   });
 
   @override
@@ -36,7 +39,7 @@ class ProfileInfo extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    RouteManager.toEditProfile();
+                    RouteManager.toEditProfile(user: user);
                   },
                   child: Row(
                     children: [
@@ -121,7 +124,7 @@ class ProfileInfo extends StatelessWidget {
       child: UnconstrainedBox(
         child: GestureDetector(
           onTap: () {
-            RouteManager.toEditProfile();
+            RouteManager.toEditProfile(user: user);
           },
           child: Container(
             width: 75,

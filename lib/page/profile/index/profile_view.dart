@@ -45,6 +45,7 @@ class ProfileView extends StatelessWidget {
                   name: logic.nickName,
                   identifier: logic.uid,
                   isVip: logic.isVip,
+                  user: logic.user,
                 ),
                 ProfileVisitor(
                   visitorsCount: logic.visitorNewCount,

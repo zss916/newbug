@@ -38,7 +38,11 @@ class _BuildBodyState extends State<BuildBody> {
           ),
         ),
         Expanded(
-          child: PageView(controller: controller, children: widget.children),
+          child: PageView(
+            physics: NeverScrollableScrollPhysics(),
+            controller: controller,
+            children: widget.children,
+          ),
         ),
       ],
     );

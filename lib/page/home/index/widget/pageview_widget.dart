@@ -2,6 +2,7 @@ import 'dart:async' show StreamSubscription;
 
 import 'package:flutter/material.dart';
 import 'package:newbug/core/config/action_type.dart';
+import 'package:newbug/core/event/app_event.dart';
 import 'package:newbug/core/network/model/home_cards_entity.dart';
 import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/stores/event.dart';

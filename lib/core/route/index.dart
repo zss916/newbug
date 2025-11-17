@@ -11,7 +11,6 @@ import 'package:newbug/page/chat/index.dart';
 import 'package:newbug/page/guide/guide_view.dart';
 import 'package:newbug/page/home/detail/flash_chat_view.dart';
 import 'package:newbug/page/home/index/home_view.dart';
-import 'package:newbug/page/home/unmatch/unmatch_view.dart';
 import 'package:newbug/page/login/birth/index.dart';
 import 'package:newbug/page/login/email/index.dart';
 import 'package:newbug/page/login/gender/index.dart';

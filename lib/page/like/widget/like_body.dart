@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:newbug/core/event/app_event.dart';
 import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/page/like/like_logic.dart';

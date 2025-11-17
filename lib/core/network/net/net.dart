@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:newbug/core/config/constants.dart';
 import 'package:newbug/core/network/interceptor/aes_interceptor.dart';
+import 'package:newbug/core/network/interceptor/base_response_interceptor.dart';
 import 'package:newbug/core/network/interceptor/header_interceptor.dart';
 import 'package:newbug/core/network/path/netPath.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
@@ -51,7 +52,8 @@ class Net {
       _dio.interceptors.add(AesInterceptor());
     }
 
-    //_dio.interceptors.add(BaseResponseInterceptor());
+    ///返回值处理
+    _dio.interceptors.add(BaseResponseInterceptor());
 
     /// 缓存
     // _dio.interceptors.add(cacheInterceptor);

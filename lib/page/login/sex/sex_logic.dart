@@ -8,6 +8,8 @@ class SexLogic extends GetxController {
       ? 3
       : (userInfo?.user?.sexuality ?? 0);
 
+  FormType? type;
+
   @override
   void onInit() {
     super.onInit();
@@ -16,7 +18,9 @@ class SexLogic extends GetxController {
 
   void setData() {
     if (Get.arguments != null) {
-      userInfo = Get.arguments as UserInfo;
+      Map<String, dynamic> map = Get.arguments as Map<String, dynamic>;
+      userInfo = map['userInfo'] as UserInfo?;
+      type = map['form'] as FormType?;
       update();
     }
   }
@@ -31,7 +35,12 @@ class SexLogic extends GetxController {
     if (value != null) {
       // AppStores.setTagsList(data:value.tagList??[]);
       AppStores.setUserInfo(value: value.user);
-      RouteManager.toPhoto(userInfo: value);
+      if (type == FormType.editProfile) {
+        EventService.to.post(RefreshUserEvent(user: value.user));
+        Get.back();
+      } else if (type == FormType.login) {
+        RouteManager.toPhoto(form: FormType.login, userInfo: value);
+      }
     }
   }
 }

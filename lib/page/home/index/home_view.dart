@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/constants.dart';
 import 'package:newbug/core/config/global.dart';
+import 'package:newbug/core/event/app_event.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/page/home/index/widget/home_more.dart';

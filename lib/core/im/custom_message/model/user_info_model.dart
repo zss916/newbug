@@ -1,6 +1,6 @@
 import 'package:newbug/core/network/model/meida_list_item.dart';
 
-class UserInfo {
+class UserInfoModel {
   int? userId;
   String? nickName;
   String? headimg;
@@ -19,7 +19,7 @@ class UserInfo {
   ///0表示非密友,1表示密友
   int? confidant;
 
-  UserInfo({
+  UserInfoModel({
     this.userId,
     this.nickName,
     this.headimg,
@@ -34,7 +34,7 @@ class UserInfo {
     this.beard_info,
   });
 
-  UserInfo.fromJson(Map<String, dynamic>? json) {
+  UserInfoModel.fromJson(Map<String, dynamic>? json) {
     userId = json != null && json['user_id'] != null
         ? parseUserId(json['user_id'])
         : null;

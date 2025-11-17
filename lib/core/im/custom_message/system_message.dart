@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:newbug/core/im/custom_message/custom_message_type.dart';
-import 'package:newbug/core/im/custom_message/model/user_info.dart';
+import 'package:newbug/core/im/custom_message/model/user_info_model.dart';
 import 'package:rongcloud_im_wrapper_plugin/rongcloud_im_wrapper_plugin.dart';
 
 ///系统触发的行为消息
@@ -48,7 +48,7 @@ class SystemMessage extends RCIMIWUserCustomMessage {
   }
 }
 
-class SystemPushModel extends UserInfo {
+class SystemPushModel extends UserInfoModel {
   Map<String, dynamic>? action;
   String? msg;
 

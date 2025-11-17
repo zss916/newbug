@@ -1,8 +1,9 @@
 part of 'index.dart';
 
 class NameLogic extends GetxController {
-  AuthEntity? auth;
-  String get nickName => auth?.nickName ?? "";
+  UserEntity? user;
+  String get nickName => user?.nickName ?? "";
+  FormType? type;
 
   @override
   void onInit() {
@@ -12,7 +13,9 @@ class NameLogic extends GetxController {
 
   void setData() {
     if (Get.arguments != null) {
-      auth = Get.arguments as AuthEntity;
+      Map<String, dynamic> map = Get.arguments as Map<String, dynamic>;
+      user = map['user'] as UserEntity?;
+      type = map['form'] as FormType?;
       update();
     }
   }
@@ -26,7 +29,12 @@ class NameLogic extends GetxController {
         });
     if (value != null) {
       AppStores.setUserInfo(value: value.user);
-      RouteManager.toBirth(userInfo: value);
+      if (type == FormType.login) {
+        RouteManager.toBirth(form: FormType.login, userInfo: value);
+      } else if (type == FormType.editProfile) {
+        EventService.to.post(RefreshUserEvent(user: value.user));
+        Get.back();
+      }
     }
   }
 }

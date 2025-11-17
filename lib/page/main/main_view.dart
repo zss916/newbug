@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:newbug/core/event/app_event.dart';
 import 'package:newbug/core/mixin/delayed_init_mixin.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/generated/assets.dart';

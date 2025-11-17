@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
+import 'package:newbug/core/event/app_event.dart';
 import 'package:newbug/core/helper/auth_helper.dart';
 import 'package:newbug/core/im/cv_im.dart';
 import 'package:newbug/core/network/model/unread_data_entity.dart';
@@ -8,6 +11,7 @@ import 'package:newbug/core/network/reopsitory/chat.dart';
 import 'package:newbug/core/network/reopsitory/profile.dart';
 import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/stores/app_stores.dart';
+import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/page/profile/sheet/pay/pay_sheet.dart';
 
@@ -29,10 +33,23 @@ class ProfileLogic extends GetxController {
   //int get wlmEntryTotalCount => unreadData?.wlmTotalNum ?? 0;
   //int get wlmEntryCount => unreadData?.wlmNewNum ?? 0;
 
+  StreamSubscription<RefreshUserEvent>? refreshUserSubs;
+
+  @override
+  void onClose() {
+    super.onClose();
+    refreshUserSubs?.cancel();
+  }
+
   @override
   void onInit() {
     super.onInit();
     initData();
+    refreshUserSubs = EventService.to.listen<RefreshUserEvent>((event) {
+      user = event.user;
+      update();
+      loadUserInfo();
+    });
   }
 
   @override

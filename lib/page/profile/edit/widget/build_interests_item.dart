@@ -7,7 +7,12 @@ import 'package:newbug/page/home/index/widget/wrap_interest.dart';
 
 class BuildInterestsItem extends StatelessWidget {
   final Function onTap;
-  const BuildInterestsItem({super.key, required this.onTap});
+  final List<String> data;
+  const BuildInterestsItem({
+    super.key,
+    required this.data,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -56,16 +61,7 @@ class BuildInterestsItem extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Expanded(
-                    child: WrapInterest(
-                      interests: [
-                        "# Travel",
-                        "# Like lovely people",
-                        "# Travel",
-                        "# Ourdoor",
-                      ],
-                    ),
-                  ),
+                  Expanded(child: WrapInterest(interests: data)),
                   Container(
                     margin: EdgeInsetsDirectional.only(start: 10.w),
                     child: Image.asset(

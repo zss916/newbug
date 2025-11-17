@@ -11,19 +11,20 @@ class InterestView extends StatelessWidget {
         return Scaffold(
           appBar: CommonAppBar(
             actions: [
-              TextButton(
-                onPressed: () {
-                  logic.toSkip();
-                },
-                child: Text(
-                  T.skip.tr,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
+              if (logic.type == FormType.login)
+                TextButton(
+                  onPressed: () {
+                    logic.toSkip();
+                  },
+                  child: Text(
+                    T.skip.tr,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
           backgroundColor: Colors.white,

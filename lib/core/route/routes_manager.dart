@@ -1,24 +1,37 @@
 part of 'index.dart';
 
+enum FormType { login, editProfile }
+
 /// 路由管理
 class RouteManager {
-  static toName({UserEntity? user}) =>
-      Get.toNamed(AppRoutes.name, arguments: user);
+  static toName({FormType? form, UserEntity? user}) =>
+      Get.toNamed(AppRoutes.name, arguments: {"form": form, "user": user});
 
-  static toBirth({UserInfo? userInfo}) =>
-      Get.toNamed(AppRoutes.birth, arguments: userInfo);
+  static toBirth({FormType? form, UserInfo? userInfo}) => Get.toNamed(
+    AppRoutes.birth,
+    arguments: {"form": form, "userInfo": userInfo},
+  );
 
-  static toGender({UserInfo? userInfo}) =>
-      Get.toNamed(AppRoutes.gender, arguments: userInfo);
+  static toGender({FormType? form, UserInfo? userInfo}) => Get.toNamed(
+    AppRoutes.gender,
+    arguments: {"form": form, "userInfo": userInfo},
+  );
 
-  static toSex({UserInfo? userInfo}) =>
-      Get.toNamed(AppRoutes.sex, arguments: userInfo);
+  static toSex({FormType? form, UserInfo? userInfo}) => Get.toNamed(
+    AppRoutes.sex,
+    arguments: {"form": form, "userInfo": userInfo},
+  );
 
-  static toPhoto({UserInfo? userInfo}) =>
-      Get.toNamed(AppRoutes.photo, arguments: userInfo);
+  static toPhoto({FormType? form, UserInfo? userInfo}) => Get.toNamed(
+    AppRoutes.photo,
+    arguments: {"form": form, "userInfo": userInfo},
+  );
 
-  static toInterest({UserInfo? userInfo}) =>
-      Get.toNamed(AppRoutes.interest, arguments: userInfo);
+  static toInterest({FormType? form, EditType? subForm, UserInfo? userInfo}) =>
+      Get.toNamed(
+        AppRoutes.interest,
+        arguments: {"form": form, "subForm": subForm, "userInfo": userInfo},
+      );
 
   static toEmailLogin() => Get.toNamed(AppRoutes.email);
 
@@ -27,11 +40,15 @@ class RouteManager {
   static toVisitor({required bool isUserVip}) =>
       Get.toNamed(AppRoutes.visitor, arguments: {"isUserVip": isUserVip});
 
+  static toEditProfile({UserEntity? user}) {
+    if (user != null) {
+      Get.toNamed(AppRoutes.editProfile, arguments: {"user": user});
+    }
+  }
+
   static toUnmatch() => Get.toNamed(AppRoutes.unmatch);
 
   static toNotification() => Get.toNamed(AppRoutes.notification);
-
-  static toEditProfile() => Get.toNamed(AppRoutes.editProfile);
 
   static toDeleteAccount() => Get.toNamed(AppRoutes.deleteAccount);
 

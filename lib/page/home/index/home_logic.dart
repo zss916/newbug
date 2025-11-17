@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:newbug/core/config/form_type.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/event/app_event.dart';
 import 'package:newbug/core/network/model/home_cards_entity.dart';
 import 'package:newbug/core/network/model/right.dart';
 import 'package:newbug/core/network/reopsitory/home.dart';

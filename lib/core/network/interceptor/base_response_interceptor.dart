@@ -1,14 +1,27 @@
 import 'package:dio/dio.dart';
+import 'package:newbug/core/helper/auth_helper.dart';
+import 'package:newbug/core/im/cv_im.dart';
 import 'package:newbug/core/network/model/base_response.dart';
+import 'package:newbug/core/route/index.dart';
+import 'package:newbug/core/widget/index.dart';
 
-///不去壳，json 统一变成 BaseResponse 处理
 class BaseResponseInterceptor extends Interceptor {
   BaseResponseInterceptor();
+  int tokenError = 1002;
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    // response.data = BaseResponse.fromJson(response.data).data;
-    response.data = BaseResponse.fromJson(response.data);
-    handler.resolve(response);
+    BaseResponse baseResponse = BaseResponse.fromJson(response.data);
+    if (baseResponse.code == tokenError) {
+      if ((baseResponse.msg ?? "").isNotEmpty) {
+        CustomToast.showText(baseResponse.msg ?? "");
+      }
+      CvIM.logout();
+      AuthHelper.instance.toHandleLogout();
+      RouteManager.offAllToLogin();
+      handler.next(response);
+    } else {
+      super.onResponse(response, handler);
+    }
   }
 }

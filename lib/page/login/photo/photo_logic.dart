@@ -2,6 +2,7 @@ part of 'index.dart';
 
 class PhotoLogic extends GetxController with MixinUpload {
   UserInfo? userInfo;
+  FormType? type;
   UserEntity? get user => userInfo?.user;
 
   List<MediaListItem?> selectList = [null, null, null, null, null, null];
@@ -16,13 +17,10 @@ class PhotoLogic extends GetxController with MixinUpload {
 
   void setData() {
     if (Get.arguments != null) {
-      userInfo = Get.arguments as UserInfo;
-      // List<MediaListItem?> initData = (user?.mediaList ?? []);
-
-      /*for (int i = 0; i < ((selectList??[]).length); i++) {
-       (selectList??[])[i] = (selectList??[])[i]..thumbUrl = await GalleryTools.getThumbnail();
-      }*/
-      // update();
+      Map<String, dynamic> map = Get.arguments as Map<String, dynamic>;
+      userInfo = map['userInfo'] as UserInfo?;
+      type = map['form'] as FormType?;
+      update();
     }
   }
 
@@ -112,7 +110,6 @@ class PhotoLogic extends GetxController with MixinUpload {
     debugPrint("toEditMedia end:${DateTime.now().timeFormatted}");
 
     ///压缩图片和视频上传
-
     UserInfo? value =
         await AccountAPI.editInfo(
           step: 7,
@@ -124,11 +121,11 @@ class PhotoLogic extends GetxController with MixinUpload {
     if (value != null) {
       value.tagList = userInfo?.tagList ?? [];
       AppStores.setUserInfo(value: value.user);
-      RouteManager.toInterest(userInfo: value);
+      RouteManager.toInterest(form: FormType.login, userInfo: value);
     }
   }
 
   void toNext() {
-    RouteManager.toInterest(userInfo: userInfo);
+    RouteManager.toInterest(form: FormType.login, userInfo: userInfo);
   }
 }

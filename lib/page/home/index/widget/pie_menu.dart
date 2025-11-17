@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/event/app_event.dart';
 import 'package:newbug/core/helper/auth_helper.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/core/widget/intro/flutter_intro.dart';

@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/network/model/user_info.dart';
 import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/widget/index.dart';
+import 'package:newbug/page/login/interest/index.dart';
 import 'package:newbug/page/login/photo/widget/photo_card.dart';
+import 'package:newbug/page/profile/edit/edit_logic.dart';
 import 'package:newbug/page/profile/edit/widget/build_body.dart';
 import 'package:newbug/page/profile/edit/widget/build_desires.dart';
 import 'package:newbug/page/profile/edit/widget/build_interests_item.dart';
@@ -20,11 +23,16 @@ class EditView extends StatelessWidget {
     return Scaffold(
       appBar: BaseAppBar(title: T.profile.tr),
       backgroundColor: Color(0xFFFAFAFA),
-      body: BuildBody(children: [buildPublic(), buildPrivate()]),
+      body: GetBuilder<EditLogic>(
+        init: EditLogic(),
+        builder: (logic) {
+          return BuildBody(children: [buildPublic(logic), buildPrivate()]);
+        },
+      ),
     );
   }
 
-  Widget buildPublic() => SingleChildScrollView(
+  Widget buildPublic(EditLogic logic) => SingleChildScrollView(
     child: Column(
       children: [
         GridView.builder(
@@ -67,17 +75,74 @@ class EditView extends StatelessWidget {
           ),
         ),
         Divider(height: 12.h, color: Colors.transparent),
-        BuildPublicItem(title: T.nickname.tr),
+        BuildPublicItem(
+          title: T.nickname.tr,
+          value: logic.nickName,
+          onTap: () {
+            RouteManager.toName(form: FormType.editProfile, user: logic.user);
+          },
+        ),
         Divider(height: 12.h, color: Colors.transparent),
-        BuildPublicItem(title: T.birthday.tr),
+        BuildPublicItem(
+          title: T.birthday.tr,
+          value: logic.birthday,
+          onTap: () {
+            RouteManager.toBirth(
+              form: FormType.editProfile,
+              userInfo: UserInfo()..user = logic.user,
+            );
+          },
+        ),
         Divider(height: 12.h, color: Colors.transparent),
-        BuildPublicItem(title: T.gender.tr),
+        BuildPublicItem(
+          title: T.gender.tr,
+          value: logic.gender,
+          onTap: () {
+            RouteManager.toGender(
+              form: FormType.editProfile,
+              userInfo: UserInfo()..user = logic.user,
+            );
+          },
+        ),
         Divider(height: 12.h, color: Colors.transparent),
-        BuildPublicItem(title: T.sexualOrientation.tr),
+        BuildPublicItem(
+          title: T.sexualOrientation.tr,
+          value: logic.sexual,
+          onTap: () {
+            RouteManager.toSex(
+              form: FormType.editProfile,
+              userInfo: UserInfo()..user = logic.user,
+            );
+          },
+        ),
         Divider(height: 12.h, color: Colors.transparent),
-        BuildPublicItem2(title: T.aboutMe.tr),
+        BuildPublicItem2(
+          title: T.aboutMe.tr,
+          value: logic.sign,
+          onTap: () {
+            /*RouteManager.toPhoto(
+              form: ToNameType.editProfile,
+              userInfo: UserInfo()..user = logic.user,
+            );*/
+
+            RouteManager.toInterest(
+              form: FormType.editProfile,
+              subForm: EditType.editSign,
+              userInfo: UserInfo()..user = logic.user,
+            );
+          },
+        ),
         Divider(height: 30.h, color: Colors.transparent),
-        BuildInterestsItem(onTap: () {}),
+        BuildInterestsItem(
+          data: logic.tags,
+          onTap: () {
+            RouteManager.toInterest(
+              form: FormType.editProfile,
+              subForm: EditType.editInterests,
+              userInfo: UserInfo()..user = logic.user,
+            );
+          },
+        ),
       ],
     ),
   );

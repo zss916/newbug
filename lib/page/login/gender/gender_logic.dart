@@ -3,6 +3,7 @@ part of 'index.dart';
 class GenderLogic extends GetxController {
   UserInfo? userInfo;
   int get gender => userInfo?.user?.sex ?? 0;
+  FormType? type;
 
   @override
   void onInit() {
@@ -12,7 +13,9 @@ class GenderLogic extends GetxController {
 
   void setData() {
     if (Get.arguments != null) {
-      userInfo = Get.arguments as UserInfo;
+      Map<String, dynamic> map = Get.arguments as Map<String, dynamic>;
+      userInfo = map['userInfo'] as UserInfo?;
+      type = map['form'] as FormType?;
       update();
     }
   }
@@ -27,7 +30,12 @@ class GenderLogic extends GetxController {
     );
     if (value != null) {
       AppStores.setUserInfo(value: value.user);
-      RouteManager.toSex(userInfo: value);
+      if (type == FormType.editProfile) {
+        EventService.to.post(RefreshUserEvent(user: value.user));
+        Get.back();
+      } else if (type == FormType.login) {
+        RouteManager.toSex(form: FormType.login, userInfo: value);
+      }
     }
   }
 }

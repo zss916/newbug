@@ -29,6 +29,7 @@ class ChatView extends StatelessWidget {
           return Column(
             children: [
               ChatAppBar(logic: logic),
+              FloatCard(),
               Expanded(
                 child: Chat(
                   historyMsg: logic.historyMsg,

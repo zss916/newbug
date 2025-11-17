@@ -6,6 +6,7 @@ import 'package:newbug/core/im/custom_message/private_message.dart';
 import 'package:newbug/core/im/custom_message/public_message.dart';
 import 'package:newbug/core/route/index.dart';
 import 'package:newbug/page/chat/chat_widget/local_wrapper_msg.dart';
+import 'package:newbug/page/chat/custom_message_widget/connect_card_message_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/image_message_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/media_message_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/text_message_widget.dart';
@@ -147,8 +148,24 @@ class Chat extends StatelessWidget {
       ),
       _ when objectName == CustomMessageType.private.name =>
         buildPrivateMessage(msgItem),
+      _ when objectName == CustomMessageType.packagePrivate.name =>
+        buildPackagePrivateMessage(msgItem),
+
+      ///todo
+      _ when objectName == CustomMessageType.connected.name =>
+        buildConnectedMessage(msgItem),
       _ => SizedBox.shrink(),
     };
+  }
+
+  ///建联消息
+  Widget buildConnectedMessage(LocalWrapperMsg msgItem) {
+    return ConnectCardMessageWidget();
+  }
+
+  ///私有打包消息
+  Widget buildPackagePrivateMessage(LocalWrapperMsg msgItem) {
+    return SizedBox();
   }
 
   ///公开消息

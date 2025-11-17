@@ -1,7 +1,14 @@
 part of 'index.dart';
 
+enum EditType { editSign, editInterests }
+
 class InterestLogic extends GetxController {
   UserInfo? userInfo;
+  FormType? type;
+  EditType? subType;
+
+  ///common 0, loading 1,empty 2
+  int viewStatus = 0;
 
   List<TagEntity> tags = [];
 
@@ -17,11 +24,35 @@ class InterestLogic extends GetxController {
   void onInit() {
     super.onInit();
     setData();
+    setView(1);
+  }
+
+  setView(int status) {
+    if ((type == FormType.editProfile) &&
+        (subType == EditType.editInterests && tags.isEmpty)) {
+      viewStatus = status;
+      update();
+    }
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    if ((type == FormType.editProfile) &&
+        (subType == EditType.editInterests) &&
+        tags.isEmpty) {
+      loadInterests();
+    }
   }
 
   void setData() {
     if (Get.arguments != null) {
-      userInfo = Get.arguments as UserInfo;
+      Map<String, dynamic> map = Get.arguments as Map<String, dynamic>;
+      userInfo = map['userInfo'] as UserInfo?;
+      type = map['form'] as FormType?;
+      subType = map['subForm'] as EditType?;
+      debugPrint("type:${type?.name},subType:${subType?.name}");
+
       List<String> userTags = userInfo?.user?.tags ?? [];
       if (userTags.isNotEmpty) {
         tags = (userInfo?.tagList ?? [])
@@ -65,5 +96,16 @@ class InterestLogic extends GetxController {
 
   void toSkip() {
     RouteManager.toMain();
+  }
+
+  ///获取兴趣列表
+  Future<void> loadInterests() async {
+    final (bool isSuccessful, List<TagEntity> value) =
+        await ProfileAPI.getTagList(type: 0);
+    if (isSuccessful) {
+      tags.assignAll(value);
+      viewStatus = tags.isEmpty ? 2 : 0;
+      update();
+    }
   }
 }

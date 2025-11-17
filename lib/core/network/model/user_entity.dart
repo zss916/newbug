@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/helper/custom_annotation.dart';
 import 'package:newbug/core/network/model/google_play_billing_entity.dart';
 import 'package:newbug/core/network/model/location_entity.dart';
@@ -114,6 +117,39 @@ class UserEntity {
   ///显示昵称和年龄
   String get showNickAndAge =>
       (age == null) ? nickName ?? "" : '${nickName ?? ""},${age}';
+
+  ///显示出生日期
+  String get showBirthday => (brithday == null)
+      ? "N/A"
+      : DateFormat(
+          "yyyy-MM-dd ",
+        ).format(DateTime.fromMillisecondsSinceEpoch((brithday ?? 0) * 1000));
+
+  ///显示性别
+  String get toGender {
+    if (sex == 1) {
+      return T.male.tr;
+    } else if (sex == 2) {
+      return T.female.tr;
+    } else if (sex == 3) {
+      return T.nonBinary.tr;
+    } else {
+      return "N/A";
+    }
+  }
+
+  ///显示性取向
+  String get toSexual {
+    if (sex == 1) {
+      return T.man.tr;
+    } else if (sex == 2) {
+      return T.woman.tr;
+    } else if (sex == 3) {
+      return T.other.tr;
+    } else {
+      return "N/A";
+    }
+  }
 }
 
 @JsonSerializable()
