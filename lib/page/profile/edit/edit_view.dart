@@ -152,7 +152,7 @@ class EditView extends StatelessWidget {
         BuildDesires(),
         BuildPrivateAlbum(
           onTap: () {
-            RouteManager.toPrivateAlbum();
+            // RouteManager.toPrivateAlbum();
           },
         ),
       ],

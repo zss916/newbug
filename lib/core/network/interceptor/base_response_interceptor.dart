@@ -13,13 +13,22 @@ class BaseResponseInterceptor extends Interceptor {
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     BaseResponse baseResponse = BaseResponse.fromJson(response.data);
     if (baseResponse.code == tokenError) {
-      if ((baseResponse.msg ?? "").isNotEmpty) {
-        CustomToast.showText(baseResponse.msg ?? "");
-      }
       CvIM.logout();
       AuthHelper.instance.toHandleLogout();
       RouteManager.offAllToLogin();
-      handler.next(response);
+      CustomToast.dismiss().then((_) {
+        CustomToast.showText(baseResponse.msg ?? "Failed");
+      });
+
+      ///launch 的 refreshToken 不能用reject，会走到error 处理
+      /* handler.reject(
+        DioException(
+          requestOptions: RequestOptions(),
+          response: response,
+          message: baseResponse.msg,
+        ),
+      );*/
+      //handler.next(response);
     } else {
       super.onResponse(response, handler);
     }

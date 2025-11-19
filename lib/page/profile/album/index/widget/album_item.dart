@@ -1,10 +1,13 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:newbug/core/event/app_event.dart';
 import 'package:newbug/core/mixin/upload_file_mixin.dart';
 import 'package:newbug/core/network/model/meida_list_item.dart';
+import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/core/upload/service/image_service.dart';
 import 'package:newbug/core/upload/service/video_service.dart';
 import 'package:newbug/generated/assets.dart';
@@ -13,7 +16,13 @@ import 'package:newbug/page/profile/album/index/widget/private_video_thumbnail_w
 class AlbumItem extends StatefulWidget {
   final MediaListItem? item;
   final Function(MediaListItem item) onSelected;
-  const AlbumItem({super.key, this.item, required this.onSelected});
+  final bool isCanSelect;
+  const AlbumItem({
+    super.key,
+    this.item,
+    required this.onSelected,
+    required this.isCanSelect,
+  });
 
   @override
   State<AlbumItem> createState() => _AlbumItemState();
@@ -34,11 +43,27 @@ class _AlbumItemState extends State<AlbumItem>
 
   /// 上传进度
   final _percentVN = ValueNotifier(0.0);
+  StreamSubscription<SelectPrivateAlbumEvent>? subs2;
 
   @override
   void initState() {
     super.initState();
     onRefresh();
+    isChecked = (widget.item?.isChecked == true);
+    subs2 = EventService.to.listen<SelectPrivateAlbumEvent>((event) {
+      if (widget.item?.id == event.media?.id) {
+        setState(() {
+          widget.item?.isChecked = event.media?.isChecked;
+          isChecked = event.media?.isChecked ?? false;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    subs2?.cancel();
   }
 
   @override
@@ -184,26 +209,28 @@ class _AlbumItemState extends State<AlbumItem>
                                 ),
                               ),
                             Spacer(),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  isChecked = !isChecked;
-                                  if (isChecked) {
+                            if (widget.isCanSelect)
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    isChecked = !isChecked;
+                                    widget.item?.isChecked = isChecked;
                                     widget.onSelected(widget.item!);
-                                  }
-                                });
-                              },
-                              child: Container(
-                                margin: EdgeInsetsDirectional.only(start: 5.w),
-                                child: Image.asset(
-                                  isChecked
-                                      ? Assets.imgCheckedIcon
-                                      : Assets.imgUncheckIcon,
-                                  width: 24,
-                                  height: 24,
+                                  });
+                                },
+                                child: Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                    start: 5.w,
+                                  ),
+                                  child: Image.asset(
+                                    isChecked
+                                        ? Assets.imgCheckedIcon
+                                        : Assets.imgUncheckIcon,
+                                    width: 24,
+                                    height: 24,
+                                  ),
                                 ),
                               ),
-                            ),
                           ],
                         ),
                       ],
@@ -281,26 +308,26 @@ class _AlbumItemState extends State<AlbumItem>
                                 ),
                               ),
                             Spacer(),
-                            Container(
-                              margin: EdgeInsetsDirectional.only(start: 5.w),
-                              child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    isChecked = !isChecked;
-                                    if (isChecked) {
+                            if (widget.isCanSelect)
+                              Container(
+                                margin: EdgeInsetsDirectional.only(start: 5.w),
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      isChecked = !isChecked;
+                                      widget.item?.isChecked = isChecked;
                                       widget.onSelected(widget.item!);
-                                    }
-                                  });
-                                },
-                                child: Image.asset(
-                                  isChecked
-                                      ? Assets.imgCheckedIcon
-                                      : Assets.imgUncheckIcon,
-                                  width: 24,
-                                  height: 24,
+                                    });
+                                  },
+                                  child: Image.asset(
+                                    isChecked
+                                        ? Assets.imgCheckedIcon
+                                        : Assets.imgUncheckIcon,
+                                    width: 24,
+                                    height: 24,
+                                  ),
                                 ),
                               ),
-                            ),
                           ],
                         ),
                       ],
@@ -383,26 +410,28 @@ class _AlbumItemState extends State<AlbumItem>
                                 ),
                               ),
                             Spacer(),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  isChecked = !isChecked;
-                                  if (isChecked) {
+                            if (widget.isCanSelect)
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    isChecked = !isChecked;
+                                    widget.item?.isChecked = isChecked;
                                     widget.onSelected(widget.item!);
-                                  }
-                                });
-                              },
-                              child: Container(
-                                margin: EdgeInsetsDirectional.only(start: 5.w),
-                                child: Image.asset(
-                                  isChecked
-                                      ? Assets.imgCheckedIcon
-                                      : Assets.imgUncheckIcon,
-                                  width: 24,
-                                  height: 24,
+                                  });
+                                },
+                                child: Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                    start: 5.w,
+                                  ),
+                                  child: Image.asset(
+                                    isChecked
+                                        ? Assets.imgCheckedIcon
+                                        : Assets.imgUncheckIcon,
+                                    width: 24,
+                                    height: 24,
+                                  ),
                                 ),
                               ),
-                            ),
                           ],
                         ),
                       ],
@@ -471,26 +500,26 @@ class _AlbumItemState extends State<AlbumItem>
                               ),
                             ),
                             Spacer(),
-                            Container(
-                              margin: EdgeInsetsDirectional.only(start: 5.w),
-                              child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    isChecked = !isChecked;
-                                    if (isChecked) {
+                            if (widget.isCanSelect)
+                              Container(
+                                margin: EdgeInsetsDirectional.only(start: 5.w),
+                                child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      isChecked = !isChecked;
+                                      widget.item?.isChecked = isChecked;
                                       widget.onSelected(widget.item!);
-                                    }
-                                  });
-                                },
-                                child: Image.asset(
-                                  isChecked
-                                      ? Assets.imgCheckedIcon
-                                      : Assets.imgUncheckIcon,
-                                  width: 24,
-                                  height: 24,
+                                    });
+                                  },
+                                  child: Image.asset(
+                                    isChecked
+                                        ? Assets.imgCheckedIcon
+                                        : Assets.imgUncheckIcon,
+                                    width: 24,
+                                    height: 24,
+                                  ),
                                 ),
                               ),
-                            ),
                           ],
                         ),
                       ],

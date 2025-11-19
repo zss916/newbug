@@ -56,7 +56,11 @@ class ProfileLogic extends GetxController {
   void onReady() {
     super.onReady();
     CustomToast.loading();
-    Future.wait([
+    toRefresh();
+  }
+
+  Future<void> toRefresh() async {
+    await Future.wait([
       loadUserInfo(),
       loadWlmOrVisitorCount(),
     ]).whenComplete(() => CustomToast.dismiss());

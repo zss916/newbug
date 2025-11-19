@@ -1,9 +1,13 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:newbug/core/album/gallery/gallery_tools.dart';
+import 'package:newbug/core/event/app_event.dart';
 import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/network/reopsitory/profile.dart';
+import 'package:newbug/core/route/index.dart';
+import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/page/login/photo/mixin_upload.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -14,15 +18,38 @@ class AlbumLogic extends GetxController with MixinUpload {
 
   int? lastId;
 
+  bool add = true;
+  bool select = false;
+  bool send = false;
+
+  List<MediaListItem?> selectVideos = [];
+  List<MediaListItem?> selectImages = [];
+
   late RefreshController refreshCtrl = RefreshController(
     initialRefresh: false,
     initialLoadStatus: LoadStatus.canLoading,
   );
 
+  StreamSubscription<ProfilePrivateAlbumEvent>? subs;
+
   @override
   void onInit() {
     super.onInit();
-    CustomToast.loading();
+    if (Get.arguments != null) {
+      Map<String, dynamic> map = Get.arguments as Map<String, dynamic>;
+      add = map['add'];
+      select = map['select'];
+      send = map['send'];
+    }
+    subs = EventService.to.listen<ProfilePrivateAlbumEvent>((event) {
+      if (mediaList.isNotEmpty) {
+        toRemove(event.media);
+      }
+    });
+
+    if (lastId == null) {
+      CustomToast.loading();
+    }
   }
 
   @override
@@ -34,6 +61,7 @@ class AlbumLogic extends GetxController with MixinUpload {
 
   @override
   void onClose() {
+    subs?.cancel();
     refreshCtrl.dispose();
     super.onClose();
   }
@@ -95,33 +123,41 @@ class AlbumLogic extends GetxController with MixinUpload {
       mediaList.insert(0, medias.first);
       update();
     }
+  }
 
-    /* for (MediaListItem? value in medias) {
-      if (value != null) {
-        mediaList.add(value);
-      }
-    }*/
+  ///删除私有图片
+  Future<void> toRemove(MediaListItem? media) async {
+    CustomToast.loading();
+    bool isSuccessful = await ProfileAPI.deletePrivateMedia(
+      id: media?.id ?? 0,
+    ).whenComplete(() => CustomToast.dismiss());
+    if (isSuccessful) {
+      mediaList.remove(media);
+      update();
+    }
+  }
 
-    //CustomToast.loading();
-    /* List<MediaListItem?> data = mediaList.where((e) => e != null).toList();
-    List<Map<String, dynamic>?> mediaListJson = await Future.wait(
-      data.map((e) async {
-        if (e?.type == 0) {
-          File? compressImageFile = await GalleryTools.compressImageFilePlus(
-            e!,
-          );
-          String? url = await toUpload(file: compressImageFile!);
-          return (e..url = url).toJson();
-        } else if (e?.type == 1) {
-          File? compressVideoFile = await GalleryTools.compressVideoFilePlus(
-            e!,
-          );
-          String? url = await toUpload(file: compressVideoFile!);
-          return (e..url = url).toJson();
-        }
-      }),
-    );
-*/
-    //num? id = await ProfileAPI.addPrivateImage(type: 0, url: "");
+  ///过滤数据
+  void toFilter() {
+    List<MediaListItem?> videos = mediaList
+        .where((e) => e?.isChecked == true && e?.isVideo == true)
+        .toList();
+    selectVideos.assignAll(videos);
+    List<MediaListItem?> images = mediaList
+        .where((e) => e?.isChecked == true && e?.isVideo == false)
+        .toList();
+    selectImages.assignAll(images);
+    update();
+  }
+
+  ///确认
+  void toConfirm() {
+    toFilter();
+    RouteManager.toSelectedAlbum(
+      videos: selectVideos,
+      images: selectImages,
+    ).then((_) {
+      toFilter();
+    });
   }
 }

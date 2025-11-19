@@ -1,3 +1,4 @@
+import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/network/model/user_entity.dart';
 
 /// event
@@ -49,4 +50,16 @@ class MainTab {
 class RefreshUserEvent {
   UserEntity? user;
   RefreshUserEvent({this.user});
+}
+
+///刷新用户私有相册
+class ProfilePrivateAlbumEvent {
+  MediaListItem? media;
+  ProfilePrivateAlbumEvent({this.media});
+}
+
+///选择用户私有相册
+class SelectPrivateAlbumEvent {
+  MediaListItem? media;
+  SelectPrivateAlbumEvent({this.media});
 }

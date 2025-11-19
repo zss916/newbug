@@ -3,10 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/album/gallery/gallery_tools.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/route/index.dart';
 import 'package:newbug/page/profile/album/index/album_logic.dart';
 import 'package:newbug/page/profile/album/index/widget/album_add.dart';
 import 'package:newbug/page/profile/album/index/widget/album_item.dart';
+import 'package:newbug/page/profile/album/preview/preview_logic.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
@@ -19,10 +21,6 @@ class BuildBody extends StatefulWidget {
 }
 
 class _BuildBodyState extends State<BuildBody> {
-  bool isSelected = true;
-  // int videoCount = 0;
-  //  int photoCount = 0;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -59,18 +57,34 @@ class _BuildBodyState extends State<BuildBody> {
                           widget.logic.toAdd(list);
                         },
                       )
-                    : AlbumItem(
-                        key: Key("${widget.logic.mediaList[index - 1]?.id}"),
-                        item: widget.logic.mediaList[index - 1],
-                        onSelected: (value) {
-                          //todo
+                    : InkWell(
+                        onTap: () {
+                          MediaListItem? item =
+                              widget.logic.mediaList[index - 1];
+                          if (item != null) {
+                            RouteManager.toPreviewView(
+                              viewId: PreviewViewType.profilePrivateAlbum.index,
+                              data: {"media": item},
+                            );
+                          }
                         },
+                        child: AlbumItem(
+                          key: Key("${widget.logic.mediaList[index - 1]?.id}"),
+                          isCanSelect: widget.logic.select,
+                          item: widget.logic.mediaList[index - 1],
+                          onSelected: (value) {
+                            widget.logic.toFilter();
+                          },
+                        ),
                       );
               },
             ),
           ),
         ),
-        if (isSelected)
+
+        if (widget.logic.send &&
+            (widget.logic.selectImages.isNotEmpty ||
+                widget.logic.selectVideos.isNotEmpty))
           Container(
             color: Colors.white,
             margin: EdgeInsetsDirectional.only(bottom: 10.h),
@@ -85,7 +99,10 @@ class _BuildBodyState extends State<BuildBody> {
               children: [
                 Expanded(
                   child: Text(
-                    T.selectAlbumTip.trArgs(["9", "1"]),
+                    T.selectAlbumTip.trArgs([
+                      "${widget.logic.selectImages.length}",
+                      "${widget.logic.selectVideos.length}",
+                    ]),
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       color: Colors.black,
@@ -100,7 +117,7 @@ class _BuildBodyState extends State<BuildBody> {
                   children: [
                     InkWell(
                       onTap: () {
-                        RouteManager.toSelectedAlbum();
+                        widget.logic.toConfirm();
                       },
                       child: UnconstrainedBox(
                         child: Container(

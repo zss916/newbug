@@ -68,7 +68,11 @@ class _InputSendState extends State<InputSend>
             onPrivateAlbum: () {
               showPrivateAlbum(
                 onConfirm: () {
-                  RouteManager.toPrivateAlbum();
+                  RouteManager.toPrivateAlbum(
+                    add: true,
+                    select: true,
+                    send: true,
+                  );
                 },
               );
             },

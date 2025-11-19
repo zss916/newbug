@@ -69,7 +69,9 @@ abstract class CustomToast {
     EasyLoading.show(status: text);
   }
 
-  static void dismiss() => EasyLoading.dismiss();
+  static Future<void> dismiss() async {
+    await EasyLoading.dismiss();
+  }
 
   ///防止toast 多次出现
   static void showText(

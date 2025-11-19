@@ -52,7 +52,14 @@ class RouteManager {
 
   static toDeleteAccount() => Get.toNamed(AppRoutes.deleteAccount);
 
-  static toPrivateAlbum() => Get.toNamed(AppRoutes.privateAlbum);
+  static toPrivateAlbum({
+    required bool add,
+    required bool select,
+    required bool send,
+  }) => Get.toNamed(
+    AppRoutes.privateAlbum,
+    arguments: {"add": add, "select": select, "send": send},
+  );
 
   static toSubscribe() => Get.toNamed(AppRoutes.subscribe);
 
@@ -70,7 +77,15 @@ class RouteManager {
     Get.toNamed(AppRoutes.chat, arguments: map);
   }
 
-  static toSelectedAlbum() => Get.toNamed(AppRoutes.selectedAlbum);
+  static Future<void> toSelectedAlbum({
+    required List<MediaListItem?> videos,
+    required List<MediaListItem?> images,
+  }) async {
+    await Get.toNamed(
+      AppRoutes.selectedAlbum,
+      arguments: {"selectVideos": videos, "selectImages": images},
+    );
+  }
 
   static toPreviewView({int? viewId, dynamic data}) => Get.toNamed(
     AppRoutes.previewView,

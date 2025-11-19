@@ -2,6 +2,12 @@ part of 'index.dart';
 
 class LaunchLogic extends GetxController {
   @override
+  void onInit() {
+    super.onInit();
+    //CustomToast.dismiss();
+  }
+
+  @override
   Future<void> onReady() async {
     super.onReady();
     if (AuthHelper.instance.isLogin) {
@@ -24,6 +30,7 @@ class LaunchLogic extends GetxController {
       AuthHelper.instance.isTodayRegister = auth.isTodaySign ?? false;
     } else {
       AuthHelper.instance.toHandleLogout();
+      RouteManager.offAllToLogin();
     }
     return (auth?.isNeedEdit ?? false);
   }

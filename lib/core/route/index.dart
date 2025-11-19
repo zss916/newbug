@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/helper/auth_helper.dart';
 import 'package:newbug/core/network/model/home_cards_entity.dart';
+import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/network/model/user_entity.dart';
 import 'package:newbug/core/network/model/user_info.dart';
 import 'package:newbug/core/widget/intro/flutter_intro.dart';

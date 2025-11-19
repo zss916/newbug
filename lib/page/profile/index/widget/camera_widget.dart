@@ -13,7 +13,7 @@ class CameraWidget extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(5),
         onTap: () {
-          RouteManager.toPrivateAlbum();
+          RouteManager.toPrivateAlbum(add: true, select: false, send: false);
 
           // AccountAPI.updateAdjust();
 

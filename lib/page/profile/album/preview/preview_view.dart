@@ -4,6 +4,7 @@ import 'package:newbug/page/profile/album/preview/preview_logic.dart';
 import 'package:newbug/page/profile/album/preview/widget/build_multiple_photo.dart';
 import 'package:newbug/page/profile/album/preview/widget/multiple_video/build_multiple_video.dart';
 import 'package:newbug/page/profile/album/preview/widget/other.dart';
+import 'package:newbug/page/profile/album/preview/widget/profile_private_album/profile_private_photo.dart';
 import 'package:newbug/page/profile/album/preview/widget/single_image_photo/build_single_image_photo.dart';
 import 'package:newbug/page/profile/album/preview/widget/single_private_photo/build_single_private_photo.dart';
 import 'package:newbug/page/profile/album/preview/widget/single_public_photo/build_single_public_photo.dart';
@@ -38,6 +39,8 @@ class PreviewView extends StatelessWidget {
           videoMessage: logic.videoMessage,
           isPrivate: false,
         ),
+      _ when state == PreviewViewType.profilePrivateAlbum.index =>
+        ProfilePrivatePhoto(media: logic.media),
 
       ///todo
       _ when state == PreviewViewType.multiplePhoto.index => BuildMultiplePhoto(
@@ -82,3 +85,6 @@ class PreviewView extends StatelessWidget {
     };
   }
 }
+
+//{"showAdd": true, "canSelect": true, "canSend": true}
+// RouterBuilderHepler.openPrivateAlbumPage(context, showAdd: true, canSelect: false, canSend: false);

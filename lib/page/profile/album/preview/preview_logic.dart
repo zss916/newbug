@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/im/custom_message/private_message.dart';
 import 'package:newbug/core/im/custom_message/public_message.dart';
+import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:rongcloud_im_wrapper_plugin/rongcloud_im_wrapper_plugin.dart';
 
 enum PreviewViewType {
@@ -13,6 +14,7 @@ enum PreviewViewType {
   singlePrivateVideo,
   multiplePhoto,
   multipleVideo,
+  profilePrivateAlbum,
   other,
 }
 
@@ -22,6 +24,7 @@ class PreviewLogic extends GetxController {
   PublicMessage? publicMessage;
   PrivateMessage? privateMessage;
   RCIMIWSightMessage? videoMessage;
+  MediaListItem? media;
 
   @override
   void onInit() {
@@ -36,6 +39,8 @@ class PreviewLogic extends GetxController {
         privateMessage = Get.arguments["data"]["message"] as PrivateMessage;
       } else if (viewType == PreviewViewType.singleSightVideo.index) {
         videoMessage = Get.arguments["data"]["message"] as RCIMIWSightMessage;
+      } else if (viewType == PreviewViewType.profilePrivateAlbum.index) {
+        media = Get.arguments["data"]["media"] as MediaListItem?;
       }
       debugPrint("viewType ===>> $viewType");
     }
