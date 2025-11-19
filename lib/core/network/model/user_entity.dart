@@ -39,7 +39,7 @@ class UserEntity {
   @JSONField(name: 'is_new_user')
   int? isNewUser;
   @JSONField(name: 'media_list')
-  List<UserMediaList>? mediaList;
+  List<MediaListItem>? mediaList;
   int? block;
   @JSONField(name: 'push_config')
   int? pushConfig;
@@ -152,7 +152,7 @@ class UserEntity {
   }
 }
 
-@JsonSerializable()
+/*@JsonSerializable()
 class UserMediaList {
   int? type;
   String? url;
@@ -172,7 +172,7 @@ class UserMediaList {
   String toString() {
     return jsonEncode(this);
   }
-}
+}*/
 
 @JsonSerializable()
 class BeardInfoType {

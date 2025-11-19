@@ -413,14 +413,6 @@ class JsonConvert {
               .toList()
           as M;
     }
-    if (<UserMediaList>[] is M) {
-      return data
-              .map<UserMediaList>(
-                (Map<String, dynamic> e) => UserMediaList.fromJson(e),
-              )
-              .toList()
-          as M;
-    }
     if (<BeardInfoType>[] is M) {
       return data
               .map<BeardInfoType>(
@@ -495,7 +487,6 @@ class JsonConvertClassCollection {
     (UnreadDataEntity).toString(): UnreadDataEntity.fromJson,
     (UploadEntity).toString(): UploadEntity.fromJson,
     (UserEntity).toString(): UserEntity.fromJson,
-    (UserMediaList).toString(): UserMediaList.fromJson,
     (BeardInfoType).toString(): BeardInfoType.fromJson,
     (BeardType).toString(): BeardType.fromJson,
     (UserInfo).toString(): UserInfo.fromJson,

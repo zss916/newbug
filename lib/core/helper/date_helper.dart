@@ -40,4 +40,8 @@ extension TimestampExtension on int {
   String get msgTime => DateFormat(
     'hh:mm:ss',
   ).format(DateTime.fromMillisecondsSinceEpoch(this * 1000));
+
+  String get videoDuration => DateFormat(
+    'mm:ss',
+  ).format(DateTime.fromMillisecondsSinceEpoch(this * 1000));
 }

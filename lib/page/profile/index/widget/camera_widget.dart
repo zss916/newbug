@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:newbug/core/route/index.dart';
 import 'package:newbug/generated/assets.dart';
 
 class CameraWidget extends StatelessWidget {
@@ -12,6 +13,8 @@ class CameraWidget extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(5),
         onTap: () {
+          RouteManager.toPrivateAlbum();
+
           // AccountAPI.updateAdjust();
 
           // AccountAPI.config();

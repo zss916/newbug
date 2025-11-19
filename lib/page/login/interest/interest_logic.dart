@@ -51,17 +51,9 @@ class InterestLogic extends GetxController {
       userInfo = map['userInfo'] as UserInfo?;
       type = map['form'] as FormType?;
       subType = map['subForm'] as EditType?;
-      debugPrint("type:${type?.name},subType:${subType?.name}");
-
       List<String> userTags = userInfo?.user?.tags ?? [];
       if (userTags.isNotEmpty) {
-        tags = (userInfo?.tagList ?? [])
-            .map(
-              (e) => userTags.contains(e.title ?? "")
-                  ? (e..isSelected = true)
-                  : (e..isSelected = false),
-            )
-            .toList();
+        tags = _handSelectTag((userInfo?.tagList ?? []), userTags);
       } else {
         tags = (userInfo?.tagList ?? []);
       }
@@ -90,7 +82,12 @@ class InterestLogic extends GetxController {
 
     if (value != null) {
       AppStores.setUserInfo(value: value.user);
-      RouteManager.toMain();
+      if (type == FormType.editProfile) {
+        EventService.to.post(RefreshUserEvent(user: value.user));
+        Get.back();
+      } else if (type == FormType.login) {
+        RouteManager.toMain();
+      }
     }
   }
 
@@ -103,9 +100,29 @@ class InterestLogic extends GetxController {
     final (bool isSuccessful, List<TagEntity> value) =
         await ProfileAPI.getTagList(type: 0);
     if (isSuccessful) {
-      tags.assignAll(value);
+      List<String> userTags = userInfo?.user?.tags ?? [];
+      if (userTags.isNotEmpty) {
+        List<TagEntity> tagList = _handSelectTag(value, userTags);
+        tags.assignAll(tagList);
+      } else {
+        tags.assignAll(value);
+      }
       viewStatus = tags.isEmpty ? 2 : 0;
       update();
     }
+  }
+
+  List<TagEntity> _handSelectTag(
+    List<TagEntity> value,
+    List<String> selectTags,
+  ) {
+    List<TagEntity> tagList = value
+        .map(
+          (e) => selectTags.contains(e.title ?? "")
+              ? (e..isSelected = true)
+              : (e..isSelected = false),
+        )
+        .toList();
+    return tagList;
   }
 }

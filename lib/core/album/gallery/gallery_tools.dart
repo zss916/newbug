@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_video_thumbnail_plus/flutter_video_thumbnail_plus.dart';
+import 'package:flutter_video_thumbnail_plus/flutter_video_thumbnail_plus.dart'
+    as thumbnail_plus;
 import 'package:get/get.dart';
 import 'package:newbug/core/album/compress/file_compress_utils.dart';
 import 'package:newbug/core/config/global.dart';
@@ -9,6 +10,7 @@ import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:video_compress/video_compress.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
+import 'package:wechat_camera_picker/wechat_camera_picker.dart';
 
 class GalleryTools {
   /// 常量定义
@@ -30,6 +32,25 @@ class GalleryTools {
 
   /// 支持的视频格式
   static const Set<String> _supportedVideoFormats = {'.mp4', '.mov'};
+
+  ///打开相机
+  static Future<AssetEntity?> openCamera({
+    required BuildContext context,
+  }) async {
+    try {
+      // 隐藏键盘
+      FocusManager.instance.primaryFocus?.unfocus();
+      final AssetEntity? entity = await CameraPicker.pickFromCamera(
+        context,
+        pickerConfig: CameraPickerConfig(enableRecording: true),
+      );
+      return entity;
+    } catch (e) {
+      debugPrint('媒体选择器错误: $e');
+      CustomToast.showText('Operation failed, please try again');
+      return null;
+    }
+  }
 
   /// 打开相册
   static Future<List<AssetEntity>> openGallery({
@@ -423,28 +444,9 @@ class GalleryTools {
 
   /// 获取视频缩略图
   static Future<String?> getVideoThumbnail(String videoFilePath) async {
-    return await FlutterVideoThumbnailPlus.thumbnailFile(
+    return await thumbnail_plus.FlutterVideoThumbnailPlus.thumbnailFile(
       video: videoFilePath,
-      imageFormat: ImageFormat.jpeg,
-      maxHeight: 150,
-      quality: 100,
+      imageFormat: thumbnail_plus.ImageFormat.jpeg,
     );
   }
-
-  /*  File? originImageFile = await e.originFile;
-  int originSize = originImageFile?.lengthSync() ?? 0;
-  debugPrint(
-  "====>> originSize: ${((originSize / 1024) / 1024).toStringAsFixed(2)}M",
-  );
-  File? imageFile = await e.file;
-  int currentSize = imageFile?.lengthSync() ?? 0;
-  debugPrint(
-  "====>> compressSize: ${((currentSize / 1024) / 1024).toStringAsFixed(2)}M",
-  );
-
-  File? imageFile2 = await GalleryTools.compressImageFile(e);
-  int currentSize2 = imageFile2?.lengthSync() ?? 0;
-  debugPrint(
-  "====>> compressSize2: ${((currentSize2 / 1024) / 1024).toStringAsFixed(2)}M",
-  );*/
 }

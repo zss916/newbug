@@ -31,7 +31,7 @@ abstract class ProfileAPI {
   ///私密相册列表//from PrivacyFromProfile = 0 PrivacyFromList    = 1 PrivacyFromChat    = 2
   static Future<(bool, List<MediaListItem>)> getPrivateAlbumList({
     required int from,
-    String? lastId,
+    int? lastId,
   }) async {
     try {
       Map<String, dynamic> data = {};
@@ -45,12 +45,17 @@ abstract class ProfileAPI {
       );
 
       if (result["code"] == 0) {
-        List<MediaListItem> value = await compute(
-          (List<dynamic> jsonList) =>
-              jsonList.map((e) => MediaListItem.fromJson(e)).toList(),
-          (result['data'] as List),
-        );
-        return (true, value);
+        if (result['data'] == null) {
+          return (true, <MediaListItem>[]);
+        } else {
+          List<MediaListItem> value = await compute(
+            (List<dynamic> jsonList) =>
+                jsonList.map((e) => MediaListItem.fromJson(e)).toList(),
+            (result['data'] as List),
+            // result['action'];
+          );
+          return (true, value);
+        }
       } else {
         return (false, <MediaListItem>[]);
       }
@@ -108,7 +113,7 @@ abstract class ProfileAPI {
     }
   }
 
-  ///添加私密图片
+  ///添加私密图片 ( 图片0 视频1)
   static Future<num?> addPrivateImage({
     required int type,
     required String url,

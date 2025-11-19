@@ -41,6 +41,10 @@ MediaListItem $MediaListItemFromJson(Map<String, dynamic> json) {
   if (thumbUrl != null) {
     mediaListItem.thumbUrl = thumbUrl;
   }
+  final bool? isChecked = jsonConvert.convert<bool>(json['isChecked']);
+  if (isChecked != null) {
+    mediaListItem.isChecked = isChecked;
+  }
   final String? localFilePath = jsonConvert.convert<String>(
     json['localFilePath'],
   );
@@ -69,6 +73,7 @@ Map<String, dynamic> $MediaListItemToJson(MediaListItem entity) {
   data['duration'] = entity.duration;
   data['is_private'] = entity.isPrivate;
   data['thumbUrl'] = entity.thumbUrl;
+  data['isChecked'] = entity.isChecked;
   data['localFilePath'] = entity.localFilePath;
   data['isSelected'] = entity.isSelected;
   data['selectedIndex'] = entity.selectedIndex;
@@ -86,6 +91,7 @@ extension MediaListItemExtension on MediaListItem {
     int? duration,
     int? isPrivate,
     String? thumbUrl,
+    bool? isChecked,
     File? localFile,
     String? localFilePath,
     bool? isSelected,
@@ -101,6 +107,7 @@ extension MediaListItemExtension on MediaListItem {
       ..duration = duration ?? this.duration
       ..isPrivate = isPrivate ?? this.isPrivate
       ..thumbUrl = thumbUrl ?? this.thumbUrl
+      ..isChecked = isChecked ?? this.isChecked
       ..localFile = localFile ?? this.localFile
       ..localFilePath = localFilePath ?? this.localFilePath
       ..isSelected = isSelected ?? this.isSelected

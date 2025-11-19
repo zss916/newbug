@@ -12,6 +12,7 @@ class AlbumAdd extends StatelessWidget {
         onAdd.call();
       },
       child: Container(
+        decoration: BoxDecoration(color: Colors.transparent),
         alignment: Alignment.center,
         width: double.maxFinite,
         height: double.maxFinite,

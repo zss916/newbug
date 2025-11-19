@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/widget/index.dart';
+import 'package:newbug/page/profile/album/index/album_logic.dart';
 import 'package:newbug/page/profile/album/index/widget/build_body.dart';
 
 class AlbumView extends StatelessWidget {
@@ -12,7 +13,10 @@ class AlbumView extends StatelessWidget {
     return Scaffold(
       appBar: BaseAppBar(title: T.privateAlbum.tr),
       backgroundColor: Colors.white,
-      body: BuildBody(),
+      body: GetBuilder<AlbumLogic>(
+        init: AlbumLogic(),
+        builder: (logic) => BuildBody(logic: logic),
+      ),
     );
   }
 }

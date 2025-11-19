@@ -213,6 +213,7 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
       ).whenComplete(() => CustomToast.dismiss());
       MediaListItem videoMedia = MediaListItem()
         ..localFile = videoFile
+        ..localFilePath = videoFile?.path ?? ""
         ..thumbUrl = thumbUrl
         ..type = 1;
       File? videoFileCompress = await GalleryTools.compressVideoFilePlus(

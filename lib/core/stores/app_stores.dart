@@ -156,4 +156,14 @@ class AppStores {
   static bool getGuideStatus() {
     return StoresService.to.getBool(finishGuideKey);
   }
+
+  ///保存缩略图
+  static void setThumb({required String key, required String value}) {
+    StoresService.to.setString("$key-cv-thumb", value);
+  }
+
+  ///获取缩略图
+  static String getThumb({required String key}) {
+    return StoresService.to.getString("$key-cv-thumb");
+  }
 }

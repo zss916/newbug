@@ -73,8 +73,8 @@ UserEntity $UserEntityFromJson(Map<String, dynamic> json) {
   if (isNewUser != null) {
     userEntity.isNewUser = isNewUser;
   }
-  final List<UserMediaList>? mediaList = (json['media_list'] as List<dynamic>?)
-      ?.map((e) => jsonConvert.convert<UserMediaList>(e) as UserMediaList)
+  final List<MediaListItem>? mediaList = (json['media_list'] as List<dynamic>?)
+      ?.map((e) => jsonConvert.convert<MediaListItem>(e) as MediaListItem)
       .toList();
   if (mediaList != null) {
     userEntity.mediaList = mediaList;
@@ -245,7 +245,7 @@ extension UserEntityExtension on UserEntity {
     bool? isModel,
     String? imToken,
     int? isNewUser,
-    List<UserMediaList>? mediaList,
+    List<MediaListItem>? mediaList,
     int? block,
     int? pushConfig,
     Right? right,
@@ -309,65 +309,6 @@ extension UserEntityExtension on UserEntity {
       ..accumulateBalance = accumulateBalance ?? this.accumulateBalance
       ..beardInfo = beardInfo ?? this.beardInfo
       ..locationInfo = locationInfo ?? this.locationInfo;
-  }
-}
-
-UserMediaList $UserMediaListFromJson(Map<String, dynamic> json) {
-  final UserMediaList userMediaList = UserMediaList();
-  final int? type = jsonConvert.convert<int>(json['type']);
-  if (type != null) {
-    userMediaList.type = type;
-  }
-  final String? url = jsonConvert.convert<String>(json['url']);
-  if (url != null) {
-    userMediaList.url = url;
-  }
-  final int? width = jsonConvert.convert<int>(json['width']);
-  if (width != null) {
-    userMediaList.width = width;
-  }
-  final int? height = jsonConvert.convert<int>(json['height']);
-  if (height != null) {
-    userMediaList.height = height;
-  }
-  final int? size = jsonConvert.convert<int>(json['size']);
-  if (size != null) {
-    userMediaList.size = size;
-  }
-  final int? duration = jsonConvert.convert<int>(json['duration']);
-  if (duration != null) {
-    userMediaList.duration = duration;
-  }
-  return userMediaList;
-}
-
-Map<String, dynamic> $UserMediaListToJson(UserMediaList entity) {
-  final Map<String, dynamic> data = <String, dynamic>{};
-  data['type'] = entity.type;
-  data['url'] = entity.url;
-  data['width'] = entity.width;
-  data['height'] = entity.height;
-  data['size'] = entity.size;
-  data['duration'] = entity.duration;
-  return data;
-}
-
-extension UserMediaListExtension on UserMediaList {
-  UserMediaList copyWith({
-    int? type,
-    String? url,
-    int? width,
-    int? height,
-    int? size,
-    int? duration,
-  }) {
-    return UserMediaList()
-      ..type = type ?? this.type
-      ..url = url ?? this.url
-      ..width = width ?? this.width
-      ..height = height ?? this.height
-      ..size = size ?? this.size
-      ..duration = duration ?? this.duration;
   }
 }
 

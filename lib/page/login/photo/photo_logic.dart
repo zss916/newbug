@@ -52,6 +52,7 @@ class PhotoLogic extends GetxController with MixinUpload {
           );
           return MediaListItem()
             ..localFile = videoFile
+            ..localFilePath = videoFile?.path ?? ""
             ..thumbUrl = thumbUrl
             ..type = 1;
         } else {
@@ -92,20 +93,6 @@ class PhotoLogic extends GetxController with MixinUpload {
           // CustomToast.dismiss();
         });
 
-    /* List<String?> urls =
-        await Future.wait(
-          data.map((e) async {
-            UploadEntity? entity = await SystemAPI.upLoadUrl(e!.localFile!);
-            String? url = await HttpTools.upload(
-              path: entity?.uploadUrl ?? "",
-              file: e.localFile!,
-              url: entity?.cdnUrl ?? "",
-            );
-            return url;
-          }),
-        ).whenComplete(() {
-          CustomToast.dismiss();
-        });*/
     debugPrint("toEditMedia data:${mediaListJson.toString()}");
     debugPrint("toEditMedia end:${DateTime.now().timeFormatted}");
 

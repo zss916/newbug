@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:newbug/core/helper/date_helper.dart';
 import 'package:newbug/generated/json/base/json_field.dart';
 import 'package:newbug/generated/json/meida_list_item.g.dart';
 
@@ -21,6 +22,9 @@ class MediaListItem {
 
   ///缩略图(本地维护)
   String? thumbUrl;
+
+  ///是否选中
+  bool? isChecked;
 
   ///用于本地选择的图片
   @JSONField(serialize: false, deserialize: false)
@@ -59,4 +63,7 @@ class MediaListItem {
   ///本地
   String get imageLocalPath =>
       isVideo ? (thumbUrl ?? "") : (localFilePath ?? "");
+
+  ///视频时长
+  String get showVideoDuration => (duration ?? 0).videoDuration;
 }

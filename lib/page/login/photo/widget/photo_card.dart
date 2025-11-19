@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/generated/assets.dart';
+import 'package:newbug/page/login/photo/widget/video_thumbnail_widget.dart';
 
 class PhotoCard extends StatelessWidget {
   final int index;
@@ -39,6 +40,7 @@ class PhotoCard extends StatelessWidget {
   }
 
   Widget buildItem({required MediaListItem item}) {
+    // debugPrint("item ==> ${item.toJson()}");
     return switch (item.type) {
       ///图片
       _ when item.type == 0 => Stack(
@@ -97,7 +99,6 @@ class PhotoCard extends StatelessWidget {
       _ when item.type == 1 => Stack(
         children: [
           ///本地 和 网络连接
-          //VideoThumbnailWidget(videoPath: item.url ?? ""),
           if ((item.thumbUrl ?? "").isNotEmpty)
             Container(
               width: 108,
@@ -138,7 +139,9 @@ class PhotoCard extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
+            )
+          else
+            VideoThumbnailWidget(videoPath: item.url ?? ""),
         ],
       ),
       _ => buildAddItem(onAdd),

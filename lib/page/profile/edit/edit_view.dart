@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/network/model/user_info.dart';
 import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/widget/index.dart';
@@ -38,7 +39,7 @@ class EditView extends StatelessWidget {
         GridView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: 6,
+          itemCount: logic.medias.length,
           padding: EdgeInsetsDirectional.all(14.w),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
@@ -46,16 +47,19 @@ class EditView extends StatelessWidget {
             crossAxisSpacing: 9,
             mainAxisSpacing: 12,
           ),
-          itemBuilder: (context, index) => PhotoCard(
-            //isEdit: index % 2 == 0,
-            index: index,
-            onAdd: (index) {
-              ///
-            },
-            onEdit: (index) {
-              ///
-            },
-          ),
+          itemBuilder: (context, index) {
+            MediaListItem? item = logic.medias[index];
+            return PhotoCard(
+              item: item,
+              index: index,
+              onAdd: (index) {
+                logic.onAdd(index);
+              },
+              onEdit: (index) {
+                logic.onAdd(index);
+              },
+            );
+          },
         ),
         Container(
           padding: EdgeInsetsDirectional.only(
@@ -120,11 +124,6 @@ class EditView extends StatelessWidget {
           title: T.aboutMe.tr,
           value: logic.sign,
           onTap: () {
-            /*RouteManager.toPhoto(
-              form: ToNameType.editProfile,
-              userInfo: UserInfo()..user = logic.user,
-            );*/
-
             RouteManager.toInterest(
               form: FormType.editProfile,
               subForm: EditType.editSign,

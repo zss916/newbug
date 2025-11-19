@@ -94,6 +94,8 @@ class Net {
     Map<String, dynamic>? queryParameters,
     CancelToken? cancelToken,
     Options? options,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
   }) async {
     try {
       final response = await _dio.post(
@@ -102,6 +104,8 @@ class Net {
         queryParameters: queryParameters,
         cancelToken: cancelToken,
         options: options,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
       );
 
       return response.data ?? '{}';
