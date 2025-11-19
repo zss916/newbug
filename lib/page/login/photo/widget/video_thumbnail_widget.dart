@@ -28,128 +28,56 @@ class VideoThumbnailWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     String localFilePath = AppStores.getThumb(key: videoPath);
     if (File(localFilePath).existsSync()) {
-      return Container(
-        width: w ?? 108,
-        height: h ?? 143,
-        decoration: ShapeDecoration(
-          color: Colors.grey.shade200,
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: ExtendedFileImageProvider(File(localFilePath)),
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(8),
-          ),
-        ),
-        child: Stack(
-          alignment: AlignmentDirectional.center,
-          children: [
-            PositionedDirectional(
-              top: 6,
-              start: 6,
-              child: Image.asset(Assets.imgVideoIcon, width: 30, height: 20),
-            ),
-            PositionedDirectional(
-              bottom: 6,
-              end: 6,
-              child: Image.asset(Assets.imgEditIcon, width: 24, height: 24),
-            ),
-          ],
-        ),
-      );
+      return buildFileImageWidget(localFilePath);
     } else {
       return FutureBuilder(
         future: getThumbnail(videoPath),
         builder: (_, AsyncSnapshot<File?> snapshot) {
           String localFilePath = AppStores.getThumb(key: videoPath);
           if (File(localFilePath).existsSync()) {
-            return Container(
-              width: w ?? 108,
-              height: h ?? 143,
-              decoration: ShapeDecoration(
-                color: Colors.grey.shade200,
-                image: snapshot.data == null
-                    ? null
-                    : DecorationImage(
-                        fit: BoxFit.cover,
-                        image: ExtendedFileImageProvider(snapshot.data!),
-                      ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: borderRadius ?? BorderRadius.circular(8),
-                ),
-              ),
-              child: Stack(
-                alignment: AlignmentDirectional.center,
-                children: [
-                  PositionedDirectional(
-                    top: 6,
-                    start: 6,
-                    child: Image.asset(
-                      Assets.imgVideoIcon,
-                      width: 30,
-                      height: 20,
-                    ),
-                  ),
-                  PositionedDirectional(
-                    bottom: 6,
-                    end: 6,
-                    child: Image.asset(
-                      Assets.imgEditIcon,
-                      width: 24,
-                      height: 24,
-                    ),
-                  ),
-                ],
-              ),
-            );
+            return buildFileImageWidget(localFilePath);
           }
           return (snapshot.connectionState == ConnectionState.done &&
                   snapshot.hasData)
-              ? Container(
-                  width: w ?? 108,
-                  height: h ?? 143,
-                  decoration: ShapeDecoration(
-                    color: Colors.grey.shade200,
-                    image: snapshot.data == null
-                        ? null
-                        : DecorationImage(
-                            fit: BoxFit.cover,
-                            image: ExtendedFileImageProvider(snapshot.data!),
-                          ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: borderRadius ?? BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Stack(
-                    alignment: AlignmentDirectional.center,
-                    children: [
-                      PositionedDirectional(
-                        top: 6,
-                        start: 6,
-                        child: Image.asset(
-                          Assets.imgVideoIcon,
-                          width: 30,
-                          height: 20,
-                        ),
-                      ),
-                      PositionedDirectional(
-                        bottom: 6,
-                        end: 6,
-                        child: Image.asset(
-                          Assets.imgEditIcon,
-                          width: 24,
-                          height: 24,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
+              ? buildFileImageWidget(snapshot.data!.path)
               : Center(
                   child: CircularProgressIndicator(color: Color(0xFFFF0092)),
                 );
         },
       );
     }
+  }
+
+  Widget buildFileImageWidget(String path) {
+    return Container(
+      width: w ?? 108,
+      height: h ?? 143,
+      decoration: ShapeDecoration(
+        color: Colors.grey.shade200,
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: ExtendedFileImageProvider(File(path)),
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: borderRadius ?? BorderRadius.circular(8),
+        ),
+      ),
+      child: Stack(
+        alignment: AlignmentDirectional.center,
+        children: [
+          PositionedDirectional(
+            top: 6,
+            start: 6,
+            child: Image.asset(Assets.imgVideoIcon, width: 30, height: 20),
+          ),
+          PositionedDirectional(
+            bottom: 6,
+            end: 6,
+            child: Image.asset(Assets.imgEditIcon, width: 24, height: 24),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<File?> getThumbnail(String videoPath) async {

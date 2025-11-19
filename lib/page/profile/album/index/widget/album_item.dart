@@ -12,7 +12,7 @@ import 'package:newbug/page/profile/album/index/widget/private_video_thumbnail_w
 
 class AlbumItem extends StatefulWidget {
   final MediaListItem? item;
-  final Function(int selectedIndex) onSelected;
+  final Function(MediaListItem item) onSelected;
   const AlbumItem({super.key, this.item, required this.onSelected});
 
   @override
@@ -117,17 +117,7 @@ class _AlbumItemState extends State<AlbumItem>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return InkWell(
-      onTap: () {
-        setState(() {
-          isChecked = !isChecked;
-          if (isChecked) {
-            // widget.onSelected();
-          }
-        });
-      },
-      child: buildItem(item: widget.item!),
-    );
+    return buildItem(item: widget.item!);
   }
 
   Widget buildItem({required MediaListItem item}) {
@@ -194,14 +184,24 @@ class _AlbumItemState extends State<AlbumItem>
                                 ),
                               ),
                             Spacer(),
-                            Container(
-                              margin: EdgeInsetsDirectional.only(start: 5.w),
-                              child: Image.asset(
-                                isChecked
-                                    ? Assets.imgCheckedIcon
-                                    : Assets.imgUncheckIcon,
-                                width: 24,
-                                height: 24,
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isChecked = !isChecked;
+                                  if (isChecked) {
+                                    widget.onSelected(widget.item!);
+                                  }
+                                });
+                              },
+                              child: Container(
+                                margin: EdgeInsetsDirectional.only(start: 5.w),
+                                child: Image.asset(
+                                  isChecked
+                                      ? Assets.imgCheckedIcon
+                                      : Assets.imgUncheckIcon,
+                                  width: 24,
+                                  height: 24,
+                                ),
                               ),
                             ),
                           ],
@@ -283,12 +283,22 @@ class _AlbumItemState extends State<AlbumItem>
                             Spacer(),
                             Container(
                               margin: EdgeInsetsDirectional.only(start: 5.w),
-                              child: Image.asset(
-                                isChecked
-                                    ? Assets.imgCheckedIcon
-                                    : Assets.imgUncheckIcon,
-                                width: 24,
-                                height: 24,
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    isChecked = !isChecked;
+                                    if (isChecked) {
+                                      widget.onSelected(widget.item!);
+                                    }
+                                  });
+                                },
+                                child: Image.asset(
+                                  isChecked
+                                      ? Assets.imgCheckedIcon
+                                      : Assets.imgUncheckIcon,
+                                  width: 24,
+                                  height: 24,
+                                ),
                               ),
                             ),
                           ],
@@ -373,14 +383,24 @@ class _AlbumItemState extends State<AlbumItem>
                                 ),
                               ),
                             Spacer(),
-                            Container(
-                              margin: EdgeInsetsDirectional.only(start: 5.w),
-                              child: Image.asset(
-                                isChecked
-                                    ? Assets.imgCheckedIcon
-                                    : Assets.imgUncheckIcon,
-                                width: 24,
-                                height: 24,
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isChecked = !isChecked;
+                                  if (isChecked) {
+                                    widget.onSelected(widget.item!);
+                                  }
+                                });
+                              },
+                              child: Container(
+                                margin: EdgeInsetsDirectional.only(start: 5.w),
+                                child: Image.asset(
+                                  isChecked
+                                      ? Assets.imgCheckedIcon
+                                      : Assets.imgUncheckIcon,
+                                  width: 24,
+                                  height: 24,
+                                ),
                               ),
                             ),
                           ],
@@ -408,7 +428,76 @@ class _AlbumItemState extends State<AlbumItem>
               w: double.maxFinite,
               h: double.maxFinite,
               borderRadius: BorderRadius.zero,
-              isChecked: isChecked,
+              child: Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(8.r),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: ShapeDecoration(
+                                color: Colors.black.withValues(alpha: 0.50),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(999),
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsetsDirectional.only(
+                                      end: 3.w,
+                                    ),
+                                    child: Image.asset(
+                                      Assets.imgIcAlbumVideo,
+                                      width: 12,
+                                      height: 12,
+                                    ),
+                                  ),
+                                  Text(
+                                    item.showVideoDuration ?? "00:00",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 11.sp,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Spacer(),
+                            Container(
+                              margin: EdgeInsetsDirectional.only(start: 5.w),
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    isChecked = !isChecked;
+                                    if (isChecked) {
+                                      widget.onSelected(widget.item!);
+                                    }
+                                  });
+                                },
+                                child: Image.asset(
+                                  isChecked
+                                      ? Assets.imgCheckedIcon
+                                      : Assets.imgUncheckIcon,
+                                  width: 24,
+                                  height: 24,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
         ],
       ),
