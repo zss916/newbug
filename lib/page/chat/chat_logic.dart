@@ -11,6 +11,7 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
   int sentTime = 0;
 
   StreamSubscription<ReceiveMsgEvent>? receiveSubs;
+  StreamSubscription<SendPrivateSingleMsgEvent>? sendPrivateSingleSubs;
 
   @override
   void onInit() {
@@ -25,6 +26,14 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
     receiveSubs = EventService.to.listen<ReceiveMsgEvent>((event) {
       loadRecentMessage();
     });
+
+    ///触发单个私有消息发送
+    sendPrivateSingleSubs = EventService.to.listen<SendPrivateSingleMsgEvent>((
+      event,
+    ) {
+      // debugPrint("content ===>> ${event.content}");
+      sendPrivateSingleMessage(event.content);
+    });
   }
 
   @override
@@ -37,6 +46,7 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
 
   @override
   void onClose() {
+    sendPrivateSingleSubs?.cancel();
     receiveSubs?.cancel();
     scrollCtrl.dispose();
     super.onClose();
@@ -91,7 +101,7 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
     }
   }
 
-  ///发送消息
+  ///发送文字消息
   void toSend({required String value}) {
     if ((targetId ?? '').isNotEmpty) {
       CvIM.toSendText(
@@ -186,6 +196,16 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
       );
     } else {
       debugPrint("targetId is null");
+    }
+  }
+
+  ///私有打包消息
+  void sendPrivatePackageMessage() {}
+
+  ///发送单个私密消息
+  void sendPrivateSingleMessage(String content) {
+    if ((targetId ?? '').isNotEmpty) {
+      CvIM.toSendPrivateMsg(targetId: targetId ?? "", content: content);
     }
   }
 

@@ -2,22 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:newbug/core/event/app_event.dart';
-import 'package:newbug/core/network/model/meida_list_item.dart';
-import 'package:newbug/core/stores/app_stores.dart';
-import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/generated/assets.dart';
-import 'package:newbug/page/profile/album/preview/widget/base_preview/preview_image.dart';
+import 'package:newbug/page/chat/custom_message_widget/count_down_widget.dart';
 import 'package:newbug/page/profile/album/preview/widget/profile_private_album/private_album_video_plus.dart';
 
-class ProfilePrivatePhoto extends StatelessWidget {
-  final MediaListItem? media;
+class BuildSinglePrivateVideo extends StatelessWidget {
+  final String url;
+  final String? thumbUrl;
+  final Function? onFinished;
 
-  const ProfilePrivatePhoto({super.key, required this.media});
+  const BuildSinglePrivateVideo({
+    super.key,
+    required this.url,
+    this.thumbUrl,
+    this.onFinished,
+  });
 
   @override
   Widget build(BuildContext context) {
-    String localFilePath = AppStores.getThumb(key: media?.url ?? "");
     return Container(
       width: Get.width,
       height: Get.height,
@@ -40,18 +42,6 @@ class ProfilePrivatePhoto extends StatelessWidget {
               ),
             ),
           ),
-          actions: [
-            Container(
-              margin: EdgeInsetsDirectional.only(end: 15.w),
-              child: InkWell(
-                onTap: () {
-                  EventService.to.post(ProfilePrivateAlbumEvent(media: media));
-                  Get.back();
-                },
-                child: Icon(Icons.delete_forever, color: Colors.white),
-              ),
-            ),
-          ],
           backgroundColor: Colors.transparent,
           systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: Colors.transparent,
@@ -63,19 +53,37 @@ class ProfilePrivatePhoto extends StatelessWidget {
           ),
         ),
         backgroundColor: Colors.transparent,
-        body: Stack(
-          fit: StackFit.expand,
-          alignment: AlignmentDirectional.center,
-          children: [
-            if (!(media?.isVideo ?? false))
-              PreviewImage(url: media?.url ?? "", type: ImageType.network),
-
-            if ((media?.isVideo ?? false))
-              PrivateAlbumVideoPlus(
-                url: media?.url ?? "",
-                thumbUrl: media?.thumbUrl ?? "",
+        body: SizedBox.expand(
+          child: Column(
+            children: [
+              Expanded(
+                child: PrivateAlbumVideoPlus(
+                  url: url,
+                  thumbUrl: thumbUrl ?? "",
+                ),
               ),
-          ],
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.5),
+                ),
+                width: double.maxFinite,
+                padding: EdgeInsetsDirectional.only(top: 12.h, bottom: 12.h),
+                alignment: Alignment.center,
+                child: CountDownWidget(
+                  totalDuration: 60,
+                  alpha: 0,
+                  onFinished: () {
+                    onFinished?.call();
+                  },
+                ),
+              ),
+              Container(
+                width: double.maxFinite,
+                height: MediaQuery.of(context).padding.bottom,
+                color: Colors.black.withValues(alpha: 0.5),
+              ),
+            ],
+          ),
         ),
       ),
     );

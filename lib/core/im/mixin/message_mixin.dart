@@ -77,25 +77,28 @@ mixin class MessageMixin {
     return ret == 0;
   }
 
-  ///发送自定义消息 ???
+  ///发送自定义消息
   Future<bool> sendCustomMessageMixin({
     RCIMIWEngine? engine,
-    required String targetId,
-    String? channelId,
-    required RCIMIWCustomMessagePolicy policy,
-    required String messageIdentifier,
-    required Map fields,
+    RCIMIWMessage? customMessage,
+    Function(RCIMIWMessage? message)? onSendStart,
+    Function(int? code, RCIMIWMessage? message)? onSendResult,
   }) async {
-    RCIMIWCustomMessage? customMessage = await engine?.createCustomMessage(
+    /*   RCIMIWCustomMessage? customMessage = await engine?.createCustomMessage(
       RCIMIWConversationType.private,
       targetId,
       null,
       policy,
       messageIdentifier,
       fields,
-    );
+    );*/
     if (customMessage != null) {
-      return sendBaseMessageMixin(engine: engine, message: customMessage);
+      return sendBaseMessageMixin(
+        engine: engine,
+        message: customMessage,
+        onSendStart: onSendStart,
+        onSendResult: onSendResult,
+      );
     } else {
       return Future.value(false);
     }

@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:newbug/core/album/gallery/gallery_tools.dart';
 import 'package:newbug/core/event/app_event.dart';
+import 'package:newbug/core/im/utils/im_event.dart';
 import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/network/reopsitory/profile.dart';
 import 'package:newbug/core/route/index.dart';
@@ -153,11 +155,26 @@ class AlbumLogic extends GetxController with MixinUpload {
   ///确认
   void toConfirm() {
     toFilter();
-    RouteManager.toSelectedAlbum(
-      videos: selectVideos,
-      images: selectImages,
-    ).then((_) {
-      toFilter();
-    });
+    if ((selectVideos.length + selectImages.length) == 1) {
+      if (selectImages.length == 1) {
+        String content = jsonEncode(selectImages.first);
+        EventService.to.post(SendPrivateSingleMsgEvent(content: content));
+        Get.back();
+      }
+
+      if (selectVideos.length == 1) {
+        String content = jsonEncode(selectVideos.first);
+        EventService.to.post(SendPrivateSingleMsgEvent(content: content));
+        Get.back();
+      }
+    } else {
+      //todo
+      RouteManager.toSelectedAlbum(
+        videos: selectVideos,
+        images: selectImages,
+      ).then((_) {
+        toFilter();
+      });
+    }
   }
 }

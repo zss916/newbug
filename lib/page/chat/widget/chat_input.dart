@@ -63,6 +63,7 @@ class _InputSendState extends State<InputSend>
         children: [
           ChatPickImage(
             onPublicAlbum: () {
+              ///todo 是否可以发送私有图片
               openPublicAlbum(context);
             },
             onPrivateAlbum: () {

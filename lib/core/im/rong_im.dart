@@ -134,6 +134,20 @@ class RongIM
     );
   }
 
+  ///发送自定义消息
+  Future<bool> sendCustomMessage({
+    required RCIMIWMessage customMessage,
+    Function(RCIMIWMessage? message)? onSendStart,
+    Function(int? code, RCIMIWMessage? message)? onSendResult,
+  }) async {
+    return await sendCustomMessageMixin(
+      engine: engine,
+      customMessage: customMessage,
+      onSendStart: onSendStart,
+      onSendResult: onSendResult,
+    );
+  }
+
   ///发送图片消息
   Future<bool> sendImageMessage({
     required String targetId,

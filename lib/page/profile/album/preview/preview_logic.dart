@@ -22,7 +22,8 @@ class PreviewLogic extends GetxController {
   int viewType = PreviewViewType.other.index;
   RCIMIWImageMessage? imageMessage;
   PublicMessage? publicMessage;
-  PrivateMessage? privateMessage;
+  PrivateMessage? privatePhotoMessage;
+  PrivateMessage? privateVideoMessage;
   RCIMIWSightMessage? videoMessage;
   MediaListItem? media;
 
@@ -36,9 +37,17 @@ class PreviewLogic extends GetxController {
       } else if (viewType == PreviewViewType.singlePublicPhoto.index) {
         publicMessage = Get.arguments["data"]["message"] as PublicMessage;
       } else if (viewType == PreviewViewType.singlePrivatePhoto.index) {
-        privateMessage = Get.arguments["data"]["message"] as PrivateMessage;
+        privatePhotoMessage =
+            Get.arguments["data"]["message"] as PrivateMessage;
       } else if (viewType == PreviewViewType.singleSightVideo.index) {
         videoMessage = Get.arguments["data"]["message"] as RCIMIWSightMessage;
+      } else if (viewType == PreviewViewType.singlePrivateVideo.index) {
+        privateVideoMessage =
+            Get.arguments["data"]["message"] as PrivateMessage;
+
+        /* debugPrint(
+          "privateVideoMessage ===>> ${privateVideoMessage?.data?.thumbUrl}",
+        );*/
       } else if (viewType == PreviewViewType.profilePrivateAlbum.index) {
         media = Get.arguments["data"]["media"] as MediaListItem?;
       }

@@ -10,3 +10,9 @@ class ReceiveMsgEvent {
   RCIMIWMessage? message;
   ReceiveMsgEvent(this.message);
 }
+
+///触发发送单个私有消息
+class SendPrivateSingleMsgEvent {
+  String content;
+  SendPrivateSingleMsgEvent({required this.content});
+}

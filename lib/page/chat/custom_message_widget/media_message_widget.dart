@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:extended_image/extended_image.dart';
@@ -7,7 +8,9 @@ import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/im/custom_message/private_message.dart';
 import 'package:newbug/core/im/custom_message/public_message.dart';
+import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/generated/assets.dart';
+import 'package:newbug/page/chat/chat_widget/base_thumbnail_widget.dart';
 import 'package:newbug/page/chat/chat_widget/local_wrapper_msg.dart';
 import 'package:newbug/page/chat/custom_message_widget/count_down_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/loading_widget.dart';
@@ -20,7 +23,7 @@ class MediaMessageWidget extends StatefulWidget {
   final bool isLocal;
   final bool? isPrivate;
   final bool? isDestroyed;
-  final bool? isVideo;
+  //final bool? isVideo;
   final Function? onTap;
   final LocalWrapperMsg msgItem;
 
@@ -28,7 +31,7 @@ class MediaMessageWidget extends StatefulWidget {
     super.key,
     required this.msgItem,
     required this.isLocal,
-    this.isVideo,
+    //this.isVideo,
     this.isPrivate,
     this.isDestroyed,
     this.onTap,
@@ -42,7 +45,7 @@ class _MediaMessageWidgetState extends State<MediaMessageWidget> {
   bool isPrivate = true;
   bool isDestroyed = false;
   bool isLoading = false;
-  bool isVideo = false;
+  // bool isVideo = false;
 
   PrivateMediaStatus status = PrivateMediaStatus.private;
 
@@ -51,7 +54,7 @@ class _MediaMessageWidgetState extends State<MediaMessageWidget> {
     super.initState();
     isPrivate = widget.isPrivate ?? true;
     isDestroyed = widget.isDestroyed ?? false;
-    isVideo = widget.isVideo ?? false;
+    // isVideo = widget.isVideo ?? false;
   }
 
   @override
@@ -99,203 +102,323 @@ class _MediaMessageWidgetState extends State<MediaMessageWidget> {
     );
   }
 
-  /// 私密
+  /// 私密(单个消息视频或图片)
   Widget buildPrivateMediaWidget(LocalWrapperMsg msgItem) {
     PrivateMessage privateMessage = msgItem.rCIMIWMessage as PrivateMessage;
-    return InkWell(
-      onTap: () {
-        handTapImage();
-      },
-      child: Container(
-        width: 179.w,
-        height: 232.h,
-        clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-          color: widget.isLocal ? Color(0xFFCDD2FF) : Color(0xFFF6CDFF),
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: ExtendedNetworkImageProvider(
-              privateMessage.data?.imageUrl ?? "",
-            ),
-          ),
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(12.r),
-            bottomLeft: Radius.circular(12.r),
-            bottomRight: widget.isLocal ? Radius.zero : Radius.circular(12.r),
-            topLeft: widget.isLocal ? Radius.circular(12.r) : Radius.zero,
-          ),
-        ),
-        child: Stack(
-          alignment: AlignmentDirectional.center,
-          children: [
-            if (status == PrivateMediaStatus.private ||
-                status == PrivateMediaStatus.loading)
-              Positioned.fill(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(12.r),
-                    bottomLeft: Radius.circular(12.r),
-                    bottomRight: widget.isLocal
-                        ? Radius.zero
-                        : Radius.circular(12.r),
-                    topLeft: widget.isLocal
-                        ? Radius.circular(12.r)
-                        : Radius.zero,
-                  ),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                    child: Container(
-                      decoration: BoxDecoration(color: Colors.black54),
-                    ),
-                  ),
+    MediaListItem? media = privateMessage.data;
+
+    if (media?.isVideo ?? false) {
+      return InkWell(
+        onTap: () {
+          handTapImage();
+        },
+        child: BaseThumbnailWidget(
+          videoPath: media?.url ?? "",
+          builder: (String thumbnailPath) {
+            media?.thumbUrl = thumbnailPath;
+            return Container(
+              width: 179.w,
+              height: 232.h,
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                color: widget.isLocal ? Color(0xFFCDD2FF) : Color(0xFFF6CDFF),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: ExtendedFileImageProvider(File(thumbnailPath)),
+                ),
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(12.r),
+                  bottomLeft: Radius.circular(12.r),
+                  bottomRight: widget.isLocal
+                      ? Radius.zero
+                      : Radius.circular(12.r),
+                  topLeft: widget.isLocal ? Radius.circular(12.r) : Radius.zero,
                 ),
               ),
-            if (status == PrivateMediaStatus.private ||
-                status == PrivateMediaStatus.loading)
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              child: Stack(
+                alignment: AlignmentDirectional.center,
                 children: [
-                  Image.asset(Assets.imgLock, width: 55.r, height: 55.r),
-                  Text(
-                    isVideo ? T.privateVideo.tr : T.privatePhoto.tr,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w500,
+                  if (status == PrivateMediaStatus.private ||
+                      status == PrivateMediaStatus.loading)
+                    Positioned.fill(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(12.r),
+                          bottomLeft: Radius.circular(12.r),
+                          bottomRight: widget.isLocal
+                              ? Radius.zero
+                              : Radius.circular(12.r),
+                          topLeft: widget.isLocal
+                              ? Radius.circular(12.r)
+                              : Radius.zero,
+                        ),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                          child: Container(
+                            decoration: BoxDecoration(color: Colors.black54),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  Divider(height: 10.h, color: Colors.transparent),
-                  if (isLoading && status == PrivateMediaStatus.loading)
-                    LoadingWidget()
-                  else
-                    SizedBox(width: 22.r, height: 22.r),
+                  if (status == PrivateMediaStatus.private ||
+                      status == PrivateMediaStatus.loading)
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(Assets.imgLock, width: 55.r, height: 55.r),
+                        Text(
+                          (media?.isVideo ?? false)
+                              ? T.privateVideo.tr
+                              : T.privatePhoto.tr,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        Divider(height: 10.h, color: Colors.transparent),
+                        if (isLoading && status == PrivateMediaStatus.loading)
+                          LoadingWidget()
+                        else
+                          SizedBox(width: 22.r, height: 22.r),
+                      ],
+                    ),
+                  if (status == PrivateMediaStatus.private ||
+                      status == PrivateMediaStatus.loading)
+                    if (false)
+                      PositionedDirectional(
+                        bottom: 8.r,
+                        end: 8.r,
+                        start: 8.r,
+                        child: buildTags(),
+                      ),
+                  if (status == PrivateMediaStatus.countdown)
+                    PositionedDirectional(
+                      bottom: 8.r,
+                      end: 8.r,
+                      child: CountDownWidget(
+                        totalDuration: 60,
+                        onFinished: () {
+                          setState(() {
+                            status = PrivateMediaStatus.destroyed;
+                          });
+                        },
+                      ),
+                    ),
+
+                  /// Video
+                  if (media?.isVideo ?? false)
+                    PositionedDirectional(
+                      top: 8,
+                      start: 8,
+                      child: Image.asset(
+                        Assets.imgIcVideo,
+                        width: 28.w,
+                        height: 20.h,
+                      ),
+                    ),
+
+                  if ((media?.isVideo ?? false) &&
+                      status == PrivateMediaStatus.countdown)
+                    Center(
+                      child: Image.asset(
+                        Assets.imgNotificationPlay,
+                        width: 50,
+                        height: 50,
+                      ),
+                    ),
                 ],
               ),
-            if (status == PrivateMediaStatus.private ||
-                status == PrivateMediaStatus.loading)
-              PositionedDirectional(
-                bottom: 8.r,
-                end: 8.r,
-                start: 8.r,
-                child: Wrap(
-                  spacing: 4.w,
-                  runSpacing: 4.w,
+            );
+          },
+        ),
+      );
+    } else {
+      return InkWell(
+        onTap: () {
+          handTapImage();
+        },
+        child: Container(
+          width: 179.w,
+          height: 232.h,
+          clipBehavior: Clip.hardEdge,
+          decoration: BoxDecoration(
+            color: widget.isLocal ? Color(0xFFCDD2FF) : Color(0xFFF6CDFF),
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: ExtendedNetworkImageProvider(
+                privateMessage.data?.imageUrl ?? "",
+              ),
+            ),
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(12.r),
+              bottomLeft: Radius.circular(12.r),
+              bottomRight: widget.isLocal ? Radius.zero : Radius.circular(12.r),
+              topLeft: widget.isLocal ? Radius.circular(12.r) : Radius.zero,
+            ),
+          ),
+          child: Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              if (status == PrivateMediaStatus.private ||
+                  status == PrivateMediaStatus.loading)
+                Positioned.fill(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(12.r),
+                      bottomLeft: Radius.circular(12.r),
+                      bottomRight: widget.isLocal
+                          ? Radius.zero
+                          : Radius.circular(12.r),
+                      topLeft: widget.isLocal
+                          ? Radius.circular(12.r)
+                          : Radius.zero,
+                    ),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                      child: Container(
+                        decoration: BoxDecoration(color: Colors.black54),
+                      ),
+                    ),
+                  ),
+                ),
+              if (status == PrivateMediaStatus.private ||
+                  status == PrivateMediaStatus.loading)
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 8.w,
-                        vertical: 4.h,
-                      ),
-                      decoration: ShapeDecoration(
-                        color: const Color(0x19FF0092),
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            width: 1,
-                            color: const Color(0xFFFF0092),
-                          ),
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                      ),
-                      child: Text(
-                        '#Travel',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: -0.30,
-                        ),
+                    Image.asset(Assets.imgLock, width: 55.r, height: 55.r),
+                    Text(
+                      (media?.isVideo ?? false)
+                          ? T.privateVideo.tr
+                          : T.privatePhoto.tr,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 8.w,
-                        vertical: 4.h,
-                      ),
-                      decoration: ShapeDecoration(
-                        color: const Color(0x19FF0092),
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            width: 1,
-                            color: const Color(0xFFFF0092),
-                          ),
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                      ),
-                      child: Text(
-                        '#Travel',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: -0.30,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 8.w,
-                        vertical: 4.h,
-                      ),
-                      decoration: ShapeDecoration(
-                        color: const Color(0x19FF0092),
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            width: 1,
-                            color: const Color(0xFFFF0092),
-                          ),
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                      ),
-                      child: Text(
-                        '#Travel',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10.sp,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: -0.30,
-                        ),
-                      ),
-                    ),
+                    Divider(height: 10.h, color: Colors.transparent),
+                    if (isLoading && status == PrivateMediaStatus.loading)
+                      LoadingWidget()
+                    else
+                      SizedBox(width: 22.r, height: 22.r),
                   ],
                 ),
-              ),
-            if (status == PrivateMediaStatus.countdown)
-              PositionedDirectional(
-                bottom: 8.r,
-                end: 8.r,
-                child: CountDownWidget(
-                  totalDuration: 60,
-                  onFinished: () {
-                    setState(() {
-                      status = PrivateMediaStatus.destroyed;
-                    });
-                  },
+              if (status == PrivateMediaStatus.private ||
+                  status == PrivateMediaStatus.loading)
+                if (false)
+                  PositionedDirectional(
+                    bottom: 8.r,
+                    end: 8.r,
+                    start: 8.r,
+                    child: buildTags(),
+                  ),
+              if (status == PrivateMediaStatus.countdown)
+                PositionedDirectional(
+                  bottom: 8.r,
+                  end: 8.r,
+                  child: CountDownWidget(
+                    totalDuration: 60,
+                    onFinished: () {
+                      setState(() {
+                        status = PrivateMediaStatus.destroyed;
+                      });
+                    },
+                  ),
                 ),
-              ),
 
-            /// Video
-            if (isVideo)
-              PositionedDirectional(
-                top: 8,
-                start: 8,
-                child: Image.asset(
-                  Assets.imgIcVideo,
-                  width: 28.w,
-                  height: 20.h,
+              /// Video
+              if (media?.isVideo ?? false)
+                PositionedDirectional(
+                  top: 8,
+                  start: 8,
+                  child: Image.asset(
+                    Assets.imgIcVideo,
+                    width: 28.w,
+                    height: 20.h,
+                  ),
                 ),
-              ),
 
-            if (isVideo && status == PrivateMediaStatus.countdown)
-              Center(
-                child: Image.asset(
-                  Assets.imgNotificationPlay,
-                  width: 50,
-                  height: 50,
+              if ((media?.isVideo ?? false) &&
+                  status == PrivateMediaStatus.countdown)
+                Center(
+                  child: Image.asset(
+                    Assets.imgNotificationPlay,
+                    width: 50,
+                    height: 50,
+                  ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
-      ),
+      );
+    }
+  }
+
+  Widget buildTags() {
+    return Wrap(
+      spacing: 4.w,
+      runSpacing: 4.w,
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+          decoration: ShapeDecoration(
+            color: const Color(0x19FF0092),
+            shape: RoundedRectangleBorder(
+              side: BorderSide(width: 1, color: const Color(0xFFFF0092)),
+              borderRadius: BorderRadius.circular(100),
+            ),
+          ),
+          child: Text(
+            '#Travel',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w500,
+              letterSpacing: -0.30,
+            ),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+          decoration: ShapeDecoration(
+            color: const Color(0x19FF0092),
+            shape: RoundedRectangleBorder(
+              side: BorderSide(width: 1, color: const Color(0xFFFF0092)),
+              borderRadius: BorderRadius.circular(100),
+            ),
+          ),
+          child: Text(
+            '#Travel',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w500,
+              letterSpacing: -0.30,
+            ),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+          decoration: ShapeDecoration(
+            color: const Color(0x19FF0092),
+            shape: RoundedRectangleBorder(
+              side: BorderSide(width: 1, color: const Color(0xFFFF0092)),
+              borderRadius: BorderRadius.circular(100),
+            ),
+          ),
+          child: Text(
+            '#Travel',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 10.sp,
+              fontWeight: FontWeight.w500,
+              letterSpacing: -0.30,
+            ),
+          ),
+        ),
+      ],
     );
   }
 

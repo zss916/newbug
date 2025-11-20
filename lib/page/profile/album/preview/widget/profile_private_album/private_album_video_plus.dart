@@ -11,13 +11,13 @@ import 'package:video_player/video_player.dart';
 
 class PrivateAlbumVideoPlus extends StatefulWidget {
   final String url;
-  // final String? thumbUrl;
+  final String? thumbUrl;
   final Widget? child;
 
   const PrivateAlbumVideoPlus({
     super.key,
     required this.url,
-    // this.thumbUrl,
+    this.thumbUrl,
     this.child,
   });
 
@@ -81,12 +81,11 @@ class _PreviewVideoState extends State<PrivateAlbumVideoPlus>
                             fit: StackFit.expand,
                             alignment: AlignmentDirectional.center,
                             children: [
-                              /*if (widget.thumbUrl != null)
-                                Image.memory(
-                                  base64Decode(widget.thumbUrl!),
-                                  fit: BoxFit.cover,
-                                ),*/
-                              buildPreviewVideo(widget.url),
+                              if (widget.thumbUrl != null &&
+                                  File(widget.thumbUrl ?? "").existsSync())
+                                buildFileImage(widget.thumbUrl ?? "")
+                              else
+                                buildPreviewVideo(widget.url),
                               Center(child: buildLoading()),
                             ],
                           )
@@ -237,6 +236,10 @@ class _PreviewVideoState extends State<PrivateAlbumVideoPlus>
         ],
       ),
     );
+  }
+
+  Widget buildFileImage(String path) {
+    return Image.file(File(path), fit: BoxFit.cover);
   }
 
   @override

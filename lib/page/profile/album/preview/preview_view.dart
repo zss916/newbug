@@ -7,6 +7,7 @@ import 'package:newbug/page/profile/album/preview/widget/other.dart';
 import 'package:newbug/page/profile/album/preview/widget/profile_private_album/profile_private_photo.dart';
 import 'package:newbug/page/profile/album/preview/widget/single_image_photo/build_single_image_photo.dart';
 import 'package:newbug/page/profile/album/preview/widget/single_private_photo/build_single_private_photo.dart';
+import 'package:newbug/page/profile/album/preview/widget/single_private_video/build_single_private_video.dart';
 import 'package:newbug/page/profile/album/preview/widget/single_public_photo/build_single_public_photo.dart';
 import 'package:newbug/page/profile/album/preview/widget/single_sight_video/build_single_sight_video.dart';
 import 'package:newbug/page/profile/album/preview/widget/single_sight_video/build_single_video.dart';
@@ -32,7 +33,12 @@ class PreviewView extends StatelessWidget {
         BuildSinglePublicPhoto(url: logic.publicMessage?.data?.imageUrl ?? ""),
       _ when state == PreviewViewType.singlePrivatePhoto.index =>
         BuildSinglePrivatePhoto(
-          url: logic.privateMessage?.data?.imageUrl ?? "",
+          url: logic.privatePhotoMessage?.data?.imageUrl ?? "",
+        ),
+      _ when state == PreviewViewType.singlePrivateVideo.index =>
+        BuildSinglePrivateVideo(
+          url: logic.privateVideoMessage?.data?.url ?? "",
+          thumbUrl: logic.privateVideoMessage?.data?.thumbUrl ?? "",
         ),
       _ when state == PreviewViewType.singleSightVideo.index =>
         BuildSingleSightVideo(

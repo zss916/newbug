@@ -192,10 +192,23 @@ class Chat extends StatelessWidget {
       isPrivate: true,
       onTap: () {
         PrivateMessage privateMessage = msgItem.rCIMIWMessage as PrivateMessage;
-        RouteManager.toPreviewView(
-          viewId: PreviewViewType.singlePrivatePhoto.index,
-          data: {"message": privateMessage},
+        /*debugPrint("privateMessage ==>> ${privateMessage.data?.toJson()}");
+        debugPrint(
+          "privateMessage ==>> ${File(privateMessage.data?.thumbUrl ?? "").existsSync()}",
         );
+*/
+        bool isVideo = privateMessage.data?.isVideo ?? false;
+        if (isVideo) {
+          RouteManager.toPreviewView(
+            viewId: PreviewViewType.singlePrivateVideo.index,
+            data: {"message": privateMessage},
+          );
+        } else {
+          /* RouteManager.toPreviewView(
+            viewId: PreviewViewType.singlePrivatePhoto.index,
+            data: {"message": privateMessage},
+          );*/
+        }
       },
     );
   }
