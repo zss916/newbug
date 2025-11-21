@@ -12,11 +12,12 @@ typedef WidgetThumbnailBuilder = Widget Function(String thumbnailPath);
 class BaseThumbnailWidget extends StatelessWidget {
   final String videoPath;
   final WidgetThumbnailBuilder builder;
-
+  final Widget? placeholder;
   const BaseThumbnailWidget({
     super.key,
     required this.videoPath,
     required this.builder,
+    this.placeholder,
   });
 
   @override
@@ -35,9 +36,12 @@ class BaseThumbnailWidget extends StatelessWidget {
           return (snapshot.connectionState == ConnectionState.done &&
                   snapshot.hasData)
               ? builder(snapshot.data!.path)
-              : Center(
-                  child: CircularProgressIndicator(color: Color(0xFFFF0092)),
-                );
+              : placeholder ??
+                    Center(
+                      child: CircularProgressIndicator(
+                        color: Color(0xFFFF0092),
+                      ),
+                    );
         },
       );
     }
@@ -46,6 +50,7 @@ class BaseThumbnailWidget extends StatelessWidget {
   Future<File?> getThumbnail(String videoPath) async {
     final cacheManager = DefaultCacheManager();
     FileInfo? fileInfo = await cacheManager.getFileFromCache(videoPath);
+
     if (fileInfo == null) {
       Uint8List? thumbnailData = await FlutterVideoThumbnail.getThumbnail(
         videoPath,

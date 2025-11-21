@@ -113,7 +113,7 @@ abstract class ProfileAPI {
     }
   }
 
-  ///添加私密图片 ( 图片0 视频1)
+  ///添加私密图片 (type 图片0 视频1)
   static Future<num?> addPrivateImage({
     required int type,
     required String url,

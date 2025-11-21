@@ -18,6 +18,7 @@ class ConversationMsgWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RCIMIWMessageType? type = value.lastMessage?.messageType;
+
     return switch (type) {
       ///文字
       _ when type == RCIMIWMessageType.text => buildTextMsg(

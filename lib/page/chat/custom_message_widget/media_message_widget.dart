@@ -59,167 +59,61 @@ class _MediaMessageWidgetState extends State<MediaMessageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return (widget.isDestroyed == true ||
-            status == PrivateMediaStatus.destroyed)
-        ? buildFireStatusWidget()
-        : MessageWrapperWidget(
-            isLocal: widget.isLocal,
-            child: isPrivate
-                ? buildPrivateMediaWidget(widget.msgItem)
-                : buildPublicMediaWidget(widget.msgItem),
-          );
+    return MessageWrapperWidget(
+      isCenter:
+          (isPrivate &&
+          (widget.msgItem.rCIMIWMessage as PrivateMessage).isDestroyedStatus()),
+      isLocal: widget.isLocal,
+      child: isPrivate
+          ? buildPrivateMediaWidget(widget.msgItem)
+          : buildPublicMediaWidget(widget.msgItem),
+    );
   }
 
   ///公开
   Widget buildPublicMediaWidget(LocalWrapperMsg msgItem) {
     PublicMessage publicMessage = msgItem.rCIMIWMessage as PublicMessage;
-    //debugPrint("publicMessage ===>> ${publicMessage.data?.toJson()}");
-
+    MediaListItem? media = publicMessage.data;
+    //debugPrint("media ==> ${media?.toJson()}");
     return InkWell(
       onTap: () {
         widget.onTap?.call();
       },
-      child: Container(
-        width: 179.w,
-        height: 232.h,
-        clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-          color: widget.isLocal ? Color(0xFFCDD2FF) : Color(0xFFF6CDFF),
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: ExtendedNetworkImageProvider(
-              publicMessage.data?.imageUrl ?? "",
-            ),
-          ),
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(12.r),
-            bottomLeft: Radius.circular(12.r),
-            bottomRight: widget.isLocal ? Radius.zero : Radius.circular(12.r),
-            topLeft: widget.isLocal ? Radius.circular(12.r) : Radius.zero,
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// 私密(单个消息视频或图片)
-  Widget buildPrivateMediaWidget(LocalWrapperMsg msgItem) {
-    PrivateMessage privateMessage = msgItem.rCIMIWMessage as PrivateMessage;
-    MediaListItem? media = privateMessage.data;
-
-    if (media?.isVideo ?? false) {
-      return InkWell(
-        onTap: () {
-          handTapImage();
-        },
-        child: BaseThumbnailWidget(
-          videoPath: media?.url ?? "",
-          builder: (String thumbnailPath) {
-            media?.thumbUrl = thumbnailPath;
-            return Container(
-              width: 179.w,
-              height: 232.h,
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
-                color: widget.isLocal ? Color(0xFFCDD2FF) : Color(0xFFF6CDFF),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: ExtendedFileImageProvider(File(thumbnailPath)),
+      child: (media?.isVideo == true)
+          ? BaseThumbnailWidget(
+              videoPath: media?.url ?? "",
+              placeholder: Container(
+                width: 179.w,
+                height: 232.h,
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  color: widget.isLocal ? Color(0xFFCDD2FF) : Color(0xFFF6CDFF),
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(12.r),
+                    bottomLeft: Radius.circular(12.r),
+                    bottomRight: widget.isLocal
+                        ? Radius.zero
+                        : Radius.circular(12.r),
+                    topLeft: widget.isLocal
+                        ? Radius.circular(12.r)
+                        : Radius.zero,
+                  ),
                 ),
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(12.r),
-                  bottomLeft: Radius.circular(12.r),
-                  bottomRight: widget.isLocal
-                      ? Radius.zero
-                      : Radius.circular(12.r),
-                  topLeft: widget.isLocal ? Radius.circular(12.r) : Radius.zero,
-                ),
-              ),
-              child: Stack(
-                alignment: AlignmentDirectional.center,
-                children: [
-                  if (status == PrivateMediaStatus.private ||
-                      status == PrivateMediaStatus.loading)
-                    Positioned.fill(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(12.r),
-                          bottomLeft: Radius.circular(12.r),
-                          bottomRight: widget.isLocal
-                              ? Radius.zero
-                              : Radius.circular(12.r),
-                          topLeft: widget.isLocal
-                              ? Radius.circular(12.r)
-                              : Radius.zero,
-                        ),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                          child: Container(
-                            decoration: BoxDecoration(color: Colors.black54),
-                          ),
-                        ),
-                      ),
-                    ),
-                  if (status == PrivateMediaStatus.private ||
-                      status == PrivateMediaStatus.loading)
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(Assets.imgLock, width: 55.r, height: 55.r),
-                        Text(
-                          (media?.isVideo ?? false)
-                              ? T.privateVideo.tr
-                              : T.privatePhoto.tr,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        Divider(height: 10.h, color: Colors.transparent),
-                        if (isLoading && status == PrivateMediaStatus.loading)
-                          LoadingWidget()
-                        else
-                          SizedBox(width: 22.r, height: 22.r),
-                      ],
-                    ),
-                  if (status == PrivateMediaStatus.private ||
-                      status == PrivateMediaStatus.loading)
-                    if (false)
+                child: Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: [
+                    /// Video
+                    if (media?.isVideo ?? false)
                       PositionedDirectional(
-                        bottom: 8.r,
-                        end: 8.r,
-                        start: 8.r,
-                        child: buildTags(),
+                        top: 8,
+                        start: 8,
+                        child: Image.asset(
+                          Assets.imgIcVideo,
+                          width: 28.w,
+                          height: 20.h,
+                        ),
                       ),
-                  if (status == PrivateMediaStatus.countdown)
-                    PositionedDirectional(
-                      bottom: 8.r,
-                      end: 8.r,
-                      child: CountDownWidget(
-                        totalDuration: 60,
-                        onFinished: () {
-                          setState(() {
-                            status = PrivateMediaStatus.destroyed;
-                          });
-                        },
-                      ),
-                    ),
 
-                  /// Video
-                  if (media?.isVideo ?? false)
-                    PositionedDirectional(
-                      top: 8,
-                      start: 8,
-                      child: Image.asset(
-                        Assets.imgIcVideo,
-                        width: 28.w,
-                        height: 20.h,
-                      ),
-                    ),
-
-                  if ((media?.isVideo ?? false) &&
-                      status == PrivateMediaStatus.countdown)
                     Center(
                       child: Image.asset(
                         Assets.imgNotificationPlay,
@@ -227,43 +121,23 @@ class _MediaMessageWidgetState extends State<MediaMessageWidget> {
                         height: 50,
                       ),
                     ),
-                ],
+                  ],
+                ),
               ),
-            );
-          },
-        ),
-      );
-    } else {
-      return InkWell(
-        onTap: () {
-          handTapImage();
-        },
-        child: Container(
-          width: 179.w,
-          height: 232.h,
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            color: widget.isLocal ? Color(0xFFCDD2FF) : Color(0xFFF6CDFF),
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: ExtendedNetworkImageProvider(
-                privateMessage.data?.imageUrl ?? "",
-              ),
-            ),
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(12.r),
-              bottomLeft: Radius.circular(12.r),
-              bottomRight: widget.isLocal ? Radius.zero : Radius.circular(12.r),
-              topLeft: widget.isLocal ? Radius.circular(12.r) : Radius.zero,
-            ),
-          ),
-          child: Stack(
-            alignment: AlignmentDirectional.center,
-            children: [
-              if (status == PrivateMediaStatus.private ||
-                  status == PrivateMediaStatus.loading)
-                Positioned.fill(
-                  child: ClipRRect(
+              builder: (String thumbnailPath) {
+                media?.thumbUrl = thumbnailPath;
+                return Container(
+                  width: 179.w,
+                  height: 232.h,
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    color: widget.isLocal
+                        ? Color(0xFFCDD2FF)
+                        : Color(0xFFF6CDFF),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: ExtendedFileImageProvider(File(thumbnailPath)),
+                    ),
                     borderRadius: BorderRadius.only(
                       topRight: Radius.circular(12.r),
                       bottomLeft: Radius.circular(12.r),
@@ -274,85 +148,491 @@ class _MediaMessageWidgetState extends State<MediaMessageWidget> {
                           ? Radius.circular(12.r)
                           : Radius.zero,
                     ),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                      child: Container(
-                        decoration: BoxDecoration(color: Colors.black54),
+                  ),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      PositionedDirectional(
+                        top: 8,
+                        start: 8,
+                        child: Image.asset(
+                          Assets.imgIcVideo,
+                          width: 28.w,
+                          height: 20.h,
+                        ),
                       ),
+                      Center(
+                        child: Image.asset(
+                          Assets.imgNotificationPlay,
+                          width: 50,
+                          height: 50,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            )
+          : Container(
+              width: 179.w,
+              height: 232.h,
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                color: widget.isLocal ? Color(0xFFCDD2FF) : Color(0xFFF6CDFF),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: ExtendedNetworkImageProvider(
+                    publicMessage.data?.imageUrl ?? "",
+                    cache: true,
+                    cacheRawData: true,
+                    cacheMaxAge: Duration(hours: 1),
+                  ),
+                ),
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(12.r),
+                  bottomLeft: Radius.circular(12.r),
+                  bottomRight: widget.isLocal
+                      ? Radius.zero
+                      : Radius.circular(12.r),
+                  topLeft: widget.isLocal ? Radius.circular(12.r) : Radius.zero,
+                ),
+              ),
+            ),
+    );
+  }
+
+  /// 私密(单个消息视频或图片)
+  Widget buildPrivateMediaWidget(LocalWrapperMsg msgItem) {
+    PrivateMessage privateMessage = msgItem.rCIMIWMessage as PrivateMessage;
+    MediaListItem? media = privateMessage.data;
+
+    if (media?.isVideo ?? false) {
+      return privateMessage.isDestroyedStatus()
+          ? buildFireStatusWidget()
+          : InkWell(
+              onTap: () {
+                if (msgItem.isSender) {
+                  widget.onTap?.call();
+                } else {
+                  handTapImage();
+                }
+              },
+              child: BaseThumbnailWidget(
+                videoPath: media?.url ?? "",
+                placeholder: Container(
+                  width: 179.w,
+                  height: 232.h,
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    color: widget.isLocal
+                        ? Color(0xFFCDD2FF)
+                        : Color(0xFFF6CDFF),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(12.r),
+                      bottomLeft: Radius.circular(12.r),
+                      bottomRight: widget.isLocal
+                          ? Radius.zero
+                          : Radius.circular(12.r),
+                      topLeft: widget.isLocal
+                          ? Radius.circular(12.r)
+                          : Radius.zero,
                     ),
                   ),
+                  child: Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: [
+                      if (status == PrivateMediaStatus.private ||
+                          status == PrivateMediaStatus.loading)
+                        Positioned.fill(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(12.r),
+                              bottomLeft: Radius.circular(12.r),
+                              bottomRight: widget.isLocal
+                                  ? Radius.zero
+                                  : Radius.circular(12.r),
+                              topLeft: widget.isLocal
+                                  ? Radius.circular(12.r)
+                                  : Radius.zero,
+                            ),
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      if (status == PrivateMediaStatus.private ||
+                          status == PrivateMediaStatus.loading)
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              Assets.imgLock,
+                              width: 55.r,
+                              height: 55.r,
+                            ),
+                            Text(
+                              (media?.isVideo ?? false)
+                                  ? T.privateVideo.tr
+                                  : T.privatePhoto.tr,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Divider(height: 10.h, color: Colors.transparent),
+                            if (isLoading &&
+                                status == PrivateMediaStatus.loading)
+                              LoadingWidget()
+                            else
+                              SizedBox(width: 22.r, height: 22.r),
+                          ],
+                        ),
+                      if ((status == PrivateMediaStatus.private ||
+                          status == PrivateMediaStatus.loading))
+                        PositionedDirectional(
+                          bottom: 8.r,
+                          end: 8.r,
+                          start: 8.r,
+                          child: buildTags(),
+                        ),
+                      if (status == PrivateMediaStatus.countdown)
+                        PositionedDirectional(
+                          bottom: 8.r,
+                          end: 8.r,
+                          child: CountDownWidget(
+                            totalDuration: 60,
+                            onFinished: () {
+                              setState(() {
+                                status = PrivateMediaStatus.destroyed;
+                              });
+                            },
+                          ),
+                        ),
+
+                      /// Video
+                      if (media?.isVideo ?? false)
+                        PositionedDirectional(
+                          top: 8,
+                          start: 8,
+                          child: Image.asset(
+                            Assets.imgIcVideo,
+                            width: 28.w,
+                            height: 20.h,
+                          ),
+                        ),
+
+                      if ((media?.isVideo ?? false) &&
+                          status == PrivateMediaStatus.countdown)
+                        Center(
+                          child: Image.asset(
+                            Assets.imgNotificationPlay,
+                            width: 50,
+                            height: 50,
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
-              if (status == PrivateMediaStatus.private ||
-                  status == PrivateMediaStatus.loading)
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(Assets.imgLock, width: 55.r, height: 55.r),
-                    Text(
-                      (media?.isVideo ?? false)
-                          ? T.privateVideo.tr
-                          : T.privatePhoto.tr,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
+                builder: (String thumbnailPath) {
+                  media?.thumbUrl = thumbnailPath;
+                  return Container(
+                    width: 179.w,
+                    height: 232.h,
+                    clipBehavior: Clip.hardEdge,
+                    decoration: BoxDecoration(
+                      color: widget.isLocal
+                          ? Color(0xFFCDD2FF)
+                          : Color(0xFFF6CDFF),
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: ExtendedFileImageProvider(File(thumbnailPath)),
+                      ),
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(12.r),
+                        bottomLeft: Radius.circular(12.r),
+                        bottomRight: widget.isLocal
+                            ? Radius.zero
+                            : Radius.circular(12.r),
+                        topLeft: widget.isLocal
+                            ? Radius.circular(12.r)
+                            : Radius.zero,
                       ),
                     ),
-                    Divider(height: 10.h, color: Colors.transparent),
-                    if (isLoading && status == PrivateMediaStatus.loading)
-                      LoadingWidget()
-                    else
-                      SizedBox(width: 22.r, height: 22.r),
-                  ],
-                ),
-              if (status == PrivateMediaStatus.private ||
-                  status == PrivateMediaStatus.loading)
-                if (false)
-                  PositionedDirectional(
-                    bottom: 8.r,
-                    end: 8.r,
-                    start: 8.r,
-                    child: buildTags(),
-                  ),
-              if (status == PrivateMediaStatus.countdown)
-                PositionedDirectional(
-                  bottom: 8.r,
-                  end: 8.r,
-                  child: CountDownWidget(
-                    totalDuration: 60,
-                    onFinished: () {
-                      setState(() {
-                        status = PrivateMediaStatus.destroyed;
-                      });
-                    },
-                  ),
-                ),
+                    child: privateMessage.isUnlockStatus()
+                        ? Stack(
+                            alignment: AlignmentDirectional.center,
+                            children: [
+                              if (status == PrivateMediaStatus.private ||
+                                  status == PrivateMediaStatus.loading)
+                                Positioned.fill(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(12.r),
+                                      bottomLeft: Radius.circular(12.r),
+                                      bottomRight: widget.isLocal
+                                          ? Radius.zero
+                                          : Radius.circular(12.r),
+                                      topLeft: widget.isLocal
+                                          ? Radius.circular(12.r)
+                                          : Radius.zero,
+                                    ),
+                                    child: BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                        sigmaX: 4,
+                                        sigmaY: 4,
+                                      ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              if (status == PrivateMediaStatus.private ||
+                                  status == PrivateMediaStatus.loading)
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      Assets.imgLock,
+                                      width: 55.r,
+                                      height: 55.r,
+                                    ),
+                                    Text(
+                                      (media?.isVideo ?? false)
+                                          ? T.privateVideo.tr
+                                          : T.privatePhoto.tr,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    Divider(
+                                      height: 10.h,
+                                      color: Colors.transparent,
+                                    ),
+                                    if (isLoading &&
+                                        status == PrivateMediaStatus.loading)
+                                      LoadingWidget()
+                                    else
+                                      SizedBox(width: 22.r, height: 22.r),
+                                  ],
+                                ),
+                              if (status == PrivateMediaStatus.private ||
+                                  status == PrivateMediaStatus.loading)
+                                if (false)
+                                  PositionedDirectional(
+                                    bottom: 8.r,
+                                    end: 8.r,
+                                    start: 8.r,
+                                    child: buildTags(),
+                                  ),
+                              if (status == PrivateMediaStatus.countdown)
+                                PositionedDirectional(
+                                  bottom: 8.r,
+                                  end: 8.r,
+                                  child: CountDownWidget(
+                                    totalDuration: 60,
+                                    onFinished: () {
+                                      setState(() {
+                                        status = PrivateMediaStatus.destroyed;
+                                      });
+                                    },
+                                  ),
+                                ),
 
-              /// Video
-              if (media?.isVideo ?? false)
-                PositionedDirectional(
-                  top: 8,
-                  start: 8,
-                  child: Image.asset(
-                    Assets.imgIcVideo,
-                    width: 28.w,
-                    height: 20.h,
-                  ),
-                ),
+                              /// Video
+                              if (media?.isVideo ?? false)
+                                PositionedDirectional(
+                                  top: 8,
+                                  start: 8,
+                                  child: Image.asset(
+                                    Assets.imgIcVideo,
+                                    width: 28.w,
+                                    height: 20.h,
+                                  ),
+                                ),
 
-              if ((media?.isVideo ?? false) &&
-                  status == PrivateMediaStatus.countdown)
-                Center(
-                  child: Image.asset(
-                    Assets.imgNotificationPlay,
-                    width: 50,
-                    height: 50,
+                              if ((media?.isVideo ?? false) &&
+                                  status == PrivateMediaStatus.countdown)
+                                Center(
+                                  child: Image.asset(
+                                    Assets.imgNotificationPlay,
+                                    width: 50,
+                                    height: 50,
+                                  ),
+                                ),
+                            ],
+                          )
+                        : SizedBox.shrink(),
+                  );
+                },
+              ),
+            );
+    } else {
+      return privateMessage.isDestroyedStatus()
+          ? buildFireStatusWidget()
+          : InkWell(
+              onTap: () {
+                if (msgItem.isSender) {
+                  widget.onTap?.call();
+                } else {
+                  handTapImage();
+                }
+              },
+              child: Container(
+                width: 179.w,
+                height: 232.h,
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  color: widget.isLocal ? Color(0xFFCDD2FF) : Color(0xFFF6CDFF),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: ExtendedNetworkImageProvider(
+                      privateMessage.data?.imageUrl ?? "",
+                    ),
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(12.r),
+                    bottomLeft: Radius.circular(12.r),
+                    bottomRight: widget.isLocal
+                        ? Radius.zero
+                        : Radius.circular(12.r),
+                    topLeft: widget.isLocal
+                        ? Radius.circular(12.r)
+                        : Radius.zero,
                   ),
                 ),
-            ],
-          ),
-        ),
+                child: privateMessage.isUnlockStatus()
+                    ? Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: [
+                          if (status == PrivateMediaStatus.private ||
+                              status == PrivateMediaStatus.loading)
+                            Positioned.fill(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(12.r),
+                                  bottomLeft: Radius.circular(12.r),
+                                  bottomRight: widget.isLocal
+                                      ? Radius.zero
+                                      : Radius.circular(12.r),
+                                  topLeft: widget.isLocal
+                                      ? Radius.circular(12.r)
+                                      : Radius.zero,
+                                ),
+                                child: BackdropFilter(
+                                  filter: ImageFilter.blur(
+                                    sigmaX: 4,
+                                    sigmaY: 4,
+                                  ),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          if (status == PrivateMediaStatus.private ||
+                              status == PrivateMediaStatus.loading)
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  Assets.imgLock,
+                                  width: 55.r,
+                                  height: 55.r,
+                                ),
+                                Text(
+                                  (media?.isVideo ?? false)
+                                      ? T.privateVideo.tr
+                                      : T.privatePhoto.tr,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Divider(
+                                  height: 10.h,
+                                  color: Colors.transparent,
+                                ),
+                                if (isLoading &&
+                                    status == PrivateMediaStatus.loading)
+                                  LoadingWidget()
+                                else
+                                  SizedBox(width: 22.r, height: 22.r),
+                              ],
+                            ),
+                          if ((status == PrivateMediaStatus.private ||
+                                  status == PrivateMediaStatus.loading) &&
+                              !msgItem.isSender)
+                            PositionedDirectional(
+                              bottom: 8.r,
+                              end: 8.r,
+                              start: 8.r,
+                              child: buildTags(),
+                            ),
+                          if (status == PrivateMediaStatus.countdown)
+                            PositionedDirectional(
+                              bottom: 8.r,
+                              end: 8.r,
+                              child: CountDownWidget(
+                                totalDuration: 60,
+                                onFinished: () {
+                                  setState(() {
+                                    status = PrivateMediaStatus.destroyed;
+                                  });
+                                },
+                              ),
+                            ),
+                        ],
+                      )
+                    : Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: [
+                          PositionedDirectional(
+                            bottom: 8.r,
+                            end: 8.r,
+                            child: CountDownWidget(
+                              totalDuration: handCountDown(privateMessage),
+                              onFinished: () {
+                                setState(() {
+                                  status = PrivateMediaStatus.destroyed;
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+              ),
+            );
+    }
+  }
+
+  ///获取倒计时时间
+  int handCountDown(PrivateMessage privateMessage) {
+    PrivacyExtraData extra = PrivacyExtraData.fromJson(
+      privateMessage.expansion ?? {},
+    );
+    if (extra.status == "1") {
+      DateTime targetDateTime = DateTime.fromMillisecondsSinceEpoch(
+        (int.parse(extra.del_time ?? "0")) * 1000,
       );
+      final difference = targetDateTime.difference(DateTime.now());
+
+      return difference.inSeconds;
+    } else {
+      return 0;
     }
   }
 

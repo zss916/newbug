@@ -5,6 +5,7 @@ import 'package:newbug/core/config/constants.dart';
 import 'package:newbug/core/config/global.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/route/index.dart';
+import 'package:newbug/core/route/observer/routers_observer.dart';
 import 'package:newbug/core/theme/theme.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
             translations: AppTranslation(),
             fallbackLocale: const Locale("en"),
             getPages: AppRoutes.routes,
-            //navigatorObservers: [appRouteObserver],
+            navigatorObservers: [appRoutesObserver],
             builder: CustomToast.init(
               context: context,
               theme: AppTheme.to.light,

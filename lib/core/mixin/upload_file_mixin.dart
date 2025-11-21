@@ -18,7 +18,7 @@ mixin UploadFileMixin<T extends StatefulWidget> on State<T> {
     return url;
   }
 
-  ///加入到
+  ///加入到私有相册
   Future<num?> addPrivate({
     required int type,
     required String url,

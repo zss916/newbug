@@ -101,6 +101,8 @@ class PackageMediaModel {
     this.num = 0,
   });
 
+  bool get isVideo => type == 1;
+
   List<String> getTags() {
     var tagSet = <String>{};
     for (var item in list) {

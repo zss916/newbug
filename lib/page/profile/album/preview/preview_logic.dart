@@ -26,6 +26,7 @@ class PreviewLogic extends GetxController {
   PrivateMessage? privateVideoMessage;
   RCIMIWSightMessage? videoMessage;
   MediaListItem? media;
+  bool? isReceiver;
 
   @override
   void onInit() {
@@ -39,15 +40,13 @@ class PreviewLogic extends GetxController {
       } else if (viewType == PreviewViewType.singlePrivatePhoto.index) {
         privatePhotoMessage =
             Get.arguments["data"]["message"] as PrivateMessage;
+        isReceiver = Get.arguments["data"]["isReceiver"] as bool?;
       } else if (viewType == PreviewViewType.singleSightVideo.index) {
         videoMessage = Get.arguments["data"]["message"] as RCIMIWSightMessage;
       } else if (viewType == PreviewViewType.singlePrivateVideo.index) {
         privateVideoMessage =
             Get.arguments["data"]["message"] as PrivateMessage;
-
-        /* debugPrint(
-          "privateVideoMessage ===>> ${privateVideoMessage?.data?.thumbUrl}",
-        );*/
+        isReceiver = Get.arguments["data"]["isReceiver"] as bool?;
       } else if (viewType == PreviewViewType.profilePrivateAlbum.index) {
         media = Get.arguments["data"]["media"] as MediaListItem?;
       }

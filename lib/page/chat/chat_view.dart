@@ -44,7 +44,7 @@ class ChatView extends StatelessWidget {
     );
   }
 
-  Widget buildO() {
+  /*  Widget buildO() {
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -149,19 +149,19 @@ class ChatView extends StatelessWidget {
               ],
             ),
 
-            /*TextMessageWidget(
+            */ /*TextMessageWidget(
               isLocal: false,
               message: "We go to the same gym, don't we?",
-            ),*/
+            ),*/ /*
 
-            /*TextMessageWidget(
+            */ /*TextMessageWidget(
               isLocal: true,
               message:
                   "think so, yes!l hope you've not seen me there sweating!",
-            ),*/
+            ),*/ /*
 
             ///本地单张图片
-            /* MediaMessageWidget(
+            */ /* MediaMessageWidget(
               msgItem: LocalWrapperMsg(),
               onTap: () {
                 RouteManager.toPreviewView();
@@ -170,62 +170,62 @@ class ChatView extends StatelessWidget {
               isPrivate: false,
               imageUrl:
                   "https://img0.baidu.com/it/u=895039573,196690770&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=750",
-            ),*/
+            ),*/ /*
 
             ///远程单张图片
-            /*MediaMessageWidget(
+            */ /*MediaMessageWidget(
               isLocal: false,
               isPrivate: false,
               imageUrl:
                   "https://img0.baidu.com/it/u=895039573,196690770&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=750",
-            ),*/
+            ),*/ /*
 
             ///远程单张私密图片
-            /* MediaMessageWidget(
+            */ /* MediaMessageWidget(
               isLocal: false,
               isPrivate: true,
               isVideo: false,
               imageUrl:
                   "https://img0.baidu.com/it/u=895039573,196690770&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=750",
-            ),*/
+            ),*/ /*
 
             ///本低单张私密图片
-            /* MediaMessageWidget(
+            */ /* MediaMessageWidget(
               isLocal: true,
               isPrivate: true,
               isVideo: false,
               imageUrl:
                   "https://img0.baidu.com/it/u=895039573,196690770&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=750",
-            ),*/
+            ),*/ /*
 
             ///本低单张私密视频
-            /*MediaMessageWidget(
+            */ /*MediaMessageWidget(
               isLocal: true,
               isPrivate: true,
               isVideo: true,
               imageUrl:
                   "https://img0.baidu.com/it/u=895039573,196690770&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=750",
-            ),*/
+            ),*/ /*
 
             ///远程单张私密视频
-            /*MediaMessageWidget(
+            */ /*MediaMessageWidget(
               isLocal: false,
               isPrivate: true,
               isVideo: true,
               imageUrl:
                   "https://img0.baidu.com/it/u=895039573,196690770&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=750",
-            ),*/
+            ),*/ /*
 
-            /* MediaMessageWidget(
+            */ /* MediaMessageWidget(
               isLocal: false,
               isDestroyed: true,
               imageUrl:
                   "https://img0.baidu.com/it/u=895039573,196690770&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=750",
-            ),*/
+            ),*/ /*
             SizedBox(height: 200),
           ],
         ),
       ),
     );
-  }
+  }*/
 }

@@ -3,8 +3,7 @@ class Assets {
   Assets._();
 
   static const String avatarGoldAvatarIc = 'assets/avatar/gold_avatar_ic.png';
-  static const String avatarSilverAvatarIc =
-      'assets/avatar/silver_avatar_ic.png';
+  static const String avatarSilverAvatarIc = 'assets/avatar/silver_avatar_ic.png';
   static const String decorationAlbumBg1 = 'assets/decoration/album_bg1.png';
   static const String decorationAlbumBg2 = 'assets/decoration/album_bg2.png';
   static const String decorationAlbumBg3 = 'assets/decoration/album_bg3.png';
@@ -70,8 +69,7 @@ class Assets {
   static const String imgMatch = 'assets/img/match.png';
   static const String imgMessageActiveIc = 'assets/img/message_active_ic.png';
   static const String imgMessageIc = 'assets/img/message_ic.png';
-  static const String imgMessageNotification =
-      'assets/img/message_notification.png';
+  static const String imgMessageNotification = 'assets/img/message_notification.png';
   static const String imgMore = 'assets/img/more.png';
   static const String imgMsgIc = 'assets/img/msg_ic.png';
   static const String imgMsgLikes = 'assets/img/msg_likes.png';
@@ -94,13 +92,13 @@ class Assets {
   static const String imgSendTo = 'assets/img/send_to.png';
   static const String imgSmallPause = 'assets/img/small_pause.png';
   static const String imgSmallPlay = 'assets/img/small_play.png';
-  static const String imgSubscribeLocation =
-      'assets/img/subscribe_location.png';
+  static const String imgSubscribeLocation = 'assets/img/subscribe_location.png';
   static const String imgToBack = 'assets/img/to_back.png';
   static const String imgToNext = 'assets/img/to_next.png';
   static const String imgTouch = 'assets/img/touch.png';
   static const String imgTurnOffIcon = 'assets/img/turn_off_icon.png';
   static const String imgTurnOnIcon = 'assets/img/turn_on_icon.png';
+  static const String imgUnCheck = 'assets/img/un_check.png';
   static const String imgUncheckIcon = 'assets/img/uncheck_icon.png';
   static const String imgUserActiveIc = 'assets/img/user_active_ic.png';
   static const String imgUserIc = 'assets/img/user_ic.png';
@@ -121,17 +119,12 @@ class Assets {
   static const String subscribeIcPhotos = 'assets/subscribe/ic_photos.png';
   static const String subscribeIcVideos = 'assets/subscribe/ic_videos.png';
   static const String subscribeIcVisitors = 'assets/subscribe/ic_visitors.png';
-  static const String subscribeIncognitoModel =
-      'assets/subscribe/incognito_model.png';
-  static const String subscribePrivatePhotos =
-      'assets/subscribe/private_photos.png';
-  static const String subscribePrivateVideos =
-      'assets/subscribe/private_videos.png';
-  static const String subscribeUnlimitedLikes =
-      'assets/subscribe/unlimited_likes.png';
-  static const String subscribeUnlockYourVisitors =
-      'assets/subscribe/unlock_your_visitors.png';
+  static const String subscribeIncognitoModel = 'assets/subscribe/incognito_model.png';
+  static const String subscribePrivatePhotos = 'assets/subscribe/private_photos.png';
+  static const String subscribePrivateVideos = 'assets/subscribe/private_videos.png';
+  static const String subscribeUnlimitedLikes = 'assets/subscribe/unlimited_likes.png';
+  static const String subscribeUnlockYourVisitors = 'assets/subscribe/unlock_your_visitors.png';
   static const String subscribeWhoLikeMe = 'assets/subscribe/who_like_me.png';
-  static const String subscribeYourPrivateAlbum =
-      'assets/subscribe/your_private_album.png';
+  static const String subscribeYourPrivateAlbum = 'assets/subscribe/your_private_album.png';
+
 }

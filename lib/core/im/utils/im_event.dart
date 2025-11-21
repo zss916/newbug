@@ -16,3 +16,9 @@ class SendPrivateSingleMsgEvent {
   String content;
   SendPrivateSingleMsgEvent({required this.content});
 }
+
+///触发发送打包私有消息
+class SendPrivatePackageMsgEvent {
+  List<String> content;
+  SendPrivatePackageMsgEvent({required this.content});
+}

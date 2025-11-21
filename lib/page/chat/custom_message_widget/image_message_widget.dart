@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -66,7 +67,7 @@ class _MediaMessageWidgetState extends State<ImageMessageWidget> {
           color: widget.isLocal ? Color(0xFFCDD2FF) : Color(0xFFF6CDFF),
           image: DecorationImage(
             fit: BoxFit.cover,
-            image: ExtendedNetworkImageProvider(imageMessage.remote ?? ""),
+            image: CachedNetworkImageProvider(imageMessage.remote ?? ""),
           ),
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(12.r),

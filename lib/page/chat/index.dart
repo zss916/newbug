@@ -1,15 +1,14 @@
 library;
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/album/gallery/gallery_tools.dart';
-import 'package:newbug/core/im/custom_message/private_message.dart';
 import 'package:newbug/core/im/cv_im.dart';
-import 'package:newbug/core/im/rong_im.dart';
 import 'package:newbug/core/im/utils/im_event.dart';
 import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/network/model/user_entity.dart';

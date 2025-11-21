@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:newbug/core/im/custom_message/connected_message.dart';
 import 'package:newbug/core/im/custom_message/custom_message_type.dart';
 import 'package:newbug/core/im/custom_message/private_message.dart';
 import 'package:newbug/core/im/custom_message/public_message.dart';
@@ -9,6 +10,7 @@ import 'package:newbug/page/chat/chat_widget/local_wrapper_msg.dart';
 import 'package:newbug/page/chat/custom_message_widget/connect_card_message_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/image_message_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/media_message_widget.dart';
+import 'package:newbug/page/chat/custom_message_widget/package_message_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/text_message_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/video_message_widget.dart';
 import 'package:newbug/page/chat/index.dart';
@@ -40,13 +42,16 @@ class Chat extends StatelessWidget {
           Expanded(child: buildContent()),
           InputSend(
             onSend: (value) {
-              logic.toSend(value: value);
+              logic.toSendText(value: value);
             },
             onKeyboardChanged: (isVisible) {
               logic.scrollWhenMsgSaved(true);
             },
             onSelectPublicAlbum: (List<AssetEntity> value) {
               logic.handPublicAlbum(value);
+            },
+            onSelectPublicAlbumToPrivate: (List<AssetEntity> value) {
+              logic.handPublicAlbumToPrivate(value);
             },
           ),
         ],
@@ -142,6 +147,8 @@ class Chat extends StatelessWidget {
   }
 
   Widget buildCustomMsgItemWidget(String objectName, LocalWrapperMsg msgItem) {
+    debugPrint("objectName====>>>> $objectName");
+
     return switch (objectName) {
       _ when objectName == CustomMessageType.public.name => buildPublicMessage(
         msgItem,
@@ -150,8 +157,6 @@ class Chat extends StatelessWidget {
         buildPrivateMessage(msgItem),
       _ when objectName == CustomMessageType.packagePrivate.name =>
         buildPackagePrivateMessage(msgItem),
-
-      ///todo
       _ when objectName == CustomMessageType.connected.name =>
         buildConnectedMessage(msgItem),
       _ => SizedBox.shrink(),
@@ -160,12 +165,10 @@ class Chat extends StatelessWidget {
 
   ///建联消息
   Widget buildConnectedMessage(LocalWrapperMsg msgItem) {
-    return ConnectCardMessageWidget();
-  }
+    ConnectedMessage connectedMsg = msgItem.rCIMIWMessage as ConnectedMessage;
 
-  ///私有打包消息
-  Widget buildPackagePrivateMessage(LocalWrapperMsg msgItem) {
-    return SizedBox();
+    //https://testcdn.connectfriendsapp.com/user/10002480/8e92a8dc27d1448a87e543d53c5afe41.mp4
+    return ConnectCardMessageWidget(data: connectedMsg.data);
   }
 
   ///公开消息
@@ -192,40 +195,49 @@ class Chat extends StatelessWidget {
       isPrivate: true,
       onTap: () {
         PrivateMessage privateMessage = msgItem.rCIMIWMessage as PrivateMessage;
-        /*debugPrint("privateMessage ==>> ${privateMessage.data?.toJson()}");
-        debugPrint(
-          "privateMessage ==>> ${File(privateMessage.data?.thumbUrl ?? "").existsSync()}",
-        );
-*/
         bool isVideo = privateMessage.data?.isVideo ?? false;
         if (isVideo) {
           RouteManager.toPreviewView(
             viewId: PreviewViewType.singlePrivateVideo.index,
-            data: {"message": privateMessage},
+            data: {"message": privateMessage, "isReceiver": !msgItem.isSender},
           );
         } else {
-          /* RouteManager.toPreviewView(
+          RouteManager.toPreviewView(
             viewId: PreviewViewType.singlePrivatePhoto.index,
-            data: {"message": privateMessage},
-          );*/
+            data: {"message": privateMessage, "isReceiver": !msgItem.isSender},
+          );
         }
+      },
+    );
+  }
+
+  ///私有打包消息
+  Widget buildPackagePrivateMessage(LocalWrapperMsg msgItem) {
+    return PackageMessageWidget(
+      msgItem: msgItem,
+      isLocal: msgItem.isSender,
+      isPrivate: true,
+      onTap: () {
+        //todo
       },
     );
   }
 
   ///图片消息(本地发送)
   Widget buildImageMessage(LocalWrapperMsg msgItem) {
-    return ImageMessageWidget(
-      msgItem: msgItem,
-      isLocal: true,
-      onTap: () {
-        RCIMIWImageMessage imageMessage =
-            msgItem.rCIMIWMessage as RCIMIWImageMessage;
-        RouteManager.toPreviewView(
-          viewId: PreviewViewType.singleImagePhoto.index,
-          data: {"message": imageMessage},
-        );
-      },
+    return RepaintBoundary(
+      child: ImageMessageWidget(
+        msgItem: msgItem,
+        isLocal: true,
+        onTap: () {
+          RCIMIWImageMessage imageMessage =
+              msgItem.rCIMIWMessage as RCIMIWImageMessage;
+          RouteManager.toPreviewView(
+            viewId: PreviewViewType.singleImagePhoto.index,
+            data: {"message": imageMessage},
+          );
+        },
+      ),
     );
   }
 

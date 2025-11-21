@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/im/custom_message/private_package_message.dart';
 import 'package:newbug/generated/assets.dart';
+import 'package:newbug/page/chat/chat_widget/local_wrapper_msg.dart';
 import 'package:newbug/page/chat/custom_message_widget/count_down_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/loading_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/message_wrapper_widget.dart';
@@ -14,17 +16,15 @@ enum PrivatePackageStatus { private, loading, countdown, destroyed }
 
 class PackageMessageWidget extends StatefulWidget {
   final bool isLocal;
-  final List<String> images;
   final bool? isPrivate;
   final bool? isDestroyed;
-  final bool? isVideo;
   final Function? onTap;
+  final LocalWrapperMsg msgItem;
 
   const PackageMessageWidget({
     super.key,
+    required this.msgItem,
     required this.isLocal,
-    required this.images,
-    this.isVideo,
     this.isPrivate,
     this.isDestroyed,
     this.onTap,
@@ -38,7 +38,6 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
   bool isPrivate = true;
   bool isDestroyed = false;
   bool isLoading = false;
-  bool isVideo = false;
 
   PrivatePackageStatus status = PrivatePackageStatus.private;
 
@@ -47,7 +46,6 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
     super.initState();
     isPrivate = widget.isPrivate ?? true;
     isDestroyed = widget.isDestroyed ?? false;
-    isVideo = widget.isVideo ?? false;
   }
 
   @override
@@ -59,15 +57,19 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
             isLocal: widget.isLocal,
             extraContent: '',
             child: isPrivate
-                ? buildPrivatePackageWidget(isVideo: isVideo)
-                : buildPublicPackageWidget(isVideo: isVideo),
+                ? buildPrivatePackageWidget(widget.msgItem)
+                : buildPublicPackageWidget(widget.msgItem),
           );
   }
 
-  Widget buildPrivatePackageWidget({required bool isVideo}) {
+  Widget buildPrivatePackageWidget(LocalWrapperMsg msgItem) {
+    PrivatePackageMessage message =
+        msgItem.rCIMIWMessage as PrivatePackageMessage;
+    PackageMediaModel? media = message.data;
+    List<PackageMediaItem> data = media?.list ?? [];
+
     return InkWell(
       onTap: () {
-        debugPrint("=>Private");
         setState(() {
           isLoading = true;
           status = PrivatePackageStatus.loading;
@@ -80,88 +82,114 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
           });
         });
       },
-      child: buildUI(isVideo: isVideo, isPrivate: true),
+      child: buildUI(
+        isVideo: (media?.isVideo ?? false),
+        isPrivate: true,
+        data: data,
+      ),
     );
   }
 
-  Widget buildPublicPackageWidget({required bool isVideo}) {
+  Widget buildPublicPackageWidget(LocalWrapperMsg msgItem) {
+    PrivatePackageMessage message =
+        msgItem.rCIMIWMessage as PrivatePackageMessage;
+    PackageMediaModel? media = message.data;
+    List<PackageMediaItem> data = media?.list ?? [];
+
+    debugPrint("meida ==>> ${media?.toJson()}");
     return InkWell(
       onTap: () {
         debugPrint("=>Public");
         widget.onTap?.call();
       },
-      child: buildUI(isVideo: isVideo, isPrivate: false),
+      child: buildUI(
+        isVideo: (media?.isVideo ?? false),
+        isPrivate: true,
+        data: data,
+      ),
     );
   }
 
-  Widget buildUI({required bool isVideo, required bool isPrivate}) =>
-      widget.isLocal
-      ? buildCardStackLocal(isVideo: isVideo, isPrivate: isPrivate)
-      : buildCardStack(isVideo: isVideo, isPrivate: isPrivate);
-
-  Widget buildCardStack({required bool isVideo, required bool isPrivate}) =>
-      Container(
-        margin: EdgeInsetsDirectional.only(bottom: 8.h),
-        child: Stack(
-          alignment: AlignmentDirectional.center,
-          children: [
-            if (widget.images.length > 2)
-              Transform.scale(
-                scale: 0.85,
-                child: Transform.rotate(
-                  angle: 0.2,
-                  child: Transform.translate(
-                    offset: Offset(50, 8),
-                    child: buildSingleCard(
-                      index: 2,
-                      isVideo: isVideo,
-                      isPrivate: isPrivate,
-                      imageUrl: widget.images[2],
-                    ),
-                  ),
-                ),
-              ),
-
-            if (widget.images.length > 1)
-              Transform.scale(
-                scale: 0.95,
-                child: Transform.rotate(
-                  angle: 0.125,
-                  child: Transform.translate(
-                    offset: Offset(25, 4),
-                    child: buildSingleCard(
-                      index: 1,
-                      isVideo: isVideo,
-                      isPrivate: isPrivate,
-                      imageUrl: widget.images[1],
-                    ),
-                  ),
-                ),
-              ),
-
-            if (widget.images.isNotEmpty)
-              Transform.translate(
-                offset: Offset(0, 0),
-                child: buildSingleCard(
-                  index: 0,
-                  isVideo: isVideo,
-                  isPrivate: isPrivate,
-                  imageUrl: widget.images[0],
-                ),
-              ),
-          ],
-        ),
-      );
-
-  Widget buildCardStackLocal({
+  Widget buildUI({
     required bool isVideo,
     required bool isPrivate,
+    required List<PackageMediaItem> data,
+  }) => widget.isLocal
+      ? buildCardStackLocal(isVideo: isVideo, isPrivate: isPrivate, data: data)
+      : buildCardStack(isVideo: isVideo, isPrivate: isPrivate, data: data);
+
+  ///收到方
+  Widget buildCardStack({
+    required bool isVideo,
+    required bool isPrivate,
+    required List<PackageMediaItem> data,
   }) => Container(
     margin: EdgeInsetsDirectional.only(bottom: 8.h),
     child: Stack(
       alignment: AlignmentDirectional.center,
       children: [
-        if (widget.images.length > 2)
+        if (data.length > 2)
+          Transform.scale(
+            scale: 0.85,
+            child: Transform.rotate(
+              angle: 0.2,
+              child: Transform.translate(
+                offset: Offset(50, 8),
+                child: buildSingleCard(
+                  index: 2,
+                  len: data.length,
+                  isVideo: isVideo,
+                  isPrivate: isPrivate,
+                  imageUrl: data[2].url,
+                ),
+              ),
+            ),
+          ),
+
+        if (data.length > 1)
+          Transform.scale(
+            scale: 0.95,
+            child: Transform.rotate(
+              angle: 0.125,
+              child: Transform.translate(
+                offset: Offset(25, 4),
+                child: buildSingleCard(
+                  index: 1,
+                  len: data.length,
+                  isVideo: isVideo,
+                  isPrivate: isPrivate,
+                  imageUrl: data[1].url,
+                ),
+              ),
+            ),
+          ),
+
+        if (data.isNotEmpty)
+          Transform.translate(
+            offset: Offset(0, 0),
+            child: buildSingleCard(
+              index: 0,
+              len: data.length,
+              isVideo: isVideo,
+              isPrivate: isPrivate,
+              imageUrl: data[0].url,
+            ),
+          ),
+      ],
+    ),
+  );
+
+  ///发送方
+  Widget buildCardStackLocal({
+    required bool isVideo,
+    required bool isPrivate,
+    required List<PackageMediaItem> data,
+  }) => Container(
+    margin: EdgeInsetsDirectional.only(bottom: 8.h),
+    child: Stack(
+      alignment: AlignmentDirectional.center,
+      children: [
+        if (data.length > 2)
           Transform.scale(
             scale: 0.85,
             child: Transform.rotate(
@@ -169,16 +197,17 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
               child: Transform.translate(
                 offset: Offset(-50, 8),
                 child: buildSingleCard(
+                  len: data.length,
                   index: 2,
                   isVideo: isVideo,
                   isPrivate: isPrivate,
-                  imageUrl: widget.images[2],
+                  imageUrl: data[2].url,
                 ),
               ),
             ),
           ),
 
-        if (widget.images.length > 1)
+        if (data.length > 1)
           Transform.scale(
             scale: 0.95,
             child: Transform.rotate(
@@ -187,22 +216,24 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
                 offset: Offset(-25, 4),
                 child: buildSingleCard(
                   index: 1,
+                  len: data.length,
                   isVideo: isVideo,
                   isPrivate: isPrivate,
-                  imageUrl: widget.images[1],
+                  imageUrl: data[1].url,
                 ),
               ),
             ),
           ),
 
-        if (widget.images.isNotEmpty)
+        if (data.isNotEmpty)
           Transform.translate(
             offset: Offset(0, 0),
             child: buildSingleCard(
               index: 0,
+              len: data.length,
               isVideo: isVideo,
               isPrivate: isPrivate,
-              imageUrl: widget.images[0],
+              imageUrl: data[0].url,
             ),
           ),
       ],
@@ -213,6 +244,7 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
     required String imageUrl,
     required bool isVideo,
     required bool isPrivate,
+    required int len,
     int? index,
   }) => Container(
     width: 179.w,
@@ -267,7 +299,7 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
                   children: [
                     Image.asset(Assets.imgLock, width: 55.r, height: 55.r),
                     Text(
-                      "${isVideo ? T.privateVideo.tr : T.privatePhoto.tr} ${widget.images.length}",
+                      "${isVideo ? T.privateVideo.tr : T.privatePhoto.tr} ${len == 0 ? "" : len}",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18.sp,
@@ -393,7 +425,7 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
                           ),
                         ),
                         child: Text(
-                          'Unlocked:${widget.images.length}',
+                          'Unlocked:${len}',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 10.sp,

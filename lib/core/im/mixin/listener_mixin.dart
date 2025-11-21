@@ -11,13 +11,6 @@ mixin class ListenerMixin {
           break;
         case RCIMIWConnectionStatus.connected:
           debugPrint("RongIM 连接成功");
-
-          /*    engine.registerCustomMessage("connectfriends:public", (json) {
-            PublicMessage2 msg = PublicMessage2.fromJson(json);
-            msg.decode(json['content']);
-            return msg;
-          });*/
-
           break;
         case RCIMIWConnectionStatus.connecting:
           debugPrint("RongIM 连接中");
@@ -62,6 +55,7 @@ mixin class ListenerMixin {
     RCIMIWEngine? engine,
     Function(RCIMIWMessage? message)? onReceiveMsg,
   }) {
+    debugPrint("RongIM setOnMessageReceived ");
     engine?.onMessageReceived =
         (RCIMIWMessage? message, int? left, bool? offline, bool? hasPackage) {
           debugPrint("RongIM 接受消息监听 message:${message?.toJson()} ");
@@ -77,7 +71,11 @@ mixin class ListenerMixin {
   void setOnRemoteMessageExpansionUpdated({RCIMIWEngine? engine}) {
     engine?.onRemoteMessageExpansionUpdated =
         (Map? expansion, RCIMIWMessage? message) {
-          debugPrint("RongIM 远程扩展消息更新 message:$message, expansion:$expansion");
+          debugPrint(
+            "RongIM 远程扩展消息更新 message:${message?.toJson()}, expansion:$expansion",
+          );
+
+          ///todo
         };
   }
 

@@ -33,8 +33,9 @@ class _InterestBodyState extends State<InterestBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if ((widget.logic.type == FormType.editProfile) &&
-            (widget.logic.subType == EditType.editInterests))
+        if (((widget.logic.type == FormType.editProfile) &&
+                (widget.logic.subType == EditType.editInterests) ||
+            (widget.logic.type == FormType.login)))
           Container(
             margin: EdgeInsetsDirectional.only(
               top: 30.h,
@@ -52,8 +53,9 @@ class _InterestBodyState extends State<InterestBody> {
               ),
             ),
           ),
-        if ((widget.logic.type == FormType.editProfile) &&
-            (widget.logic.subType == EditType.editInterests))
+        if (((widget.logic.type == FormType.editProfile) &&
+                (widget.logic.subType == EditType.editInterests)) ||
+            (widget.logic.type == FormType.login))
           Container(
             width: double.maxFinite,
             constraints: BoxConstraints(minHeight: 200.h),
@@ -66,8 +68,9 @@ class _InterestBodyState extends State<InterestBody> {
             ),
             child: buildInterests(widget.logic.viewStatus),
           ),
-        if ((widget.logic.type == FormType.editProfile) &&
-            (widget.logic.subType == EditType.editSign))
+        if (((widget.logic.type == FormType.editProfile) &&
+                (widget.logic.subType == EditType.editSign)) ||
+            (widget.logic.type == FormType.login))
           Container(
             margin: EdgeInsetsDirectional.only(
               top: 0.h,
@@ -85,8 +88,9 @@ class _InterestBodyState extends State<InterestBody> {
               ),
             ),
           ),
-        if ((widget.logic.type == FormType.editProfile) &&
-            (widget.logic.subType == EditType.editSign))
+        if (((widget.logic.type == FormType.editProfile) &&
+                (widget.logic.subType == EditType.editSign)) ||
+            (widget.logic.type == FormType.login))
           EditStory(
             sign: widget.logic.sign,
             onChanged: (value) {

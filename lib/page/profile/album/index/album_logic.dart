@@ -168,7 +168,6 @@ class AlbumLogic extends GetxController with MixinUpload {
         Get.back();
       }
     } else {
-      //todo
       RouteManager.toSelectedAlbum(
         videos: selectVideos,
         images: selectImages,

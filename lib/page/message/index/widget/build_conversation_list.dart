@@ -204,7 +204,7 @@ class BuildConversationList extends StatelessWidget {
         enablePullDown: false,
         enablePullUp: true,
         onLoading: () {
-          logic.loadMoreConversations();
+          //logic.loadMoreConversations();
         },
         controller: logic.loadMoreCtrl,
         child: CustomScrollView(

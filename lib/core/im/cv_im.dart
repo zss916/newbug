@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_disposable.dart';
 import 'package:newbug/core/im/custom_message/private_message.dart';
+import 'package:newbug/core/im/custom_message/private_package_message.dart';
 import 'package:newbug/core/im/rong_im.dart';
 import 'package:newbug/core/im/utils/base64.dart';
 import 'package:rongcloud_im_wrapper_plugin/rongcloud_im_wrapper_plugin.dart';
@@ -109,7 +110,31 @@ class CvIM extends GetxService {
       content,
     );
     message.expansion = {};
-    return await RongIM.instance.sendCustomMessage(customMessage: message);
+    return await RongIM.instance.sendCustomMessage(
+      customMessage: message,
+      onSendStart: onSendStart,
+      onSendResult: onSendResult,
+    );
+  }
+
+  ///打包消息
+  static Future<bool> toSendPrivatePackageMsg({
+    required String targetId,
+    required String content,
+    Function(RCIMIWMessage? message)? onSendStart,
+    Function(int? code, RCIMIWMessage? message)? onSendResult,
+  }) async {
+    PrivatePackageMessage message = PrivatePackageMessage(
+      RCIMIWConversationType.private,
+      targetId ?? "",
+      content,
+    );
+    message.expansion = {};
+    return await RongIM.instance.sendCustomMessage(
+      customMessage: message,
+      onSendStart: onSendStart,
+      onSendResult: onSendResult,
+    );
   }
 
   ///获取会话列表

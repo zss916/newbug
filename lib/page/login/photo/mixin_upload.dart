@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:newbug/core/album/gallery/gallery_tools.dart';
 import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/network/model/upload_entity.dart';
+import 'package:newbug/core/network/reopsitory/profile.dart';
 import 'package:newbug/core/network/reopsitory/system.dart';
 import 'package:newbug/core/network/utils/http_utils.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
@@ -17,6 +18,19 @@ mixin class MixinUpload {
       url: entity?.cdnUrl ?? "",
     );
     return url;
+  }
+
+  ///添加到私有相册
+  Future<num?> addPrivate({
+    required int type,
+    required String url,
+    int? duration,
+  }) async {
+    return await ProfileAPI.addPrivateImage(
+      type: type,
+      url: url,
+      duration: duration,
+    );
   }
 
   ///处理多个媒体

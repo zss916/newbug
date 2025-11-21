@@ -10,12 +10,14 @@ class BuildSinglePrivateVideo extends StatelessWidget {
   final String url;
   final String? thumbUrl;
   final Function? onFinished;
+  final bool? isCountDown;
 
   const BuildSinglePrivateVideo({
     super.key,
     required this.url,
     this.thumbUrl,
     this.onFinished,
+    this.isCountDown,
   });
 
   @override
@@ -62,21 +64,22 @@ class BuildSinglePrivateVideo extends StatelessWidget {
                   thumbUrl: thumbUrl ?? "",
                 ),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.5),
+              if (isCountDown == true)
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.5),
+                  ),
+                  width: double.maxFinite,
+                  padding: EdgeInsetsDirectional.only(top: 12.h, bottom: 12.h),
+                  alignment: Alignment.center,
+                  child: CountDownWidget(
+                    totalDuration: 60,
+                    alpha: 0,
+                    onFinished: () {
+                      onFinished?.call();
+                    },
+                  ),
                 ),
-                width: double.maxFinite,
-                padding: EdgeInsetsDirectional.only(top: 12.h, bottom: 12.h),
-                alignment: Alignment.center,
-                child: CountDownWidget(
-                  totalDuration: 60,
-                  alpha: 0,
-                  onFinished: () {
-                    onFinished?.call();
-                  },
-                ),
-              ),
               Container(
                 width: double.maxFinite,
                 height: MediaQuery.of(context).padding.bottom,

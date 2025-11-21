@@ -12,6 +12,7 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
 
   StreamSubscription<ReceiveMsgEvent>? receiveSubs;
   StreamSubscription<SendPrivateSingleMsgEvent>? sendPrivateSingleSubs;
+  StreamSubscription<SendPrivatePackageMsgEvent>? sendPrivatePackageSubs;
 
   @override
   void onInit() {
@@ -31,9 +32,16 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
     sendPrivateSingleSubs = EventService.to.listen<SendPrivateSingleMsgEvent>((
       event,
     ) {
-      // debugPrint("content ===>> ${event.content}");
       sendPrivateSingleMessage(event.content);
     });
+
+    ///触发打包私有消息发送
+    sendPrivatePackageSubs = EventService.to.listen<SendPrivatePackageMsgEvent>(
+      (event) {
+        List<String> list = event.content;
+        sendPrivatePackageMessage(list);
+      },
+    );
   }
 
   @override
@@ -46,6 +54,7 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
 
   @override
   void onClose() {
+    sendPrivatePackageSubs?.cancel();
     sendPrivateSingleSubs?.cancel();
     receiveSubs?.cancel();
     scrollCtrl.dispose();
@@ -102,7 +111,7 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
   }
 
   ///发送文字消息
-  void toSend({required String value}) {
+  void toSendText({required String value}) {
     if ((targetId ?? '').isNotEmpty) {
       CvIM.toSendText(
         targetId: targetId ?? "",
@@ -160,8 +169,8 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
           _addMsg(message: message);
         },
         onSendMsgSending: (RCIMIWMessage? message) {
-          _updateMsgStatus(status: MsgStatus.loading, message: message);
-          EventService.to.post(SendEvent());
+          // _updateMsgStatus(status: MsgStatus.loading, message: message);
+          // EventService.to.post(SendEvent());
         },
         onSendMsgSent: (int? code, RCIMIWMediaMessage? message) {
           MsgStatus status = code == 0 ? MsgStatus.successful : MsgStatus.error;
@@ -185,8 +194,8 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
           _addMsg(message: message);
         },
         onSendMsgSending: (RCIMIWMessage? message) {
-          _updateMsgStatus(status: MsgStatus.loading, message: message);
-          EventService.to.post(SendEvent());
+          //_updateMsgStatus(status: MsgStatus.loading, message: message);
+          //EventService.to.post(SendEvent());
         },
         onSendMsgSent: (int? code, RCIMIWMediaMessage? message) {
           MsgStatus status = code == 0 ? MsgStatus.successful : MsgStatus.error;
@@ -199,13 +208,61 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
     }
   }
 
-  ///私有打包消息
-  void sendPrivatePackageMessage() {}
-
   ///发送单个私密消息
   void sendPrivateSingleMessage(String content) {
     if ((targetId ?? '').isNotEmpty) {
-      CvIM.toSendPrivateMsg(targetId: targetId ?? "", content: content);
+      CvIM.toSendPrivateMsg(
+        targetId: targetId ?? "",
+        content: content,
+        onSendStart: (RCIMIWMessage? message) {
+          _addMsg(message: message);
+        },
+        onSendResult: (int? code, RCIMIWMessage? message) {
+          MsgStatus status = code == 0 ? MsgStatus.successful : MsgStatus.error;
+          _updateMsgStatus(status: status, message: message);
+          EventService.to.post(SendEvent());
+        },
+      );
+    }
+  }
+
+  ///私有打包消息
+  void sendPrivatePackageMessage(List<String> list) {
+    for (String value in list) {
+      var data = json.decode(value);
+      if (data is List) {
+        if (data.length == 1) {
+          var element = data.first;
+          element.removeWhere((key, value) => value == null);
+          sendPrivateSingleMessage(jsonEncode(element));
+        } else {
+          for (var element in data) {
+            element.removeWhere((key, value) => value == null);
+          }
+          Map<String, dynamic> map = {
+            'type': data.first['type'],
+            'num': data.length,
+            'media_ids': data.map((e) => e['id']).toList().join(','),
+            'list': data,
+          };
+          if ((targetId ?? "").isNotEmpty) {
+            CvIM.toSendPrivatePackageMsg(
+              targetId: targetId ?? "",
+              content: jsonEncode(map),
+              onSendStart: (RCIMIWMessage? message) {
+                _addMsg(message: message);
+              },
+              onSendResult: (int? code, RCIMIWMessage? message) {
+                MsgStatus status = code == 0
+                    ? MsgStatus.successful
+                    : MsgStatus.error;
+                _updateMsgStatus(status: status, message: message);
+                EventService.to.post(SendEvent());
+              },
+            );
+          }
+        }
+      }
     }
   }
 
@@ -243,6 +300,54 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
         path: (videoFileCompress?.path ?? (videoFile?.path ?? "")),
         duration: assetEntity.duration,
       );
+    }
+  }
+
+  ///处理自定义公有相册转私有发送
+  Future<void> handPublicAlbumToPrivate(List<AssetEntity> assets) async {
+    AssetEntity assetEntity = assets.first;
+    if (assetEntity.type == AssetType.image) {
+      File? imageFile = await assetEntity.file;
+      MediaListItem imageMedia = MediaListItem()
+        ..localFile = imageFile
+        ..localFilePath = imageFile?.path ?? ""
+        ..type = 0;
+      File? imageFileCompress = await GalleryTools.compressImageFilePlus(
+        imageMedia,
+      );
+      CustomToast.loading();
+      String? url = await toUpload(file: imageFileCompress!);
+      num? id = await addPrivate(type: 0, url: url ?? "");
+      CustomToast.dismiss();
+      String content = jsonEncode(
+        imageMedia
+          ..url = url
+          ..id = (id ?? 0).toInt(),
+      );
+      sendPrivateSingleMessage(content);
+    } else if (assetEntity.type == AssetType.video) {
+      File? videoFile = await assetEntity.file;
+      CustomToast.loading();
+      String? thumbUrl = await GalleryTools.getVideoThumbnail(
+        videoFile?.path ?? "",
+      );
+      MediaListItem videoMedia = MediaListItem()
+        ..localFile = videoFile
+        ..localFilePath = videoFile?.path ?? ""
+        ..thumbUrl = thumbUrl
+        ..type = 1;
+      File? videoFileCompress = await GalleryTools.compressVideoFilePlus(
+        videoMedia,
+      );
+      String? url = await toUpload(file: videoFileCompress!);
+      num? id = await addPrivate(type: 1, url: url ?? "");
+      CustomToast.dismiss();
+      String content = jsonEncode(
+        videoMedia
+          ..url = url
+          ..id = (id ?? 0).toInt(),
+      );
+      sendPrivateSingleMessage(content);
     }
   }
 }

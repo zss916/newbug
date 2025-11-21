@@ -69,32 +69,25 @@ class PhotoLogic extends GetxController with MixinUpload {
 
   ///编辑照片或视频
   Future<void> toEditMedia() async {
-    ///测试20s
-    debugPrint("toEditMedia start:${DateTime.now().timeFormatted}");
-
     CustomToast.loading();
     List<MediaListItem?> data = selectList.where((e) => e != null).toList();
-    List<Map<String, dynamic>?> mediaListJson =
-        await Future.wait(
-          data.map((e) async {
-            if (e?.type == 0) {
-              File? compressImageFile =
-                  await GalleryTools.compressImageFilePlus(e!);
-              String? url = await toUpload(file: compressImageFile!);
-              return (e..url = url).toJson();
-            } else if (e?.type == 1) {
-              File? compressVideoFile =
-                  await GalleryTools.compressVideoFilePlus(e!);
-              String? url = await toUpload(file: compressVideoFile!);
-              return (e..url = url).toJson();
-            }
-          }),
-        ).whenComplete(() {
-          // CustomToast.dismiss();
-        });
-
-    debugPrint("toEditMedia data:${mediaListJson.toString()}");
-    debugPrint("toEditMedia end:${DateTime.now().timeFormatted}");
+    List<Map<String, dynamic>?> mediaListJson = await Future.wait(
+      data.map((e) async {
+        if (e?.type == 0) {
+          File? compressImageFile = await GalleryTools.compressImageFilePlus(
+            e!,
+          );
+          String? url = await toUpload(file: compressImageFile!);
+          return (e..url = url).toJson();
+        } else if (e?.type == 1) {
+          File? compressVideoFile = await GalleryTools.compressVideoFilePlus(
+            e!,
+          );
+          String? url = await toUpload(file: compressVideoFile!);
+          return (e..url = url).toJson();
+        }
+      }),
+    );
 
     ///压缩图片和视频上传
     UserInfo? value =
@@ -103,7 +96,6 @@ class PhotoLogic extends GetxController with MixinUpload {
           mediaList: jsonEncode(mediaListJson),
         ).whenComplete(() {
           CustomToast.dismiss();
-          debugPrint("toEditMedia finish:${DateTime.now().timeFormatted}");
         });
     if (value != null) {
       value.tagList = userInfo?.tagList ?? [];

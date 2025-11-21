@@ -12,6 +12,8 @@ class MessageWrapperWidget extends StatelessWidget {
   final int? time;
   final bool? showTime;
   final String? extraContent;
+  final bool? isCenter;
+
   const MessageWrapperWidget({
     super.key,
     required this.isLocal,
@@ -20,6 +22,7 @@ class MessageWrapperWidget extends StatelessWidget {
     this.time,
     this.showTime,
     this.extraContent,
+    this.isCenter,
   });
 
   @override
@@ -37,9 +40,9 @@ class MessageWrapperWidget extends StatelessWidget {
         end: isLocal ? 0 : 36.w,
       ),*/
       child: Column(
-        crossAxisAlignment: isLocal
-            ? CrossAxisAlignment.end
-            : CrossAxisAlignment.start,
+        crossAxisAlignment: (isCenter == true)
+            ? CrossAxisAlignment.center
+            : (isLocal ? CrossAxisAlignment.end : CrossAxisAlignment.start),
         children: [
           if (time != null && showTime == true)
             Container(

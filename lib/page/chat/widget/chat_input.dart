@@ -8,17 +8,19 @@ import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/chat/chat_widget/keyboard_state.dart';
 import 'package:newbug/page/chat/sheet/showPrivateAlbum.dart';
 import 'package:newbug/page/chat/widget/chat_pick_image.dart';
-import 'package:wechat_camera_picker/wechat_camera_picker.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class InputSend extends StatefulWidget {
   final Function(String) onSend;
   final Function(bool)? onKeyboardChanged;
   final Function(List<AssetEntity>)? onSelectPublicAlbum;
+  final Function(List<AssetEntity>)? onSelectPublicAlbumToPrivate;
   const InputSend({
     super.key,
     required this.onSend,
     this.onKeyboardChanged,
     this.onSelectPublicAlbum,
+    this.onSelectPublicAlbumToPrivate,
   });
 
   @override
@@ -64,7 +66,11 @@ class _InputSendState extends State<InputSend>
           ChatPickImage(
             onPublicAlbum: () {
               ///todo 是否可以发送私有图片
-              openPublicAlbum(context);
+              if (true) {
+                openCustomAlbum(context);
+              } else {
+                openPublicAlbum(context);
+              }
             },
             onPrivateAlbum: () {
               showPrivateAlbum(
@@ -162,5 +168,20 @@ class _InputSendState extends State<InputSend>
         widget.onSelectPublicAlbum?.call(assets);
       }
     });
+  }
+
+  Future<void> openCustomAlbum(BuildContext context) async {
+    GalleryTools.openCustomAlbum(
+      context,
+      onSelect: (bool isSendAsPrivate, List<AssetEntity> result) {
+        if (isSendAsPrivate) {
+          widget.onSelectPublicAlbumToPrivate?.call(result);
+        } else {
+          if (result.isNotEmpty) {
+            widget.onSelectPublicAlbum?.call(result);
+          }
+        }
+      },
+    );
   }
 }

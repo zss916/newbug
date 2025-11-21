@@ -66,6 +66,7 @@ class PrivateMessage extends RCIMIWUserCustomMessage {
     return true;
   }
 
+  ///是否销毁
   bool isDestroyedStatus() {
     if (expansion != null && expansion?.isNotEmpty == true) {
       PrivacyExtraData extraData = PrivacyExtraData.fromJson(expansion!);

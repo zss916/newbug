@@ -86,4 +86,12 @@ class ConnectModel {
     }
     return data;
   }
+
+  bool get isVideoEmpty => (mediaList ?? []).where((e) => e.type == 1).isEmpty;
+
+  String? get videoUrl => (mediaList ?? []).where((e) => e.type == 1).first.url;
+
+  bool get isImageEmpty => (mediaList ?? []).where((e) => e.type == 0).isEmpty;
+
+  String? get imageUrl => (mediaList ?? []).where((e) => e.type == 0).first.url;
 }

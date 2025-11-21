@@ -34,11 +34,13 @@ class PreviewView extends StatelessWidget {
       _ when state == PreviewViewType.singlePrivatePhoto.index =>
         BuildSinglePrivatePhoto(
           url: logic.privatePhotoMessage?.data?.imageUrl ?? "",
+          isCountDown: logic.isReceiver,
         ),
       _ when state == PreviewViewType.singlePrivateVideo.index =>
         BuildSinglePrivateVideo(
           url: logic.privateVideoMessage?.data?.url ?? "",
           thumbUrl: logic.privateVideoMessage?.data?.thumbUrl ?? "",
+          isCountDown: logic.isReceiver,
         ),
       _ when state == PreviewViewType.singleSightVideo.index =>
         BuildSingleSightVideo(

@@ -5,6 +5,7 @@ import 'package:flutter_video_thumbnail_plus/flutter_video_thumbnail_plus.dart'
     as thumbnail_plus;
 import 'package:get/get.dart';
 import 'package:newbug/core/album/compress/file_compress_utils.dart';
+import 'package:newbug/core/album/gallery/custom/PrivateAssetPickerBuilder.dart';
 import 'package:newbug/core/config/global.dart';
 import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/widget/index.dart';
@@ -448,5 +449,60 @@ class GalleryTools {
       video: videoFilePath,
       imageFormat: thumbnail_plus.ImageFormat.jpeg,
     );
+  }
+
+  ///修改自定义预览的相册
+  static Future<void> openCustomAlbum(
+    BuildContext context, {
+    Function(bool isSendAsPrivate, List<AssetEntity> result)? onSelect,
+  }) async {
+    final PermissionState _ps = await PhotoManager.requestPermissionExtend();
+    if (_ps != PermissionState.authorized && _ps != PermissionState.limited) {
+      openAppSettings();
+      return;
+    }
+
+    final DefaultAssetPickerProvider provider = DefaultAssetPickerProvider(
+      maxAssets: 1,
+      requestType: RequestType.common,
+    );
+
+    final PermissionState ps = await AssetPicker.permissionCheck(
+      requestOption: PermissionRequestOption(
+        androidPermission: AndroidPermission(
+          type: provider.requestType,
+          mediaLocation: false,
+        ),
+      ),
+    );
+
+    bool sendAsPrivate = false;
+
+    final PrivateAssetPickerBuilder builder = PrivateAssetPickerBuilder(
+      provider: provider,
+      initialPermission: ps,
+      locale: const Locale('en', 'US'),
+      sendAsPrivate: (value) {
+        sendAsPrivate = value;
+      },
+      canSendPrivate: () {
+        return true;
+      },
+      customSelectPredicate: _assetSelectPredicate,
+    );
+
+    final List<AssetEntity>? result = await AssetPicker.pickAssetsWithDelegate(
+      context,
+      delegate: builder,
+    );
+    if (result != null && result.isNotEmpty) {
+      if (sendAsPrivate) {
+        debugPrint("私有发送");
+        onSelect?.call(true, result ?? []);
+      } else {
+        debugPrint("普通发送");
+        onSelect?.call(false, result ?? []);
+      }
+    }
   }
 }
