@@ -10,6 +10,7 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
 
   int sentTime = 0;
 
+  StreamSubscription<UpdateMsgEvent>? updateSubs;
   StreamSubscription<ReceiveMsgEvent>? receiveSubs;
   StreamSubscription<SendPrivateSingleMsgEvent>? sendPrivateSingleSubs;
   StreamSubscription<SendPrivatePackageMsgEvent>? sendPrivatePackageSubs;
@@ -22,6 +23,13 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
       targetId = map["targetId"] as String?;
       userInfo = map["userInfo"] as UserEntity?;
     }
+
+    ///更新消息(拓展信息)
+    updateSubs = EventService.to.listen<UpdateMsgEvent>((event) {
+      RCIMIWMessage updateMessage = event.message as RCIMIWMessage;
+      updateMsgExpansion(historyMsg, updateMessage);
+      updateMsgExpansion(currentMsg, updateMessage);
+    });
 
     ///接受融云消息监听
     receiveSubs = EventService.to.listen<ReceiveMsgEvent>((event) {
@@ -54,6 +62,7 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
 
   @override
   void onClose() {
+    updateSubs?.cancel();
     sendPrivatePackageSubs?.cancel();
     sendPrivateSingleSubs?.cancel();
     receiveSubs?.cancel();
@@ -82,6 +91,10 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
       );
       currentMsg.assignAll(wrapperMsg.reversed);
       sentTime = currentMsg.first.rCIMIWMessage.sentTime ?? 0;
+
+      /*      PrivateMessage msg = currentMsg.last.rCIMIWMessage as PrivateMessage;
+      debugPrint("RongIM lastmsg==>>${msg.toJson()}");*/
+
       setListScrollToBottom(data: recentMessage);
       update();
     }
@@ -348,6 +361,41 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
           ..id = (id ?? 0).toInt(),
       );
       sendPrivateSingleMessage(content);
+    }
+  }
+
+  ///去解锁
+  Future<PrivateMsgStatusEntity?> toUnLock({
+    required String toMsgid,
+    required String fromMsgid,
+    required String mediaId,
+  }) async {
+    PrivateMsgStatusEntity? value = await ChatAPI.unlockPrivate(
+      toMsgid: toMsgid,
+      fromMsgid: fromMsgid,
+      mediaId: mediaId,
+    );
+    return value;
+  }
+
+  ///更新消息的拓展信息
+  void updateMsgExpansion(
+    List<LocalWrapperMsg> wrapperMsgs,
+    RCIMIWMessage updateMessage,
+  ) {
+    if (wrapperMsgs.isNotEmpty) {
+      String conversationId = updateMessage.targetId ?? "";
+      List<RCIMIWMessage> msgList = wrapperMsgs
+          .map((e) => e.rCIMIWMessage)
+          .where((e) => e.targetId == conversationId)
+          .toList();
+      if (msgList.isNotEmpty) {
+        RCIMIWMessage msg = msgList.firstWhere(
+          (e) => e.messageId == updateMessage.messageId,
+        );
+        msg.expansion = updateMessage.expansion;
+        update();
+      }
     }
   }
 }

@@ -8,14 +8,14 @@ import 'package:newbug/page/profile/album/preview/widget/base_preview/preview_im
 
 class BuildSinglePrivatePhoto extends StatelessWidget {
   final String url;
-  final bool? isCountDown;
   final Function? onFinished;
+  final int? countDown;
 
   const BuildSinglePrivatePhoto({
     super.key,
     required this.url,
-    this.isCountDown,
     this.onFinished,
+    this.countDown,
   });
 
   @override
@@ -59,7 +59,7 @@ class BuildSinglePrivatePhoto extends StatelessWidget {
               Expanded(
                 child: PreviewImage(url: url, type: ImageType.network),
               ),
-              if (isCountDown == true)
+              if ((countDown ?? 0) > 0)
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.5),
@@ -68,7 +68,7 @@ class BuildSinglePrivatePhoto extends StatelessWidget {
                   padding: EdgeInsetsDirectional.only(top: 12.h, bottom: 12.h),
                   alignment: Alignment.center,
                   child: CountDownWidget(
-                    totalDuration: 60,
+                    totalDuration: countDown ?? 0,
                     alpha: 0,
                     onFinished: () {
                       onFinished?.call();

@@ -81,15 +81,15 @@ class MessageWrapperWidget extends StatelessWidget {
                         ),
                       if (msgStatus == MsgStatus.successful ||
                           msgStatus != null)
-                        SizedBox(width: 20, height: 20),
+                        SizedBox(width: 24, height: 24),
                     ],
                   ),
                 ),
               Flexible(fit: FlexFit.loose, child: child),
-              if (!isLocal)
+              if (!isLocal && (isCenter != true))
                 Container(
                   margin: EdgeInsetsDirectional.symmetric(horizontal: 8.w),
-                  child: SizedBox(width: 24, height: 24),
+                  child: SizedBox(width: 20, height: 20),
                 ),
             ],
           ),

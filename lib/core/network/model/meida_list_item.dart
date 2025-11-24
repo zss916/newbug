@@ -16,6 +16,10 @@ class MediaListItem {
   int? size;
   int? duration;
 
+  ///接口返回私有消息带有参数
+  @JSONField(name: 'original_msgid')
+  String? originalMsgid;
+
   /// 是否是私密图片 1 是 0 否
   @JSONField(name: 'is_private')
   int? isPrivate;

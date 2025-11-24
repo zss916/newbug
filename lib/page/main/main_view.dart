@@ -67,6 +67,7 @@ class _MainViewState extends State<MainView> with DelayedInitMixin {
     );
   }
 
+  //
   Widget buildBody(MainLogic logic) {
     return Scaffold(
       backgroundColor: Color(0xFFFAFAFA),

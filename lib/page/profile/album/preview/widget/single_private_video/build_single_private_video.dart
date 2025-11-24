@@ -11,6 +11,7 @@ class BuildSinglePrivateVideo extends StatelessWidget {
   final String? thumbUrl;
   final Function? onFinished;
   final bool? isCountDown;
+  final int? countDown;
 
   const BuildSinglePrivateVideo({
     super.key,
@@ -18,6 +19,7 @@ class BuildSinglePrivateVideo extends StatelessWidget {
     this.thumbUrl,
     this.onFinished,
     this.isCountDown,
+    this.countDown,
   });
 
   @override
@@ -73,7 +75,7 @@ class BuildSinglePrivateVideo extends StatelessWidget {
                   padding: EdgeInsetsDirectional.only(top: 12.h, bottom: 12.h),
                   alignment: Alignment.center,
                   child: CountDownWidget(
-                    totalDuration: 60,
+                    totalDuration: countDown ?? 0,
                     alpha: 0,
                     onFinished: () {
                       onFinished?.call();

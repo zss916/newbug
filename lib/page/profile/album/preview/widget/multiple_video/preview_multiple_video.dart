@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newbug/generated/assets.dart';
@@ -65,7 +66,23 @@ class _PreviewMultipleVideoState extends State<PreviewMultipleVideo>
             color: Colors.black,
             child: SizedBox.expand(
               child: (!_controller.value.isInitialized)
-                  ? Center(child: buildLoading())
+                  ? Stack(
+                      fit: StackFit.expand,
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: CachedNetworkImageProvider(widget.url),
+                            ),
+                          ),
+                          width: _controller.value.size.width,
+                          height: _controller.value.size.height,
+                        ),
+                        Center(child: buildLoading()),
+                      ],
+                    )
                   : FittedBox(
                       fit: BoxFit.cover,
                       clipBehavior: Clip.hardEdge,
@@ -232,7 +249,7 @@ class _PreviewMultipleVideoState extends State<PreviewMultipleVideo>
   }
 
   Widget buildLoading() => CircularProgressIndicator(
-    //: (controller.progress / 100).toDouble(),
+    //value: (controller.progress / 100).toDouble(),
     valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
   );
 

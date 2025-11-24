@@ -22,3 +22,10 @@ class SendPrivatePackageMsgEvent {
   List<String> content;
   SendPrivatePackageMsgEvent({required this.content});
 }
+
+///更新消息事件
+class UpdateMsgEvent {
+  Map? expansion;
+  RCIMIWMessage? message;
+  UpdateMsgEvent(this.expansion, this.message);
+}

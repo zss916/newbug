@@ -1,20 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:newbug/core/im/custom_message/private_package_message.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/chat/custom_message_widget/count_down_widget.dart';
+import 'package:newbug/page/profile/album/preview/widget/base_preview/preview_image.dart';
 
 class BuildMultiplePhoto extends StatefulWidget {
-  final bool isPrivate;
-  final List<String> urls;
+  final PackageMediaModel? data;
   final Function? onFinished;
-  const BuildMultiplePhoto({
-    super.key,
-    required this.isPrivate,
-    required this.urls,
-    this.onFinished,
-  });
+  const BuildMultiplePhoto({super.key, this.data, this.onFinished});
 
   @override
   State<BuildMultiplePhoto> createState() => _BuildMultiplePhotoState();
@@ -24,6 +21,13 @@ class _BuildMultiplePhotoState extends State<BuildMultiplePhoto> {
   final PageController controller = PageController();
 
   int currentIndex = 0;
+  List<PackageMediaItem> medias = [];
+
+  @override
+  void initState() {
+    super.initState();
+    medias = widget.data?.list ?? [];
+  }
 
   @override
   void dispose() {
@@ -33,51 +37,49 @@ class _BuildMultiplePhotoState extends State<BuildMultiplePhoto> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "${currentIndex + 1} of ${widget.urls.length}",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        leading: InkWell(
-          borderRadius: BorderRadius.circular(10),
-          onTap: () => Get.back(),
-          child: UnconstrainedBox(
-            child: Image.asset(
-              Assets.imgToBack,
-              width: 24,
-              height: 24,
-              color: Colors.white,
-            ),
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.light,
-          systemNavigationBarDividerColor: Colors.transparent,
-          statusBarBrightness: Brightness.dark,
-          systemNavigationBarColor: Colors.transparent,
-          systemNavigationBarIconBrightness: Brightness.dark,
+    return Container(
+      width: Get.width,
+      height: Get.height,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF504C43), Color(0xFF49443A)],
         ),
       ),
-      backgroundColor: Colors.black,
-      extendBodyBehindAppBar: true,
-      body: Container(
-        padding: EdgeInsets.only(top: Get.statusBarHeight),
-        width: Get.width,
-        height: Get.height,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF504C43), Color(0xFF49443A)],
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            "${currentIndex + 1} of ${medias.length}",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          leading: InkWell(
+            borderRadius: BorderRadius.circular(10),
+            onTap: () => Get.back(),
+            child: UnconstrainedBox(
+              child: Image.asset(
+                Assets.imgToBack,
+                width: 24,
+                height: 24,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          backgroundColor: Colors.transparent,
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.light,
+            systemNavigationBarDividerColor: Colors.transparent,
+            statusBarBrightness: Brightness.dark,
+            systemNavigationBarColor: Colors.transparent,
+            systemNavigationBarIconBrightness: Brightness.dark,
           ),
         ),
-        child: Column(
+        backgroundColor: Colors.black,
+        body: Column(
           children: [
             Expanded(
               child: Stack(
@@ -85,10 +87,12 @@ class _BuildMultiplePhotoState extends State<BuildMultiplePhoto> {
                 children: [
                   Positioned.fill(
                     child: PageView(
-                      physics: const NeverScrollableScrollPhysics(),
                       controller: controller,
                       children: [
-                        //for (var item in widget.urls) PreviewImage(url: item),
+                        ...medias.map(
+                          (e) =>
+                              PreviewImage(url: e.url, type: ImageType.network),
+                        ),
                       ],
                       onPageChanged: (index) {
                         setState(() {
@@ -115,8 +119,9 @@ class _BuildMultiplePhotoState extends State<BuildMultiplePhoto> {
                         ),
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
-                        itemCount: widget.urls.length,
+                        itemCount: medias.length,
                         itemBuilder: (context, index) {
+                          PackageMediaItem item = medias[index];
                           return Stack(
                             alignment: Alignment.center,
                             children: [
@@ -138,9 +143,12 @@ class _BuildMultiplePhotoState extends State<BuildMultiplePhoto> {
                                             color: Color(0xFFFF0092),
                                           )
                                         : null,
+                                    color: Colors.grey,
                                     borderRadius: BorderRadius.circular(4.r),
                                     image: DecorationImage(
-                                      image: NetworkImage(widget.urls[index]),
+                                      image: CachedNetworkImageProvider(
+                                        item.url,
+                                      ),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -160,22 +168,21 @@ class _BuildMultiplePhotoState extends State<BuildMultiplePhoto> {
                 ],
               ),
             ),
-            if (widget.isPrivate)
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.5),
-                ),
-                width: double.maxFinite,
-                padding: EdgeInsetsDirectional.only(top: 12.h, bottom: 12.h),
-                alignment: Alignment.center,
-                child: CountDownWidget(
-                  totalDuration: 60,
-                  alpha: 0,
-                  onFinished: () {
-                    widget.onFinished?.call();
-                  },
-                ),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.5),
               ),
+              width: double.maxFinite,
+              padding: EdgeInsetsDirectional.only(top: 12.h, bottom: 12.h),
+              alignment: Alignment.center,
+              child: CountDownWidget(
+                totalDuration: 60,
+                alpha: 0,
+                onFinished: () {
+                  widget.onFinished?.call();
+                },
+              ),
+            ),
             Container(
               width: double.maxFinite,
               height: MediaQuery.of(context).padding.bottom,

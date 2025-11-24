@@ -3,14 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newbug/core/im/custom_message/connected_message.dart';
 import 'package:newbug/core/im/custom_message/custom_message_type.dart';
-import 'package:newbug/core/im/custom_message/private_message.dart';
 import 'package:newbug/core/im/custom_message/public_message.dart';
 import 'package:newbug/core/route/index.dart';
 import 'package:newbug/page/chat/chat_widget/local_wrapper_msg.dart';
 import 'package:newbug/page/chat/custom_message_widget/connect_card_message_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/image_message_widget.dart';
-import 'package:newbug/page/chat/custom_message_widget/media_message_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/package_message_widget.dart';
+import 'package:newbug/page/chat/custom_message_widget/public_message_widget.dart';
+import 'package:newbug/page/chat/custom_message_widget/single_private_message_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/text_message_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/video_message_widget.dart';
 import 'package:newbug/page/chat/index.dart';
@@ -147,8 +147,6 @@ class Chat extends StatelessWidget {
   }
 
   Widget buildCustomMsgItemWidget(String objectName, LocalWrapperMsg msgItem) {
-    debugPrint("objectName====>>>> $objectName");
-
     return switch (objectName) {
       _ when objectName == CustomMessageType.public.name => buildPublicMessage(
         msgItem,
@@ -173,10 +171,9 @@ class Chat extends StatelessWidget {
 
   ///公开消息
   Widget buildPublicMessage(LocalWrapperMsg msgItem) {
-    return MediaMessageWidget(
+    return PublicMessageWidget(
       msgItem: msgItem,
       isLocal: msgItem.isSender,
-      isPrivate: false,
       onTap: () {
         PublicMessage publicMessage = msgItem.rCIMIWMessage as PublicMessage;
         RouteManager.toPreviewView(
@@ -187,73 +184,23 @@ class Chat extends StatelessWidget {
     );
   }
 
-  ///私有消息
+  ///单个私有消息
   Widget buildPrivateMessage(LocalWrapperMsg msgItem) {
-    return MediaMessageWidget(
-      msgItem: msgItem,
-      isLocal: msgItem.isSender,
-      isPrivate: true,
-      onTap: () {
-        PrivateMessage privateMessage = msgItem.rCIMIWMessage as PrivateMessage;
-        bool isVideo = privateMessage.data?.isVideo ?? false;
-        if (isVideo) {
-          RouteManager.toPreviewView(
-            viewId: PreviewViewType.singlePrivateVideo.index,
-            data: {"message": privateMessage, "isReceiver": !msgItem.isSender},
-          );
-        } else {
-          RouteManager.toPreviewView(
-            viewId: PreviewViewType.singlePrivatePhoto.index,
-            data: {"message": privateMessage, "isReceiver": !msgItem.isSender},
-          );
-        }
-      },
-    );
+    return SinglePrivateMessageWidget(msgItem: msgItem);
   }
 
   ///私有打包消息
   Widget buildPackagePrivateMessage(LocalWrapperMsg msgItem) {
-    return PackageMessageWidget(
-      msgItem: msgItem,
-      isLocal: msgItem.isSender,
-      isPrivate: true,
-      onTap: () {
-        //todo
-      },
-    );
+    return PackageMessageWidget(msgItem: msgItem);
   }
 
   ///图片消息(本地发送)
   Widget buildImageMessage(LocalWrapperMsg msgItem) {
-    return RepaintBoundary(
-      child: ImageMessageWidget(
-        msgItem: msgItem,
-        isLocal: true,
-        onTap: () {
-          RCIMIWImageMessage imageMessage =
-              msgItem.rCIMIWMessage as RCIMIWImageMessage;
-          RouteManager.toPreviewView(
-            viewId: PreviewViewType.singleImagePhoto.index,
-            data: {"message": imageMessage},
-          );
-        },
-      ),
-    );
+    return ImageMessageWidget(msgItem: msgItem);
   }
 
   ///视频消息(本地发送)
   Widget buildVideoMessage(LocalWrapperMsg msgItem) {
-    return VideoMessageWidget(
-      msgItem: msgItem,
-      isLocal: true,
-      onTap: () {
-        RCIMIWSightMessage videoMessage =
-            msgItem.rCIMIWMessage as RCIMIWSightMessage;
-        RouteManager.toPreviewView(
-          viewId: PreviewViewType.singleSightVideo.index,
-          data: {"message": videoMessage},
-        );
-      },
-    );
+    return VideoMessageWidget(msgItem: msgItem);
   }
 }

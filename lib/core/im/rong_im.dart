@@ -41,7 +41,12 @@ class RongIM
     );
 
     ///远程扩展消息更新
-    setOnRemoteMessageExpansionUpdated(engine: engine);
+    setOnRemoteMessageExpansionUpdated(
+      engine: engine,
+      onReceiveMsgExpansionUpdated: (Map? expansion, RCIMIWMessage? message) {
+        EventService.to.post(UpdateMsgEvent(expansion, message));
+      },
+    );
 
     ///撤回消息监听
     setOnRemoteMessageRecalled(engine: engine);

@@ -33,6 +33,12 @@ MediaListItem $MediaListItemFromJson(Map<String, dynamic> json) {
   if (duration != null) {
     mediaListItem.duration = duration;
   }
+  final String? originalMsgid = jsonConvert.convert<String>(
+    json['original_msgid'],
+  );
+  if (originalMsgid != null) {
+    mediaListItem.originalMsgid = originalMsgid;
+  }
   final int? isPrivate = jsonConvert.convert<int>(json['is_private']);
   if (isPrivate != null) {
     mediaListItem.isPrivate = isPrivate;
@@ -71,6 +77,7 @@ Map<String, dynamic> $MediaListItemToJson(MediaListItem entity) {
   data['height'] = entity.height;
   data['size'] = entity.size;
   data['duration'] = entity.duration;
+  data['original_msgid'] = entity.originalMsgid;
   data['is_private'] = entity.isPrivate;
   data['thumbUrl'] = entity.thumbUrl;
   data['isChecked'] = entity.isChecked;
@@ -89,6 +96,7 @@ extension MediaListItemExtension on MediaListItem {
     int? height,
     int? size,
     int? duration,
+    String? originalMsgid,
     int? isPrivate,
     String? thumbUrl,
     bool? isChecked,
@@ -105,6 +113,7 @@ extension MediaListItemExtension on MediaListItem {
       ..height = height ?? this.height
       ..size = size ?? this.size
       ..duration = duration ?? this.duration
+      ..originalMsgid = originalMsgid ?? this.originalMsgid
       ..isPrivate = isPrivate ?? this.isPrivate
       ..thumbUrl = thumbUrl ?? this.thumbUrl
       ..isChecked = isChecked ?? this.isChecked

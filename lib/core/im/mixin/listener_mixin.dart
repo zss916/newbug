@@ -68,14 +68,18 @@ mixin class ListenerMixin {
   }
 
   ///远程扩展消息更新
-  void setOnRemoteMessageExpansionUpdated({RCIMIWEngine? engine}) {
+  void setOnRemoteMessageExpansionUpdated({
+    RCIMIWEngine? engine,
+    Function(Map? expansion, RCIMIWMessage? message)?
+    onReceiveMsgExpansionUpdated,
+  }) {
     engine?.onRemoteMessageExpansionUpdated =
         (Map? expansion, RCIMIWMessage? message) {
           debugPrint(
             "RongIM 远程扩展消息更新 message:${message?.toJson()}, expansion:$expansion",
           );
 
-          ///todo
+          onReceiveMsgExpansionUpdated?.call(expansion, message);
         };
   }
 
