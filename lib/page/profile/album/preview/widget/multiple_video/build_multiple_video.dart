@@ -1,18 +1,27 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:io';
+
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/im/custom_message/private_package_message.dart';
 import 'package:newbug/generated/assets.dart';
+import 'package:newbug/page/chat/chat_widget/common_thumbnail_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/count_down_widget.dart';
-import 'package:newbug/page/profile/album/preview/widget/multiple_video/preview_multiple_video.dart';
+import 'package:newbug/page/profile/album/preview/widget/profile_private_album/private_album_video_plus.dart';
 
 class BuildMultipleVideo extends StatefulWidget {
   final Function? onFinished;
+  final int? countDown;
   final PackageMediaModel? data;
 
-  const BuildMultipleVideo({super.key, this.data, this.onFinished});
+  const BuildMultipleVideo({
+    super.key,
+    this.data,
+    this.countDown,
+    this.onFinished,
+  });
 
   @override
   State<BuildMultipleVideo> createState() => _BuildMultipleVideoState();
@@ -83,8 +92,10 @@ class _BuildMultipleVideoState extends State<BuildMultipleVideo> {
                     controller: controller,
                     children: [
                       ...medias.map(
-                        (e) => PreviewMultipleVideo(
+                        (e) => PrivateAlbumVideoPlus(
+                          key: ValueKey(e.url),
                           url: e.url,
+                          thumbUrl: e.thumb_url,
                           child: SizedBox(height: 64.h),
                         ),
                       ),
@@ -115,40 +126,7 @@ class _BuildMultipleVideoState extends State<BuildMultipleVideo> {
                         itemCount: medias.length,
                         itemBuilder: (context, index) {
                           PackageMediaItem item = medias[index];
-                          return Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    currentIndex = index;
-                                    controller.jumpToPage(index);
-                                  });
-                                },
-                                child: Container(
-                                  clipBehavior: Clip.hardEdge,
-                                  width: 42.w,
-                                  height: 56.h,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    border: currentIndex == index
-                                        ? Border.all(
-                                            width: 2.r,
-                                            color: Color(0xFFFF0092),
-                                          )
-                                        : null,
-                                    borderRadius: BorderRadius.circular(4.r),
-                                    image: DecorationImage(
-                                      image: CachedNetworkImageProvider(
-                                        item.url,
-                                      ),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
+                          return _buildSmallImage(index, item);
                         },
                         separatorBuilder: (BuildContext context, int index) =>
                             VerticalDivider(
@@ -162,21 +140,22 @@ class _BuildMultipleVideoState extends State<BuildMultipleVideo> {
               ),
             ),
 
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.5),
+            if ((widget.countDown ?? 0) > 0)
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.5),
+                ),
+                width: double.maxFinite,
+                padding: EdgeInsetsDirectional.only(top: 12.h, bottom: 12.h),
+                alignment: Alignment.center,
+                child: CountDownWidget(
+                  totalDuration: widget.countDown ?? 0,
+                  alpha: 0,
+                  onFinished: () {
+                    widget.onFinished?.call();
+                  },
+                ),
               ),
-              width: double.maxFinite,
-              padding: EdgeInsetsDirectional.only(top: 12.h, bottom: 12.h),
-              alignment: Alignment.center,
-              child: CountDownWidget(
-                totalDuration: 60,
-                alpha: 0,
-                onFinished: () {
-                  // onFinished?.call();
-                },
-              ),
-            ),
             Container(
               width: double.maxFinite,
               height: MediaQuery.of(context).padding.bottom,
@@ -184,6 +163,48 @@ class _BuildMultipleVideoState extends State<BuildMultipleVideo> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildSmallImage(int index, PackageMediaItem item) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          currentIndex = index;
+          controller.jumpToPage(index);
+        });
+      },
+
+      child: item.thumb_url == null
+          ? CommonThumbnailWidget(
+              videoPath: item.url,
+              builder: (String? thumbnailPath) {
+                item.thumb_url = thumbnailPath;
+                return _buildSmallCustomUI(index, thumbnailPath);
+              },
+            )
+          : _buildSmallCustomUI(index, item.thumb_url),
+    );
+  }
+
+  Widget _buildSmallCustomUI(int index, String? thumbPath) {
+    return Container(
+      clipBehavior: Clip.hardEdge,
+      width: 42.w,
+      height: 56.h,
+      decoration: BoxDecoration(
+        color: Colors.grey,
+        border: currentIndex == index
+            ? Border.all(width: 2.r, color: Color(0xFFFF0092))
+            : null,
+        borderRadius: BorderRadius.circular(4.r),
+        image: thumbPath == null
+            ? null
+            : DecorationImage(
+                image: ExtendedFileImageProvider(File(thumbPath)),
+                fit: BoxFit.cover,
+              ),
       ),
     );
   }

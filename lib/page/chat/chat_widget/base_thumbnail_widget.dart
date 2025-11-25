@@ -1,3 +1,4 @@
+/*
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -49,15 +50,17 @@ class BaseThumbnailWidget extends StatelessWidget {
 
   Future<File?> getThumbnail(String videoPath) async {
     final cacheManager = DefaultCacheManager();
-    FileInfo? fileInfo = await cacheManager.getFileFromCache(videoPath);
+    FileInfo? fileInfo = await cacheManager.getFileFromCache(
+      "${videoPath}thumbnail",
+    );
 
     if (fileInfo == null) {
       Uint8List? thumbnailData = await FlutterVideoThumbnail.getThumbnail(
-        videoPath,
+        "${videoPath}thumbnail",
       );
       if (thumbnailData != null) {
         File thumbnailFile = await cacheManager.putFile(
-          videoPath,
+          "${videoPath}thumbnail",
           thumbnailData,
         );
         AppStores.setThumb(key: videoPath, value: thumbnailFile.path);
@@ -71,3 +74,4 @@ class BaseThumbnailWidget extends StatelessWidget {
     }
   }
 }
+*/

@@ -29,12 +29,17 @@ class PreviewView extends StatelessWidget {
   Widget buildBody({required int state, required PreviewLogic logic}) {
     return switch (state) {
       _ when state == PreviewViewType.singleImagePhoto.index =>
-        BuildSingleImagePhoto(message: logic.imageMessage),
+        BuildSingleImagePhoto(message: logic.imageMsg),
       _ when state == PreviewViewType.singlePublicPhoto.index =>
-        BuildSinglePublicPhoto(url: logic.publicMessage?.data?.imageUrl ?? ""),
+        BuildSinglePublicPhoto(url: logic.publicMsg?.data?.url ?? ""),
+      _ when state == PreviewViewType.singlePublicVideo.index =>
+        BuildSinglePrivateVideo(
+          url: logic.publicMsg?.data?.url ?? "",
+          thumbUrl: logic.publicMsg?.data?.thumbUrl ?? "",
+        ),
       _ when state == PreviewViewType.singlePrivatePhoto.index =>
         BuildSinglePrivatePhoto(
-          url: logic.privatePhotoMessage?.data?.imageUrl ?? "",
+          url: logic.privateMsg?.data?.url ?? "",
           countDown: logic.countDown,
           onFinished: () {
             Get.removeName(AppRoutes.previewView);
@@ -42,48 +47,34 @@ class PreviewView extends StatelessWidget {
         ),
       _ when state == PreviewViewType.singlePrivateVideo.index =>
         BuildSinglePrivateVideo(
-          url: logic.privateVideoMessage?.data?.url ?? "",
-          thumbUrl: logic.privateVideoMessage?.data?.thumbUrl ?? "",
+          url: logic.privateMsg?.data?.url ?? "",
+          thumbUrl: logic.privateMsg?.data?.thumbUrl ?? "",
           countDown: logic.countDown,
           onFinished: () {
             Get.removeName(AppRoutes.previewView);
           },
         ),
       _ when state == PreviewViewType.singleSightVideo.index =>
-        BuildSingleSightVideo(
-          videoMessage: logic.videoMessage,
-          isPrivate: false,
-        ),
+        BuildSingleSightVideo(videoMessage: logic.videoMsg, isPrivate: false),
       _ when state == PreviewViewType.profilePrivateAlbum.index =>
         ProfilePrivatePhoto(media: logic.media),
 
       _ when state == PreviewViewType.multiplePhoto.index => BuildMultiplePhoto(
-        data: logic.privatePackageMessage?.data,
+        countDown: logic.countDown,
+        data: logic.privatePkgMsg?.data,
+        onFinished: () {
+          Get.removeName(AppRoutes.previewView);
+        },
       ),
       _ when state == PreviewViewType.multipleVideo.index => BuildMultipleVideo(
-        data: logic.privatePackageMessage?.data,
+        countDown: logic.countDown,
+        data: logic.privatePkgMsg?.data,
+        onFinished: () {
+          Get.removeName(AppRoutes.previewView);
+        },
       ),
-
-      ///todo
-      /*      _ when state == PreviewViewType.singlePublicVideo.index => BuildSingleVideo(
-        isPrivate: false,
-        url:
-            "https://szsl-normal.oss-cn-hangzhou.aliyuncs.com/%E9%A3%9E%E4%B9%A620250901-133635.mp4",
-        thumb:
-            "https://img0.baidu.com/it/u=4215474319,2725351576&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=889",
-      ),
-      _ when state == PreviewViewType.singlePrivateVideo.index => BuildSingleVideo(
-        isPrivate: true,
-        url:
-            "https://szsl-normal.oss-cn-hangzhou.aliyuncs.com/%E9%A3%9E%E4%B9%A620250901-133635.mp4",
-        thumb:
-            "https://img0.baidu.com/it/u=4215474319,2725351576&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=889",
-      ),*/
       _ when state == PreviewViewType.other.index => OtherPage(),
       _ => SizedBox.shrink(),
     };
   }
 }
-
-//{"showAdd": true, "canSelect": true, "canSend": true}
-// RouterBuilderHepler.openPrivateAlbumPage(context, showAdd: true, canSelect: false, canSend: false);

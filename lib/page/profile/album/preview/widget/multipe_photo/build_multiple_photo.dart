@@ -10,8 +10,14 @@ import 'package:newbug/page/profile/album/preview/widget/base_preview/preview_im
 
 class BuildMultiplePhoto extends StatefulWidget {
   final PackageMediaModel? data;
+  final int? countDown;
   final Function? onFinished;
-  const BuildMultiplePhoto({super.key, this.data, this.onFinished});
+  const BuildMultiplePhoto({
+    super.key,
+    this.data,
+    this.countDown,
+    this.onFinished,
+  });
 
   @override
   State<BuildMultiplePhoto> createState() => _BuildMultiplePhotoState();
@@ -168,21 +174,22 @@ class _BuildMultiplePhotoState extends State<BuildMultiplePhoto> {
                 ],
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.black.withValues(alpha: 0.5),
+            if ((widget.countDown ?? 0) > 0)
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.5),
+                ),
+                width: double.maxFinite,
+                padding: EdgeInsetsDirectional.only(top: 12.h, bottom: 12.h),
+                alignment: Alignment.center,
+                child: CountDownWidget(
+                  totalDuration: widget.countDown ?? 0,
+                  alpha: 0,
+                  onFinished: () {
+                    widget.onFinished?.call();
+                  },
+                ),
               ),
-              width: double.maxFinite,
-              padding: EdgeInsetsDirectional.only(top: 12.h, bottom: 12.h),
-              alignment: Alignment.center,
-              child: CountDownWidget(
-                totalDuration: 60,
-                alpha: 0,
-                onFinished: () {
-                  widget.onFinished?.call();
-                },
-              ),
-            ),
             Container(
               width: double.maxFinite,
               height: MediaQuery.of(context).padding.bottom,

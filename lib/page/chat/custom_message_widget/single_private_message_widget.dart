@@ -66,9 +66,9 @@ class _MediaMessageWidgetState extends State<SinglePrivateMessageWidget> {
     PrivateMessage privateMessage = msgItem.rCIMIWMessage as PrivateMessage;
     MediaListItem? media = privateMessage.data;
     // debugPrint("media => ${privateMessage.toJson()}");
-    debugPrint("media data=> ${media?.toJson()}");
-    debugPrint("media expansion=> ${privateMessage.expansion}");
-
+    // debugPrint("media data=> ${media?.toJson()}");
+    // debugPrint("media expansion=> ${privateMessage.expansion}");
+    Map expansion = privateMessage.expansion ?? {};
     return privateMessage.isDestroyedStatus()
         ? buildFireStatusWidget()
         : InkWell(
@@ -89,6 +89,7 @@ class _MediaMessageWidgetState extends State<SinglePrivateMessageWidget> {
                       media?.thumbUrl = thumbnailPath;
                       return _buildCustomPrivateWidget(
                         isLocal,
+                        expansion,
                         privateMessage,
                         thumbnailPath == null
                             ? null
@@ -98,6 +99,7 @@ class _MediaMessageWidgetState extends State<SinglePrivateMessageWidget> {
                   )
                 : _buildCustomPrivateWidget(
                     isLocal,
+                    expansion,
                     privateMessage,
                     ExtendedNetworkImageProvider(
                       privateMessage.data?.imageUrl ?? "",
@@ -108,6 +110,7 @@ class _MediaMessageWidgetState extends State<SinglePrivateMessageWidget> {
 
   Widget _buildCustomPrivateWidget(
     bool isLocal,
+    Map expansion,
     PrivateMessage privateMessage,
     ImageProvider? imageProvider,
   ) {
@@ -214,7 +217,7 @@ class _MediaMessageWidgetState extends State<SinglePrivateMessageWidget> {
                   bottom: 8.r,
                   end: 8.r,
                   child: CountDownWidget(
-                    totalDuration: handCountDown(privateMessage),
+                    totalDuration: handCountDown(expansion),
                     onFinished: () {
                       setState(() {
                         status = PrivateMediaStatus.destroyed;
@@ -366,21 +369,19 @@ class _MediaMessageWidgetState extends State<SinglePrivateMessageWidget> {
     if (isVideo) {
       RouteManager.toPreviewView(
         viewId: PreviewViewType.singlePrivateVideo.index,
-        data: {"message": privateMessage, "isReceiver": !isLocal},
+        data: {"message": privateMessage},
       );
     } else {
       RouteManager.toPreviewView(
         viewId: PreviewViewType.singlePrivatePhoto.index,
-        data: {"message": privateMessage, "isReceiver": !isLocal},
+        data: {"message": privateMessage},
       );
     }
   }
 
   ///获取倒计时时间
-  int handCountDown(PrivateMessage privateMessage) {
-    PrivacyExtraData extra = PrivacyExtraData.fromJson(
-      privateMessage.expansion ?? {},
-    );
+  int handCountDown(Map expansion) {
+    PrivacyExtraData extra = PrivacyExtraData.fromJson(expansion);
     if (extra.status == "1") {
       DateTime targetDateTime = DateTime.fromMillisecondsSinceEpoch(
         (int.parse(extra.del_time ?? "0")) * 1000,

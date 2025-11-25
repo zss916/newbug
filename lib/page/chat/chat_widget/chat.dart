@@ -3,8 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newbug/core/im/custom_message/connected_message.dart';
 import 'package:newbug/core/im/custom_message/custom_message_type.dart';
-import 'package:newbug/core/im/custom_message/public_message.dart';
-import 'package:newbug/core/route/index.dart';
 import 'package:newbug/page/chat/chat_widget/local_wrapper_msg.dart';
 import 'package:newbug/page/chat/custom_message_widget/connect_card_message_widget.dart';
 import 'package:newbug/page/chat/custom_message_widget/image_message_widget.dart';
@@ -15,7 +13,6 @@ import 'package:newbug/page/chat/custom_message_widget/text_message_widget.dart'
 import 'package:newbug/page/chat/custom_message_widget/video_message_widget.dart';
 import 'package:newbug/page/chat/index.dart';
 import 'package:newbug/page/chat/widget/chat_input.dart';
-import 'package:newbug/page/profile/album/preview/preview_logic.dart';
 import 'package:rongcloud_im_wrapper_plugin/rongcloud_im_wrapper_plugin.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
@@ -164,24 +161,13 @@ class Chat extends StatelessWidget {
   ///建联消息
   Widget buildConnectedMessage(LocalWrapperMsg msgItem) {
     ConnectedMessage connectedMsg = msgItem.rCIMIWMessage as ConnectedMessage;
-
     //https://testcdn.connectfriendsapp.com/user/10002480/8e92a8dc27d1448a87e543d53c5afe41.mp4
     return ConnectCardMessageWidget(data: connectedMsg.data);
   }
 
   ///公开消息
   Widget buildPublicMessage(LocalWrapperMsg msgItem) {
-    return PublicMessageWidget(
-      msgItem: msgItem,
-      isLocal: msgItem.isSender,
-      onTap: () {
-        PublicMessage publicMessage = msgItem.rCIMIWMessage as PublicMessage;
-        RouteManager.toPreviewView(
-          viewId: PreviewViewType.singlePublicPhoto.index,
-          data: {"message": publicMessage},
-        );
-      },
-    );
+    return PublicMessageWidget(msgItem: msgItem);
   }
 
   ///单个私有消息

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/im/custom_message/private_message.dart';
 import 'package:newbug/core/im/custom_message/private_package_message.dart';
@@ -21,13 +20,12 @@ enum PreviewViewType {
 
 class PreviewLogic extends GetxController {
   int viewType = PreviewViewType.other.index;
-  RCIMIWImageMessage? imageMessage;
-  PublicMessage? publicMessage;
-  PrivateMessage? privatePhotoMessage;
-  PrivateMessage? privateVideoMessage;
-  RCIMIWSightMessage? videoMessage;
+  RCIMIWImageMessage? imageMsg;
+  RCIMIWSightMessage? videoMsg;
+  PublicMessage? publicMsg;
+  PrivateMessage? privateMsg;
   MediaListItem? media;
-  PrivatePackageMessage? privatePackageMessage;
+  PrivatePackageMessage? privatePkgMsg;
   int? countDown;
 
   @override
@@ -36,49 +34,43 @@ class PreviewLogic extends GetxController {
     if (Get.arguments != null) {
       viewType = Get.arguments["viewId"] as int;
       if (viewType == PreviewViewType.singleImagePhoto.index) {
-        imageMessage = Get.arguments["data"]["message"] as RCIMIWImageMessage;
+        imageMsg = Get.arguments["data"]["message"] as RCIMIWImageMessage;
       } else if (viewType == PreviewViewType.singlePublicPhoto.index) {
-        publicMessage = Get.arguments["data"]["message"] as PublicMessage;
+        publicMsg = Get.arguments["data"]["message"] as PublicMessage;
+      } else if (viewType == PreviewViewType.singlePublicVideo.index) {
+        publicMsg = Get.arguments["data"]["message"] as PublicMessage;
       } else if (viewType == PreviewViewType.singlePrivatePhoto.index) {
-        privatePhotoMessage =
-            Get.arguments["data"]["message"] as PrivateMessage;
-        countDown = handCountDown(privatePhotoMessage);
+        privateMsg = Get.arguments["data"]["message"] as PrivateMessage;
+        countDown = handCountDown(privateMsg?.expansion ?? {});
       } else if (viewType == PreviewViewType.singleSightVideo.index) {
-        videoMessage = Get.arguments["data"]["message"] as RCIMIWSightMessage;
+        videoMsg = Get.arguments["data"]["message"] as RCIMIWSightMessage;
       } else if (viewType == PreviewViewType.singlePrivateVideo.index) {
-        privateVideoMessage =
-            Get.arguments["data"]["message"] as PrivateMessage;
-        countDown = handCountDown(privatePhotoMessage);
+        privateMsg = Get.arguments["data"]["message"] as PrivateMessage;
+        countDown = handCountDown(privateMsg?.expansion ?? {});
       } else if (viewType == PreviewViewType.profilePrivateAlbum.index) {
         media = Get.arguments["data"]["media"] as MediaListItem?;
       } else if (viewType == PreviewViewType.multiplePhoto.index) {
-        privatePackageMessage =
+        privatePkgMsg =
             Get.arguments["data"]["message"] as PrivatePackageMessage;
+        countDown = handCountDown(privatePkgMsg?.expansion ?? {});
       } else if (viewType == PreviewViewType.multipleVideo.index) {
-        privatePackageMessage =
+        privatePkgMsg =
             Get.arguments["data"]["message"] as PrivatePackageMessage;
-
-        debugPrint("viewType ===>> ${privatePackageMessage?.data?.toJson()}");
+        countDown = handCountDown(privatePkgMsg?.expansion ?? {});
       }
     }
   }
 
   ///处理倒计时
-  int handCountDown(PrivateMessage? privateMessage) {
-    if (privateMessage != null) {
-      PrivacyExtraData extra = PrivacyExtraData.fromJson(
-        privateMessage.expansion ?? {},
+  int handCountDown(Map expansion) {
+    PrivacyExtraData extra = PrivacyExtraData.fromJson(expansion);
+    if (extra.status == "1") {
+      DateTime targetDateTime = DateTime.fromMillisecondsSinceEpoch(
+        (int.parse(extra.del_time ?? "0")) * 1000,
       );
-      if (extra.status == "1") {
-        DateTime targetDateTime = DateTime.fromMillisecondsSinceEpoch(
-          (int.parse(extra.del_time ?? "0")) * 1000,
-        );
-        final difference = targetDateTime.difference(DateTime.now());
+      final difference = targetDateTime.difference(DateTime.now());
 
-        return difference.inSeconds;
-      } else {
-        return 0;
-      }
+      return difference.inSeconds;
     } else {
       return 0;
     }

@@ -132,11 +132,16 @@ abstract class ChatAPI {
       );
 
       if (result["code"] == 0) {
-        PrivateMsgStatusEntity value = await compute(
-          (dynamic jsonStr) => PrivateMsgStatusEntity.fromJson(jsonStr),
-          result["data"],
-        );
-        return value;
+        if (result["data"] != null) {
+          PrivateMsgStatusEntity value = await compute(
+            (dynamic jsonStr) => PrivateMsgStatusEntity.fromJson(jsonStr),
+            result["data"],
+          );
+          return value;
+        } else {
+          // result["action"]
+          return null;
+        }
       } else {
         CustomToast.fail("Failed");
         return null;
