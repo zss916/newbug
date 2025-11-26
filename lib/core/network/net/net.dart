@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:newbug/core/config/constants.dart';
+import 'package:newbug/core/network/interceptor/action_response_interceptor.dart';
 import 'package:newbug/core/network/interceptor/aes_interceptor.dart';
 import 'package:newbug/core/network/interceptor/base_response_interceptor.dart';
 import 'package:newbug/core/network/interceptor/header_interceptor.dart';
@@ -52,17 +53,11 @@ class Net {
       _dio.interceptors.add(AesInterceptor());
     }
 
-    ///返回值处理
+    ///返回值处理(token 失效,被踢出登录)
     _dio.interceptors.add(BaseResponseInterceptor());
 
-    /// 缓存
-    // _dio.interceptors.add(cacheInterceptor);
-
-    /// 日志
-    //_dio.interceptors.add(LoggerInterceptor());
-
-    /// 错误拦截
-    //_dio.interceptors.add(ErrorInterceptor());
+    ///处理action
+    _dio.interceptors.add(ActionResponseInterceptor());
 
     /// 日志
     _dio.interceptors.add(

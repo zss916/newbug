@@ -461,6 +461,8 @@ class T {
 
   static const String age = "age";
 
+  static const String tokenExpired = "tokenExpired";
+
   static const String visitorsTotal = "visitorsTotalTr";
 
   static const String blockTitle = "blockTitle";
@@ -472,6 +474,8 @@ class T {
   static const String wildPhotoTip = "wildPhotoTip";
 
   static const String unLockVisited = "unLockVisited";
+
+  static const String networkError = "networkError";
 }
 
 const en = {
@@ -752,4 +756,7 @@ const en = {
   "reportContent": "Does this person bother you?",
   "wildPhotoTip": "Visible to Connections only",
   "unLockVisited": "Unlock who visited you",
+  "tokenExpired": "token expired",
+  "networkError":
+      "There seems to be a problem with the network. Please check your connection.",
 };

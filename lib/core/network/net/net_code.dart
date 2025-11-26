@@ -1,4 +1,4 @@
-class HttpStatus {
+class HttpCode {
   ///Authorization 失效
   static const int logout = 1002;
 

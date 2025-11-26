@@ -107,8 +107,8 @@ dependencies:
   image_picker: 1.2.1
   #cache
   flutter_cache_manager: 3.4.1
-  #判断是否开启vpn
-  #connectivity_plus
+  #判断是否开启vpn和网络状态
+  connectivity_plus: ^6.1.3
 
 
 
