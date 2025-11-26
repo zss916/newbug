@@ -65,11 +65,19 @@ class _MediaMessageWidgetState extends State<SinglePrivateMessageWidget> {
   Widget _buildPrivateMediaWidget(LocalWrapperMsg msgItem, bool isLocal) {
     PrivateMessage privateMessage = msgItem.rCIMIWMessage as PrivateMessage;
     MediaListItem? media = privateMessage.data;
-    // debugPrint("media => ${privateMessage.toJson()}");
-    // debugPrint("media data=> ${media?.toJson()}");
-    // debugPrint("media expansion=> ${privateMessage.expansion}");
     Map expansion = privateMessage.expansion ?? {};
-    return privateMessage.isDestroyedStatus()
+    bool isDestroyed = privateMessage.isDestroyedStatus();
+    bool isUnlockStatus = privateMessage.isUnlockStatus();
+    if (isDestroyed) {
+      status = PrivateMediaStatus.destroyed;
+    } else {
+      if (isUnlockStatus) {
+        status = PrivateMediaStatus.private;
+      } else {
+        status = PrivateMediaStatus.countdown;
+      }
+    }
+    return isDestroyed
         ? buildFireStatusWidget()
         : InkWell(
             onLongPress: () {
@@ -131,102 +139,76 @@ class _MediaMessageWidgetState extends State<SinglePrivateMessageWidget> {
           topLeft: isLocal ? Radius.circular(12.r) : Radius.zero,
         ),
       ),
-      child: privateMessage.isUnlockStatus()
-          ? Stack(
-              alignment: AlignmentDirectional.center,
-              children: [
-                if (status == PrivateMediaStatus.private ||
-                    status == PrivateMediaStatus.loading)
-                  Positioned.fill(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(12.r),
-                        bottomLeft: Radius.circular(12.r),
-                        bottomRight: isLocal
-                            ? Radius.zero
-                            : Radius.circular(12.r),
-                        topLeft: isLocal ? Radius.circular(12.r) : Radius.zero,
-                      ),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                        child: Container(
-                          decoration: BoxDecoration(color: Colors.black54),
-                        ),
-                      ),
-                    ),
-                  ),
-                if (status == PrivateMediaStatus.private ||
-                    status == PrivateMediaStatus.loading)
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(Assets.imgLock, width: 55.r, height: 55.r),
-                      Text(
-                        (media?.isVideo ?? false)
-                            ? T.privateVideo.tr
-                            : T.privatePhoto.tr,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Divider(height: 10.h, color: Colors.transparent),
-                      if (isLoading && status == PrivateMediaStatus.loading)
-                        LoadingWidget()
-                      else
-                        SizedBox(width: 22.r, height: 22.r),
-                    ],
-                  ),
-                if ((status == PrivateMediaStatus.private ||
-                        status == PrivateMediaStatus.loading) &&
-                    (!isLocal))
-                  PositionedDirectional(
-                    bottom: 8.r,
-                    end: 8.r,
-                    start: 8.r,
-                    child: buildTags(),
-                  ),
-                if (status == PrivateMediaStatus.countdown)
-                  PositionedDirectional(
-                    bottom: 8.r,
-                    end: 8.r,
-                    child: CountDownWidget(
-                      totalDuration: 60,
-                      onFinished: () {
-                        setState(() {
-                          status = PrivateMediaStatus.destroyed;
-                        });
-                      },
-                    ),
-                  ),
-              ],
-            )
-          : Stack(
-              alignment: AlignmentDirectional.center,
-              children: [
-                if (media?.isVideo == true)
-                  Center(
-                    child: Image.asset(
-                      Assets.imgNotificationPlay,
-                      width: 50,
-                      height: 50,
-                    ),
-                  ),
-                PositionedDirectional(
-                  bottom: 8.r,
-                  end: 8.r,
-                  child: CountDownWidget(
-                    totalDuration: handCountDown(expansion),
-                    onFinished: () {
-                      setState(() {
-                        status = PrivateMediaStatus.destroyed;
-                      });
-                    },
+      child: Stack(
+        alignment: AlignmentDirectional.center,
+        children: [
+          if (status == PrivateMediaStatus.private ||
+              status == PrivateMediaStatus.loading)
+            Positioned.fill(
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(12.r),
+                  bottomLeft: Radius.circular(12.r),
+                  bottomRight: isLocal ? Radius.zero : Radius.circular(12.r),
+                  topLeft: isLocal ? Radius.circular(12.r) : Radius.zero,
+                ),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                  child: Container(
+                    decoration: BoxDecoration(color: Colors.black54),
                   ),
                 ),
+              ),
+            ),
+          if (status == PrivateMediaStatus.private ||
+              status == PrivateMediaStatus.loading)
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(Assets.imgLock, width: 55.r, height: 55.r),
+                Text(
+                  (media?.isVideo ?? false)
+                      ? T.privateVideo.tr
+                      : T.privatePhoto.tr,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Divider(height: 10.h, color: Colors.transparent),
+                if (isLoading && status == PrivateMediaStatus.loading)
+                  LoadingWidget()
+                else
+                  SizedBox(width: 22.r, height: 22.r),
               ],
             ),
+          if ((status == PrivateMediaStatus.private ||
+                  status == PrivateMediaStatus.loading) &&
+              (!isLocal))
+            PositionedDirectional(
+              bottom: 8.r,
+              end: 8.r,
+              start: 8.r,
+              child: buildTags(),
+            ),
+          if (status == PrivateMediaStatus.countdown)
+            PositionedDirectional(
+              bottom: 8.r,
+              end: 8.r,
+              child: CountDownWidget(
+                totalDuration: handCountDown(expansion),
+                onFinished: () {
+                  if (mounted) {
+                    setState(() {
+                      status = PrivateMediaStatus.destroyed;
+                    });
+                  }
+                },
+              ),
+            ),
+        ],
+      ),
     );
   }
 
@@ -329,11 +311,12 @@ class _MediaMessageWidgetState extends State<SinglePrivateMessageWidget> {
     PrivateMessage privateMessage = msgItem.rCIMIWMessage as PrivateMessage;
 
     if (status == PrivateMediaStatus.private) {
-      setState(() {
-        isLoading = true;
-        status = PrivateMediaStatus.loading;
-      });
-
+      if (mounted) {
+        setState(() {
+          isLoading = true;
+          status = PrivateMediaStatus.loading;
+        });
+      }
       String toMsgId = privateMessage.messageUId ?? "";
       String fromMsgId = privateMessage.data?.originalMsgid ?? "";
       String mediaId = privateMessage.data?.id.toString() ?? "";
@@ -342,13 +325,14 @@ class _MediaMessageWidgetState extends State<SinglePrivateMessageWidget> {
         fromMsgid: fromMsgId,
         mediaId: mediaId,
       );
-      //{del_time: 1763977997, set_ext: 1, status: 1}
       if (data != null) {
         if (data.setExt == 1) {
-          setState(() {
-            isLoading = false;
-            status = PrivateMediaStatus.countdown;
-          });
+          if (mounted) {
+            setState(() {
+              isLoading = false;
+              status = PrivateMediaStatus.countdown;
+            });
+          }
         }
       } else {
         CustomToast.showText("Unlock Failed");

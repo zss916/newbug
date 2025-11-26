@@ -25,6 +25,7 @@ class AppRoutes {
   static const String previewView = '/previewView';
   static const String launch = '/launch';
   static const String webview = '/webview';
+  static const String otherProfile = '/otherProfile';
 
   static final List<GetPage> routes = [
     GetPage(name: launch, page: () => LaunchView()),
@@ -66,6 +67,7 @@ class AppRoutes {
     GetPage(name: selectedAlbum, page: () => SelectedAlbumView()),
     GetPage(name: previewView, page: () => PreviewView()),
     GetPage(name: webview, page: () => WebView()),
+    GetPage(name: otherProfile, page: () => OtherProfileView()),
   ];
 
   static const String loveDialog = 'loveDialog';
@@ -97,4 +99,6 @@ class AppRoutes {
   static const String blockDialog = 'blockDialog';
 
   static const String reportSheet = 'reportSheet';
+
+  static const String removeDialog = 'removeDialog';
 }

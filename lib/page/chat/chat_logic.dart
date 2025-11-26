@@ -398,4 +398,65 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
       }
     }
   }
+
+  toViewProfile() {
+    RouteManager.toOtherProfile(uid: targetId);
+  }
+
+  toDelete() {
+    showRemoveConversationDialog(
+      onConfirm: () async {
+        if (targetId != null) {
+          /* CvIM.removeConversationItem(
+            targetId: targetId??"",
+            onRemoveCallback: (value) {
+
+            },
+          );*/
+          Get.back(closeOverlays: true);
+
+          CustomToast.success(T.successful.tr);
+        } else {
+          CustomToast.fail(T.failed.tr);
+        }
+      },
+    );
+  }
+
+  toReport() async {
+    showReportSheet(
+      onItemTap: (reportId) async {
+        CustomToast.loading();
+        bool isSuccessful = await SystemAPI.report(
+          userId: targetId ?? "",
+          reportId: reportId,
+          form: FromType.chat,
+        ).whenComplete(() => CustomToast.dismiss());
+        if (isSuccessful) {
+          /// todo 融云删除conversation
+          Get.back(closeOverlays: true);
+          CustomToast.success(T.blockSuccessful.tr);
+        } else {
+          CustomToast.fail(T.blockFail.tr);
+        }
+      },
+    );
+  }
+
+  toBlock() {
+    showBlockDialog(
+      onConfirm: () async {
+        bool isSuccessful = await SystemAPI.block(
+          userId: targetId ?? "",
+        ).whenComplete(() => CustomToast.dismiss());
+        if (isSuccessful) {
+          /// todo 融云删除conversation
+          Get.back(closeOverlays: true);
+          CustomToast.success(T.blockSuccessful.tr);
+        } else {
+          CustomToast.fail(T.blockFail.tr);
+        }
+      },
+    );
+  }
 }

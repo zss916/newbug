@@ -1,0 +1,159 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:newbug/core/config/global.dart';
+import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/route/index.dart';
+import 'package:newbug/generated/assets.dart';
+
+/// 显示删除弹窗
+void showRemoveConversationDialog({Function? onConfirm}) {
+  Get.dialog(
+    RemoveWidget(onConfirm: onConfirm),
+    routeSettings: RouteSettings(name: AppRoutes.removeDialog),
+  );
+}
+
+class RemoveWidget extends StatelessWidget {
+  final Function? onConfirm;
+  const RemoveWidget({super.key, required this.onConfirm});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: AlignmentDirectional.center,
+      children: [
+        Container(
+          padding: EdgeInsetsDirectional.all(0),
+          margin: EdgeInsetsDirectional.symmetric(horizontal: 16.w),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Color(0xFFFEF0FF),
+          ),
+          child: Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              Container(
+                padding: EdgeInsetsDirectional.all(24.r),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      margin: EdgeInsetsDirectional.only(
+                        bottom: 12.h,
+                        top: 25.h,
+                      ),
+                      width: double.infinity,
+                      child: Text(
+                        T.removeTitle.tr,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: const Color(0xFF262626),
+                          fontSize: 32.sp,
+                          fontFamily: AppFonts.font1,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsetsDirectional.only(
+                        top: 12.h,
+                        bottom: 24.h,
+                      ),
+                      width: double.maxFinite,
+                      child: Text(
+                        T.removeContent.tr,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: const Color(0xFF595959),
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.back();
+                            },
+                            child: Container(
+                              width: double.maxFinite,
+                              height: 48.h,
+                              alignment: Alignment.center,
+                              decoration: ShapeDecoration(
+                                color: const Color(0xFFFFD9EF),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                              ),
+                              child: Text(
+                                T.cancel.tr,
+                                style: TextStyle(
+                                  color: Color(0xFFFF0092),
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        VerticalDivider(width: 12.w, color: Colors.transparent),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.back();
+                              onConfirm?.call();
+                            },
+                            child: Container(
+                              width: double.maxFinite,
+                              height: 48.h,
+                              alignment: Alignment.center,
+                              decoration: ShapeDecoration(
+                                color: const Color(0xFFFF0092),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                              ),
+                              child: Text(
+                                T.confirm.tr,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              PositionedDirectional(
+                top: 10,
+                end: 10,
+                child: InkWell(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Container(
+                    padding: EdgeInsetsDirectional.all(6.r),
+                    child: Image.asset(
+                      Assets.imgCloseDialog,
+                      width: 16,
+                      height: 16,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}

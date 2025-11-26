@@ -122,7 +122,20 @@ class ChatAppBar extends StatelessWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(10),
                 onTap: () {
-                  showChatMoreSheet();
+                  showChatMoreSheet(
+                    onViewProfile: () {
+                      logic.toViewProfile();
+                    },
+                    onDelete: () {
+                      logic.toDelete();
+                    },
+                    onReport: () {
+                      logic.toReport();
+                    },
+                    onBlock: () {
+                      logic.toBlock();
+                    },
+                  );
                 },
                 child: Container(
                   padding: EdgeInsetsDirectional.symmetric(

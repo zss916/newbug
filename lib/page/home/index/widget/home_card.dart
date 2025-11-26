@@ -3,12 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeCard extends StatelessWidget {
   final Widget child;
-  const HomeCard({super.key, required this.child});
+  final EdgeInsetsGeometry? margin;
+  const HomeCard({super.key, required this.child, this.margin});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsetsDirectional.only(start: 14.w, end: 14.w, top: 18.h),
+      margin:
+          margin ??
+          EdgeInsetsDirectional.only(start: 14.w, end: 14.w, top: 18.h),
       width: double.maxFinite,
       child: AspectRatio(
         aspectRatio: 362 / 483,

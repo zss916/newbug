@@ -4,16 +4,37 @@ import 'package:get/get.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/route/index.dart';
 
-void showChatMoreSheet() {
+void showChatMoreSheet({
+  Function? onViewProfile,
+  Function? onDelete,
+  Function? onReport,
+  Function? onBlock,
+}) {
   Get.bottomSheet(
-    ChatMoreWidget(),
+    ChatMoreWidget(
+      onViewProfile: onViewProfile,
+      onDelete: onDelete,
+      onBlock: onBlock,
+      onReport: onReport,
+    ),
     isDismissible: false,
     settings: RouteSettings(name: AppRoutes.chatMoreSheet),
   );
 }
 
 class ChatMoreWidget extends StatelessWidget {
-  const ChatMoreWidget({super.key});
+  final Function? onViewProfile;
+  final Function? onDelete;
+  final Function? onReport;
+  final Function? onBlock;
+
+  const ChatMoreWidget({
+    super.key,
+    this.onViewProfile,
+    this.onDelete,
+    this.onReport,
+    this.onBlock,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +57,7 @@ class ChatMoreWidget extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Get.back();
+                  onViewProfile?.call();
                 },
                 child: Container(
                   width: double.infinity,
@@ -62,6 +84,7 @@ class ChatMoreWidget extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Get.back();
+                  onDelete?.call();
                 },
                 child: Container(
                   width: double.infinity,
@@ -88,6 +111,7 @@ class ChatMoreWidget extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Get.back();
+                  onReport?.call();
                 },
                 child: Container(
                   width: double.infinity,
@@ -118,6 +142,7 @@ class ChatMoreWidget extends StatelessWidget {
                 ),
                 onTap: () {
                   Get.back();
+                  onBlock?.call();
                 },
                 child: Container(
                   width: double.infinity,

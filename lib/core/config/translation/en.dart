@@ -241,6 +241,8 @@ class T {
 
   static const String successful = "successful";
 
+  static const String failed = "failed";
+
   static const String deleteAccountTitle = "deleteAccountTitle";
 
   static const String deleteReason1 = "deleteReason1";
@@ -467,7 +469,11 @@ class T {
 
   static const String blockTitle = "blockTitle";
 
+  static const String removeTitle = "removeTitle";
+
   static const String blockContent = "blockContent";
+
+  static const String removeContent = "removeContent";
 
   static const String reportContent = "reportContent";
 
@@ -613,6 +619,7 @@ const en = {
       "Turning off notification means you will miss out on your new message or new matches.",
   "profile": "Profile",
   "successful": "Successful",
+  "failed": "Failed",
   "deleteAccountTitle":
       "Your leaving is a pity. Would you please share the reasons with us?",
   "deleteReason1": "Privacy and security of personal info",
@@ -759,4 +766,7 @@ const en = {
   "tokenExpired": "token expired",
   "networkError":
       "There seems to be a problem with the network. Please check your connection.",
+  "removeTitle": "Are you sure you want to delete this conversation?",
+  "removeContent":
+      "After deleting it, you won’t be able to find it in you chat list unless the user sends you a message again.",
 };

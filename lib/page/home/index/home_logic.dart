@@ -89,7 +89,7 @@ class HomeLogic extends GetxController {
           bool isSuccessful = await SystemAPI.report(
             userId: "${item.userId}",
             reportId: reportId,
-            form: 1,
+            form: FromType.home,
           ).whenComplete(() => CustomToast.dismiss());
           if (isSuccessful) {
             /// 举报和拉黑要去掉数据

@@ -46,6 +46,9 @@ class RouteManager {
     }
   }
 
+  static toOtherProfile({String? uid}) =>
+      Get.toNamed(AppRoutes.otherProfile, arguments: {"uid": uid});
+
   static toUnmatch() => Get.toNamed(AppRoutes.unmatch);
 
   static toNotification() => Get.toNamed(AppRoutes.notification);

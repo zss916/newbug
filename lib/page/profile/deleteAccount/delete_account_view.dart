@@ -12,7 +12,7 @@ class DeleteAccountView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(title: T.deleteAccount.tr),
+      appBar: BaseAppBar(actions: []),
       backgroundColor: Color(0xFFFAFAFA),
       body: GetBuilder<DeleteAccountLogic>(
         init: DeleteAccountLogic(),

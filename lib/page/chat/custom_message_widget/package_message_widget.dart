@@ -66,7 +66,17 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
     List<PackageMediaItem> data = media?.list ?? [];
     Map expansion = privatePkgMsg.expansion ?? {};
     bool isUnlockStatus = privatePkgMsg.isUnlockStatus();
-    return privatePkgMsg.isDestroyedStatus()
+    bool isDestroyed = privatePkgMsg.isDestroyedStatus();
+    if (isDestroyed) {
+      status = PrivatePackageStatus.destroyed;
+    } else {
+      if (isUnlockStatus) {
+        status = PrivatePackageStatus.private;
+      } else {
+        status = PrivatePackageStatus.countdown;
+      }
+    }
+    return isDestroyed
         ? buildFireStatusWidget()
         : InkWell(
             onTap: () {
@@ -105,7 +115,6 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
               child: Transform.translate(
                 offset: Offset(isLocal ? -50 : 50, 8),
                 child: buildSingleCard(
-                  isUnlockStatus: isUnlockStatus,
                   expansion: expansion,
                   len: data.length,
                   index: 2,
@@ -125,7 +134,6 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
               child: Transform.translate(
                 offset: Offset(isLocal ? -25 : 25, 4),
                 child: buildSingleCard(
-                  isUnlockStatus: isUnlockStatus,
                   expansion: expansion,
                   index: 1,
                   len: data.length,
@@ -141,7 +149,6 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
           Transform.translate(
             offset: Offset(0, 0),
             child: buildSingleCard(
-              isUnlockStatus: isUnlockStatus,
               expansion: expansion,
               index: 0,
               len: data.length,
@@ -160,7 +167,6 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
     required bool isVideo,
     required bool isLocal,
     required int len,
-    required bool isUnlockStatus,
     int? index,
   }) {
     return isVideo
@@ -169,7 +175,6 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
             builder: (String? thumbnailPath) {
               item.thumb_url = thumbnailPath;
               return _buildCustomItem(
-                isUnlockStatus: isUnlockStatus,
                 expansion: expansion,
                 item: item,
                 isLocal: isLocal,
@@ -183,7 +188,6 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
             },
           )
         : _buildCustomItem(
-            isUnlockStatus: isUnlockStatus,
             expansion: expansion,
             item: item,
             isLocal: isLocal,
@@ -200,450 +204,268 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
     required bool isVideo,
     required bool isLocal,
     required int len,
-    required bool isUnlockStatus,
     int? index,
     ImageProvider? imageProvider,
   }) {
-    return isUnlockStatus
-        ? Container(
-            width: 179.w,
-            height: 232.h,
-            clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
-              color: isLocal ? Color(0xFFCDD2FF) : Color(0xFFF6CDFF),
-              image: imageProvider == null
-                  ? null
-                  : DecorationImage(fit: BoxFit.cover, image: imageProvider),
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(12.r),
-                bottomLeft: Radius.circular(12.r),
-                bottomRight: isLocal ? Radius.zero : Radius.circular(12.r),
-                topLeft: isLocal ? Radius.circular(12.r) : Radius.zero,
-              ),
-            ),
-            child: index == 0
-                ? Stack(
-                    alignment: Alignment.center,
+    return Container(
+      width: 179.w,
+      height: 232.h,
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        color: isLocal ? Color(0xFFCDD2FF) : Color(0xFFF6CDFF),
+        image: imageProvider == null
+            ? null
+            : DecorationImage(fit: BoxFit.cover, image: imageProvider),
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(12.r),
+          bottomLeft: Radius.circular(12.r),
+          bottomRight: isLocal ? Radius.zero : Radius.circular(12.r),
+          topLeft: isLocal ? Radius.circular(12.r) : Radius.zero,
+        ),
+      ),
+      child: index == 0
+          ? Stack(
+              alignment: Alignment.center,
+              children: [
+                if ((status == PrivatePackageStatus.private ||
+                    status == PrivatePackageStatus.loading))
+                  Positioned.fill(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(12.r),
+                        bottomLeft: Radius.circular(12.r),
+                        bottomRight: isLocal
+                            ? Radius.zero
+                            : Radius.circular(12.r),
+                        topLeft: isLocal ? Radius.circular(12.r) : Radius.zero,
+                      ),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                        child: Container(
+                          decoration: BoxDecoration(color: Colors.black54),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                if ((status == PrivatePackageStatus.private ||
+                    status == PrivatePackageStatus.loading))
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if ((status == PrivatePackageStatus.private ||
-                          status == PrivatePackageStatus.loading))
-                        Positioned.fill(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(12.r),
-                              bottomLeft: Radius.circular(12.r),
-                              bottomRight: isLocal
-                                  ? Radius.zero
-                                  : Radius.circular(12.r),
-                              topLeft: isLocal
-                                  ? Radius.circular(12.r)
-                                  : Radius.zero,
-                            ),
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.black54,
-                                ),
-                              ),
-                            ),
-                          ),
+                      Image.asset(Assets.imgLock, width: 55.r, height: 55.r),
+                      Text(
+                        "${isVideo ? T.privateVideo.tr : T.privatePhoto.tr} ${len == 0 ? "" : len}",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w500,
                         ),
-
-                      if ((status == PrivatePackageStatus.private ||
-                          status == PrivatePackageStatus.loading))
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              Assets.imgLock,
-                              width: 55.r,
-                              height: 55.r,
-                            ),
-                            Text(
-                              "${isVideo ? T.privateVideo.tr : T.privatePhoto.tr} ${len == 0 ? "" : len}",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            Divider(height: 10.h, color: Colors.transparent),
-                            if (isLoading &&
-                                status == PrivatePackageStatus.loading)
-                              LoadingWidget()
-                            else
-                              SizedBox(width: 22.r, height: 22.r),
-                          ],
-                        ),
-                      if (status == PrivatePackageStatus.private ||
-                          status == PrivatePackageStatus.loading)
-                        PositionedDirectional(
-                          bottom: 8.r,
-                          end: 8.r,
-                          start: 8.r,
-                          child: Wrap(
-                            spacing: 4.w,
-                            runSpacing: 4.w,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 8.w,
-                                  vertical: 4.h,
-                                ),
-                                decoration: ShapeDecoration(
-                                  color: const Color(0x19FF0092),
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                      width: 1,
-                                      color: const Color(0xFFFF0092),
-                                    ),
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                ),
-                                child: Text(
-                                  '#Travel',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: -0.30,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 8.w,
-                                  vertical: 4.h,
-                                ),
-                                decoration: ShapeDecoration(
-                                  color: const Color(0x19FF0092),
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                      width: 1,
-                                      color: const Color(0xFFFF0092),
-                                    ),
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                ),
-                                child: Text(
-                                  '#Travel',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: -0.30,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 8.w,
-                                  vertical: 4.h,
-                                ),
-                                decoration: ShapeDecoration(
-                                  color: const Color(0x19FF0092),
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                      width: 1,
-                                      color: const Color(0xFFFF0092),
-                                    ),
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                ),
-                                child: Text(
-                                  '#Travel',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: -0.30,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                      if (status == PrivatePackageStatus.countdown)
-                        PositionedDirectional(
-                          top: 8.r,
-                          end: 8.r,
-                          start: 8.r,
-                          child: Wrap(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 8.w,
-                                  vertical: 4.h,
-                                ),
-                                decoration: ShapeDecoration(
-                                  color: const Color(0x19FF0092),
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                      width: 1,
-                                      color: const Color(0xFFFF0092),
-                                    ),
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                ),
-                                child: Text(
-                                  'Unlocked:${len}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: -0.30,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      if (status == PrivatePackageStatus.countdown)
-                        PositionedDirectional(
-                          bottom: 8.r,
-                          end: 8.r,
-                          child: CountDownWidget(
-                            totalDuration: handCountDown(expansion),
-                            onFinished: () {
-                              setState(() {
-                                status = PrivatePackageStatus.destroyed;
-                              });
-                            },
-                          ),
-                        ),
-
-                      if (isVideo &&
-                          (status == PrivatePackageStatus.private ||
-                              status == PrivatePackageStatus.loading))
-                        PositionedDirectional(
-                          top: 8,
-                          start: 8,
-                          child: Image.asset(
-                            Assets.imgIcVideo,
-                            width: 28.w,
-                            height: 20.h,
-                          ),
-                        ),
-
-                      if (isVideo)
-                        Center(
-                          child: Image.asset(
-                            Assets.imgNotificationPlay,
-                            width: 50,
-                            height: 50,
-                          ),
-                        ),
-
-                      if (isVideo && status == PrivatePackageStatus.countdown)
-                        Center(
-                          child: Image.asset(
-                            Assets.imgNotificationPlay,
-                            width: 50,
-                            height: 50,
-                          ),
-                        ),
-                    ],
-                  )
-                : Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      if ((status == PrivatePackageStatus.private ||
-                          status == PrivatePackageStatus.loading))
-                        Positioned.fill(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(12.r),
-                              bottomLeft: Radius.circular(12.r),
-                              bottomRight: isLocal
-                                  ? Radius.zero
-                                  : Radius.circular(12.r),
-                              topLeft: isLocal
-                                  ? Radius.circular(12.r)
-                                  : Radius.zero,
-                            ),
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.black54,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                      ),
+                      Divider(height: 10.h, color: Colors.transparent),
+                      if (isLoading && status == PrivatePackageStatus.loading)
+                        LoadingWidget()
+                      else
+                        SizedBox(width: 22.r, height: 22.r),
                     ],
                   ),
-          )
-        : Container(
-            width: 179.w,
-            height: 232.h,
-            clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
-              color: isLocal ? Color(0xFFCDD2FF) : Color(0xFFF6CDFF),
-              image: imageProvider == null
-                  ? null
-                  : DecorationImage(fit: BoxFit.cover, image: imageProvider),
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(12.r),
-                bottomLeft: Radius.circular(12.r),
-                bottomRight: isLocal ? Radius.zero : Radius.circular(12.r),
-                topLeft: isLocal ? Radius.circular(12.r) : Radius.zero,
-              ),
-            ),
-            child: index == 0
-                ? Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      if (false)
-                        PositionedDirectional(
-                          bottom: 8.r,
-                          end: 8.r,
-                          start: 8.r,
-                          child: Wrap(
-                            spacing: 4.w,
-                            runSpacing: 4.w,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 8.w,
-                                  vertical: 4.h,
-                                ),
-                                decoration: ShapeDecoration(
-                                  color: const Color(0x19FF0092),
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                      width: 1,
-                                      color: const Color(0xFFFF0092),
-                                    ),
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                ),
-                                child: Text(
-                                  '#Travel',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: -0.30,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 8.w,
-                                  vertical: 4.h,
-                                ),
-                                decoration: ShapeDecoration(
-                                  color: const Color(0x19FF0092),
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                      width: 1,
-                                      color: const Color(0xFFFF0092),
-                                    ),
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                ),
-                                child: Text(
-                                  '#Travel',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: -0.30,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 8.w,
-                                  vertical: 4.h,
-                                ),
-                                decoration: ShapeDecoration(
-                                  color: const Color(0x19FF0092),
-                                  shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                      width: 1,
-                                      color: const Color(0xFFFF0092),
-                                    ),
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                ),
-                                child: Text(
-                                  '#Travel',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10.sp,
-                                    fontWeight: FontWeight.w500,
-                                    letterSpacing: -0.30,
-                                  ),
-                                ),
-                              ),
-                            ],
+                if (status == PrivatePackageStatus.private ||
+                    status == PrivatePackageStatus.loading)
+                  PositionedDirectional(
+                    bottom: 8.r,
+                    end: 8.r,
+                    start: 8.r,
+                    child: Wrap(
+                      spacing: 4.w,
+                      runSpacing: 4.w,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.w,
+                            vertical: 4.h,
                           ),
-                        ),
-
-                      PositionedDirectional(
-                        top: 8.r,
-                        end: 8.r,
-                        start: 8.r,
-                        child: Wrap(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 8.w,
-                                vertical: 4.h,
+                          decoration: ShapeDecoration(
+                            color: const Color(0x19FF0092),
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                width: 1,
+                                color: const Color(0xFFFF0092),
                               ),
-                              decoration: ShapeDecoration(
-                                color: const Color(0x19FF0092),
-                                shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                    width: 1,
-                                    color: const Color(0xFFFF0092),
-                                  ),
-                                  borderRadius: BorderRadius.circular(100),
-                                ),
-                              ),
-                              child: Text(
-                                'Unlocked:${len}',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: -0.30,
-                                ),
-                              ),
+                              borderRadius: BorderRadius.circular(100),
                             ),
-                          ],
-                        ),
-                      ),
-
-                      PositionedDirectional(
-                        bottom: 8.r,
-                        end: 8.r,
-                        child: CountDownWidget(
-                          totalDuration: handCountDown(expansion),
-                          onFinished: () {
-                            setState(() {
-                              status = PrivatePackageStatus.destroyed;
-                            });
-                          },
-                        ),
-                      ),
-
-                      if (isVideo)
-                        Center(
-                          child: Image.asset(
-                            Assets.imgNotificationPlay,
-                            width: 50,
-                            height: 50,
+                          ),
+                          child: Text(
+                            '#Travel',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: -0.30,
+                            ),
                           ),
                         ),
-                    ],
-                  )
-                : SizedBox.shrink(),
-          );
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.w,
+                            vertical: 4.h,
+                          ),
+                          decoration: ShapeDecoration(
+                            color: const Color(0x19FF0092),
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                width: 1,
+                                color: const Color(0xFFFF0092),
+                              ),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                          ),
+                          child: Text(
+                            '#Travel',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: -0.30,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.w,
+                            vertical: 4.h,
+                          ),
+                          decoration: ShapeDecoration(
+                            color: const Color(0x19FF0092),
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                width: 1,
+                                color: const Color(0xFFFF0092),
+                              ),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                          ),
+                          child: Text(
+                            '#Travel',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: -0.30,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                if (status == PrivatePackageStatus.countdown)
+                  PositionedDirectional(
+                    top: 8.r,
+                    end: 8.r,
+                    start: 8.r,
+                    child: Wrap(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.w,
+                            vertical: 4.h,
+                          ),
+                          decoration: ShapeDecoration(
+                            color: const Color(0x19FF0092),
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                width: 1,
+                                color: const Color(0xFFFF0092),
+                              ),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                          ),
+                          child: Text(
+                            'Unlocked:${len}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: -0.30,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                if (status == PrivatePackageStatus.countdown)
+                  PositionedDirectional(
+                    bottom: 8.r,
+                    end: 8.r,
+                    child: CountDownWidget(
+                      totalDuration: handCountDown(expansion),
+                      onFinished: () {
+                        if (mounted) {
+                          setState(() {
+                            status = PrivatePackageStatus.destroyed;
+                          });
+                        }
+                      },
+                    ),
+                  ),
+                if (isVideo &&
+                    (status == PrivatePackageStatus.private ||
+                        status == PrivatePackageStatus.loading))
+                  PositionedDirectional(
+                    top: 8,
+                    start: 8,
+                    child: Image.asset(
+                      Assets.imgIcVideo,
+                      width: 28.w,
+                      height: 20.h,
+                    ),
+                  ),
+
+                if (isVideo)
+                  Center(
+                    child: Image.asset(
+                      Assets.imgNotificationPlay,
+                      width: 50,
+                      height: 50,
+                    ),
+                  ),
+
+                if (isVideo && status == PrivatePackageStatus.countdown)
+                  Center(
+                    child: Image.asset(
+                      Assets.imgNotificationPlay,
+                      width: 50,
+                      height: 50,
+                    ),
+                  ),
+              ],
+            )
+          : Stack(
+              alignment: Alignment.center,
+              children: [
+                if ((status == PrivatePackageStatus.private ||
+                    status == PrivatePackageStatus.loading))
+                  Positioned.fill(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(12.r),
+                        bottomLeft: Radius.circular(12.r),
+                        bottomRight: isLocal
+                            ? Radius.zero
+                            : Radius.circular(12.r),
+                        topLeft: isLocal ? Radius.circular(12.r) : Radius.zero,
+                      ),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                        child: Container(
+                          decoration: BoxDecoration(color: Colors.black54),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+    );
   }
 
   /// Fire status
@@ -674,10 +496,12 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
   Future<void> handUncock(PrivatePackageMessage privatePkgMsg) async {
     ///todo 非会员会有弹窗拦截
     if (status == PrivatePackageStatus.private) {
-      setState(() {
-        isLoading = true;
-        status = PrivatePackageStatus.loading;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = true;
+          status = PrivatePackageStatus.loading;
+        });
+      }
 
       String toMsgId = privatePkgMsg.messageUId ?? "";
       String fromMsgId = privatePkgMsg.data?.original_msgid ?? "";
@@ -692,10 +516,12 @@ class _PackageMessageWidgetState extends State<PackageMessageWidget> {
       );
       if (data != null) {
         if (data.setExt == 1) {
-          setState(() {
-            isLoading = false;
-            status = PrivatePackageStatus.countdown;
-          });
+          if (mounted) {
+            setState(() {
+              isLoading = false;
+              status = PrivatePackageStatus.countdown;
+            });
+          }
         }
       } else {
         CustomToast.showText("Unlock Failed");

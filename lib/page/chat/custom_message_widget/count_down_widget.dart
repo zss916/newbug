@@ -34,6 +34,7 @@ class CountDownWidget extends StatelessWidget {
             width: 14,
             height: 14,
           ),
+
           Countdown(
             seconds: totalDuration,
             build: (BuildContext context, double time) => Text(

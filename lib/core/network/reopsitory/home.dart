@@ -149,7 +149,7 @@ abstract class HomeAPI {
   }
 
   ///其他用户详情
-  static Future<UserEntity?> otherProfile({required int userId}) async {
+  static Future<UserEntity?> otherProfile({required String? userId}) async {
     try {
       final result = await Net.instance.post(
         ApiPath.cardDetails,
