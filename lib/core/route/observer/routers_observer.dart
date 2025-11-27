@@ -13,6 +13,7 @@ class AppRouteObserver extends RouteObserver<PageRoute> {
     super.didPop(route, previousRoute);
     history.remove(route);
     historyPage.remove(route.settings.name ?? "");
+    debugPrint("historyPage pop:${historyPage.toString()}");
   }
 
   @override
@@ -20,6 +21,7 @@ class AppRouteObserver extends RouteObserver<PageRoute> {
     super.didPush(route, previousRoute);
     history.add(route);
     historyPage.add(route.settings.name ?? "");
+    debugPrint("historyPage push:${historyPage.toString()}");
   }
 
   @override
@@ -27,6 +29,7 @@ class AppRouteObserver extends RouteObserver<PageRoute> {
     super.didRemove(route, previousRoute);
     history.remove(route);
     historyPage.remove(route.settings.name ?? "");
+    debugPrint("historyPage remove:${historyPage.toString()}");
   }
 
   @override
@@ -40,5 +43,6 @@ class AppRouteObserver extends RouteObserver<PageRoute> {
       history.add(newRoute);
       historyPage.add(newRoute.settings.name ?? "");
     }
+    debugPrint("historyPage replace:${historyPage.toString()}");
   }
 }

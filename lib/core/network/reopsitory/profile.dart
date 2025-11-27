@@ -154,18 +154,8 @@ abstract class ProfileAPI {
   }
 
   ///通知开关设置
-  static Future<bool> notifyUpdate({
-    required int index,
-    required int config,
-  }) async {
-    /*    通知开关设置
-    var closeNewMsgPush = 0x01
-    var closeMatchMsgPush = 0x02
-    var closeLikeMsgPush = 0x04
-    var closeCupidChatPush = 0x08
-    config & 0x01/0x02/0x04/0x08 != 0x01/0x02/0x04/0x08  就是开启 这样是为了默认0好处理 后续 | (按位或) 就是关闭*/
+  static Future<bool> notifyUpdate({required int config}) async {
     try {
-      config ^= (1 << index);
       final result = await Net.instance.post(
         ApiPath.notifyUpdate,
         queryParameters: {"config": config},

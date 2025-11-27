@@ -28,8 +28,14 @@ class ChatView extends StatelessWidget {
         builder: (logic) {
           return Column(
             children: [
-              ChatAppBar(logic: logic),
-              FloatCard(),
+              ChatAppBar(
+                userInfo: logic.userInfo,
+                chatType: logic.chatType,
+                onMoreAction: () {
+                  logic.toMoreAction();
+                },
+              ),
+              if (logic.chatType == ChatType.chat) FloatCard(),
               Expanded(
                 child: Chat(
                   historyMsg: logic.historyMsg,

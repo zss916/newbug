@@ -27,107 +27,131 @@ class NotificationView extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            width: double.infinity,
-            clipBehavior: Clip.hardEdge,
-            constraints: BoxConstraints(minHeight: 240.h),
-            margin: EdgeInsetsDirectional.only(start: 14.w, end: 14.w),
-            decoration: ShapeDecoration(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(13),
-              ),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  padding: EdgeInsetsDirectional.only(start: 16.w),
-                  width: double.maxFinite,
-                  height: 60.h,
-                  child: Row(
-                    children: [
-                      Text(
-                        T.newMessages.tr,
-                        style: TextStyle(
-                          color: const Color(0xFF262626),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          height: 1.20,
-                        ),
-                      ),
-                      Spacer(),
-                      AppSwitchWidget(isActive: true, onChanged: (value) {}),
-                    ],
+          GetBuilder<NotificationLogic>(
+            init: NotificationLogic(),
+            builder: (logic) {
+              return Container(
+                width: double.infinity,
+                clipBehavior: Clip.hardEdge,
+                constraints: BoxConstraints(minHeight: 240.h),
+                margin: EdgeInsetsDirectional.only(start: 14.w, end: 14.w),
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(13),
                   ),
                 ),
-                Divider(height: 1, indent: 16.w, color: Color(0xFFF2F2F2)),
-                Container(
-                  padding: EdgeInsetsDirectional.only(start: 16.w),
-                  width: double.maxFinite,
-                  height: 60.h,
-                  child: Row(
-                    children: [
-                      Text(
-                        T.newMatches.tr,
-                        style: TextStyle(
-                          color: const Color(0xFF262626),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          height: 1.20,
-                        ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: EdgeInsetsDirectional.only(start: 16.w),
+                      width: double.maxFinite,
+                      height: 60.h,
+                      child: Row(
+                        children: [
+                          Text(
+                            T.newMessages.tr,
+                            style: TextStyle(
+                              color: const Color(0xFF262626),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              height: 1.20,
+                            ),
+                          ),
+                          Spacer(),
+                          AppSwitchWidget(
+                            isActive: logic.messagesValue,
+                            onChanged: (value) {
+                              logic.setPushConfig(0);
+                            },
+                          ),
+                        ],
                       ),
-                      Spacer(),
-                      AppSwitchWidget(isActive: true, onChanged: (value) {}),
-                    ],
-                  ),
-                ),
-                Divider(height: 1, indent: 16.w, color: Color(0xFFF2F2F2)),
-                Container(
-                  padding: EdgeInsetsDirectional.only(start: 16.w),
-                  width: double.maxFinite,
-                  height: 60.h,
-                  child: Row(
-                    children: [
-                      Text(
-                        T.newLikes.tr,
-                        style: TextStyle(
-                          color: const Color(0xFF262626),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          height: 1.20,
-                        ),
+                    ),
+                    Divider(height: 1, indent: 16.w, color: Color(0xFFF2F2F2)),
+                    Container(
+                      padding: EdgeInsetsDirectional.only(start: 16.w),
+                      width: double.maxFinite,
+                      height: 60.h,
+                      child: Row(
+                        children: [
+                          Text(
+                            T.newMatches.tr,
+                            style: TextStyle(
+                              color: const Color(0xFF262626),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              height: 1.20,
+                            ),
+                          ),
+                          Spacer(),
+                          AppSwitchWidget(
+                            isActive: logic.matchValue,
+                            onChanged: (value) {
+                              logic.setPushConfig(1);
+                            },
+                          ),
+                        ],
                       ),
-                      Spacer(),
-                      AppSwitchWidget(isActive: false, onChanged: (value) {}),
-                    ],
-                  ),
-                ),
-                Divider(height: 1, indent: 16.w, color: Color(0xFFF2F2F2)),
-                Container(
-                  padding: EdgeInsetsDirectional.only(start: 16.w),
-                  width: double.maxFinite,
-                  height: 60.h,
-                  child: Row(
-                    children: [
-                      Text(
-                        T.newVisitor.tr,
-                        style: TextStyle(
-                          color: const Color(0xFF262626),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          height: 1.20,
-                        ),
+                    ),
+                    Divider(height: 1, indent: 16.w, color: Color(0xFFF2F2F2)),
+                    Container(
+                      padding: EdgeInsetsDirectional.only(start: 16.w),
+                      width: double.maxFinite,
+                      height: 60.h,
+                      child: Row(
+                        children: [
+                          Text(
+                            T.newLikes.tr,
+                            style: TextStyle(
+                              color: const Color(0xFF262626),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              height: 1.20,
+                            ),
+                          ),
+                          Spacer(),
+                          AppSwitchWidget(
+                            isActive: logic.likeValue,
+                            onChanged: (value) {
+                              logic.setPushConfig(2);
+                            },
+                          ),
+                        ],
                       ),
-                      Spacer(),
-                      AppSwitchWidget(isActive: false, onChanged: (value) {}),
-                    ],
-                  ),
+                    ),
+                    Divider(height: 1, indent: 16.w, color: Color(0xFFF2F2F2)),
+                    Container(
+                      padding: EdgeInsetsDirectional.only(start: 16.w),
+                      width: double.maxFinite,
+                      height: 60.h,
+                      child: Row(
+                        children: [
+                          Text(
+                            T.newVisitor.tr,
+                            style: TextStyle(
+                              color: const Color(0xFF262626),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              height: 1.20,
+                            ),
+                          ),
+                          Spacer(),
+                          AppSwitchWidget(
+                            isActive: logic.visitorValue,
+                            onChanged: (value) {
+                              logic.setPushConfig(3);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
           ),
-
           Container(
             margin: EdgeInsetsDirectional.only(top: 10.h),
             padding: EdgeInsetsDirectional.only(start: 20.w, end: 20.w),

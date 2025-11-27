@@ -69,7 +69,11 @@ class RouteManager {
   static toFlashChat({HomeCardsMatchList? value}) =>
       Get.toNamed(AppRoutes.flashChat, arguments: {"match": value});
 
-  static toChat({String? targetId, UserEntity? userInfo}) {
+  static toChat({
+    String? targetId,
+    UserEntity? userInfo,
+    ChatType chatType = ChatType.chat,
+  }) {
     Map<String, dynamic> map = {};
     if (targetId != null) {
       map["targetId"] = targetId;
@@ -77,6 +81,7 @@ class RouteManager {
     if (userInfo != null) {
       map["userInfo"] = userInfo;
     }
+    map["chatType"] = chatType;
     Get.toNamed(AppRoutes.chat, arguments: map);
   }
 
@@ -109,13 +114,15 @@ class RouteManager {
   ///正常进入主页
   static toCommonMain() => Get.toNamed(AppRoutes.main);
 
+  static offAndToMain() => Get.offAndToNamed(AppRoutes.main);
+
   static toMain() {
     if (AuthHelper.instance.isFinishGuide) {
       ///完成引导
-      toCommonMain();
+      offAndToMain();
     } else {
       ///有引导页面
-      toCommonMain();
+      offAndToMain();
       toGuide();
     }
   }

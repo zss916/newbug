@@ -482,6 +482,8 @@ class T {
   static const String unLockVisited = "unLockVisited";
 
   static const String networkError = "networkError";
+
+  static const String officialNotice = "officialNotice";
 }
 
 const en = {
@@ -769,4 +771,5 @@ const en = {
   "removeTitle": "Are you sure you want to delete this conversation?",
   "removeContent":
       "After deleting it, you won’t be able to find it in you chat list unless the user sends you a message again.",
+  "officialNotice": "Official notice",
 };

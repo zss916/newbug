@@ -23,6 +23,7 @@ import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/page/chat/chat_widget/chat.dart';
 import 'package:newbug/page/chat/chat_widget/chat_action_mixin.dart';
 import 'package:newbug/page/chat/chat_widget/local_wrapper_msg.dart';
+import 'package:newbug/page/chat/sheet/sheetChatMore.dart';
 import 'package:newbug/page/chat/widget/chat_app_bar.dart';
 import 'package:newbug/page/chat/widget/float_card.dart';
 import 'package:newbug/page/dialog/block/block_dialog.dart';

@@ -127,6 +127,26 @@ class AppStores {
     }
   }
 
+  ///获取pushConfig
+  static int getPushConfig() {
+    String value = StoresService.to.getString(authKey);
+    if (value.isNotEmpty) {
+      return AuthEntity.fromJson(jsonDecode(value)).pushConfig ?? 0;
+    } else {
+      return 0;
+    }
+  }
+
+  ///设置pushConfig
+  static void setPushConfig({required int config}) {
+    String value = StoresService.to.getString(authKey);
+    if (value.isNotEmpty) {
+      AuthEntity auth = AuthEntity.fromJson(jsonDecode(value));
+      auth.pushConfig = config;
+      StoresService.to.setString(authKey, jsonEncode(auth));
+    }
+  }
+
   ///获取IM token
   static String? getIMToken() {
     String value = StoresService.to.getString(authKey);

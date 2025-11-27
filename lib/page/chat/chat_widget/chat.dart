@@ -37,20 +37,24 @@ class Chat extends StatelessWidget {
       child: Column(
         children: [
           Expanded(child: buildContent()),
-          InputSend(
-            onSend: (value) {
-              logic.toSendText(value: value);
-            },
-            onKeyboardChanged: (isVisible) {
-              logic.scrollWhenMsgSaved(true);
-            },
-            onSelectPublicAlbum: (List<AssetEntity> value) {
-              logic.handPublicAlbum(value);
-            },
-            onSelectPublicAlbumToPrivate: (List<AssetEntity> value) {
-              logic.handPublicAlbumToPrivate(value);
-            },
-          ),
+          if (logic.chatType != ChatType.officialNotice)
+            InputSend(
+              chatType: logic.chatType,
+              onSend: (value) {
+                logic.toSendText(value: value);
+              },
+              onKeyboardChanged: (isVisible) {
+                logic.scrollWhenMsgSaved(true);
+              },
+              onSelectPublicAlbum: (List<AssetEntity> value) {
+                logic.handPublicAlbum(value);
+              },
+              onSelectPublicAlbumToPrivate: (List<AssetEntity> value) {
+                logic.handPublicAlbumToPrivate(value);
+              },
+            )
+          else
+            SizedBox.shrink(),
         ],
       ),
     );

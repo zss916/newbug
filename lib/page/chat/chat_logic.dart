@@ -1,5 +1,7 @@
 part of 'index.dart';
 
+enum ChatType { chat, officialNotice, customerService }
+
 class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
   String? targetId;
   UserEntity? userInfo;
@@ -15,6 +17,9 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
   StreamSubscription<SendPrivateSingleMsgEvent>? sendPrivateSingleSubs;
   StreamSubscription<SendPrivatePackageMsgEvent>? sendPrivatePackageSubs;
 
+  ///页面类型
+  ChatType? chatType;
+
   @override
   void onInit() {
     super.onInit();
@@ -22,6 +27,7 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
       Map<String, dynamic> map = Get.arguments as Map<String, dynamic>;
       targetId = map["targetId"] as String?;
       userInfo = map["userInfo"] as UserEntity?;
+      chatType = map["chatType"] as ChatType?;
     }
 
     ///更新消息(拓展信息)
@@ -397,6 +403,23 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
         update();
       }
     }
+  }
+
+  void toMoreAction() {
+    showChatMoreSheet(
+      onViewProfile: () {
+        toViewProfile();
+      },
+      onDelete: () {
+        toDelete();
+      },
+      onReport: () {
+        toReport();
+      },
+      onBlock: () {
+        toBlock();
+      },
+    );
   }
 
   toViewProfile() {

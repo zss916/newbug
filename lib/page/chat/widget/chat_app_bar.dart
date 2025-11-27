@@ -2,13 +2,21 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/network/model/user_entity.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/chat/index.dart';
-import 'package:newbug/page/chat/sheet/sheetChatMore.dart';
 
 class ChatAppBar extends StatelessWidget {
-  final ChatLogic logic;
-  const ChatAppBar({super.key, required this.logic});
+  final UserEntity? userInfo;
+  final Function? onMoreAction;
+  final ChatType? chatType;
+  const ChatAppBar({
+    super.key,
+    required this.userInfo,
+    this.chatType,
+    this.onMoreAction,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,28 +25,33 @@ class ChatAppBar extends StatelessWidget {
       width: double.maxFinite,
       child: Row(
         children: [
-          Container(
-            margin: EdgeInsetsDirectional.only(start: 4.w),
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(10),
-                onTap: () => Get.back(),
-                child: Container(
-                  padding: EdgeInsetsDirectional.symmetric(
-                    vertical: 12.w,
-                    horizontal: 10.h,
-                  ),
-                  child: Stack(
-                    alignment: AlignmentDirectional.center,
-                    children: [
-                      Image.asset(Assets.imgToBack, width: 24.r, height: 24.r),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
+          buildBack(),
+          Expanded(child: buildAppBarContent(chatType: chatType)),
+        ],
+      ),
+    );
+  }
+
+  Widget buildAppBarContent({ChatType? chatType}) {
+    return switch (chatType) {
+      _ when chatType == ChatType.officialNotice => Text(
+        T.officialNotice.tr,
+        style: TextStyle(
+          fontSize: 16,
+          color: Colors.black,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      _ when chatType == ChatType.customerService => Text(
+        T.onlineSupport.tr,
+        style: TextStyle(
+          fontSize: 16,
+          color: Colors.black,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      _ => Row(
+        children: [
           Container(
             margin: EdgeInsetsDirectional.only(end: 10.w),
             padding: EdgeInsetsDirectional.symmetric(vertical: 12.h),
@@ -53,14 +66,14 @@ class ChatAppBar extends StatelessWidget {
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: CachedNetworkImageProvider(
-                        logic.userInfo?.headimg ?? "",
+                        userInfo?.headimg ?? "",
                       ),
                     ),
                     border: Border.all(width: 1, color: Colors.black),
                     borderRadius: BorderRadius.circular(100),
                   ),
                 ),
-                if (logic.userInfo?.isOnline ?? false)
+                if (userInfo?.isOnline ?? false)
                   PositionedDirectional(
                     top: 1,
                     end: 1,
@@ -82,7 +95,7 @@ class ChatAppBar extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${logic.userInfo?.showNickAndAge}",
+                  "${userInfo?.showNickAndAge}",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -91,7 +104,7 @@ class ChatAppBar extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                if (logic.userInfo?.isShowAddress ?? false)
+                if (userInfo?.isShowAddress ?? false)
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -101,7 +114,7 @@ class ChatAppBar extends StatelessWidget {
                         height: 14.r,
                       ),
                       Text(
-                        logic.userInfo?.address ?? "",
+                        userInfo?.address ?? "",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -122,20 +135,7 @@ class ChatAppBar extends StatelessWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(10),
                 onTap: () {
-                  showChatMoreSheet(
-                    onViewProfile: () {
-                      logic.toViewProfile();
-                    },
-                    onDelete: () {
-                      logic.toDelete();
-                    },
-                    onReport: () {
-                      logic.toReport();
-                    },
-                    onBlock: () {
-                      logic.toBlock();
-                    },
-                  );
+                  onMoreAction?.call();
                 },
                 child: Container(
                   padding: EdgeInsetsDirectional.symmetric(
@@ -154,6 +154,29 @@ class ChatAppBar extends StatelessWidget {
           ),
         ],
       ),
-    );
+    };
   }
+
+  Widget buildBack() => Container(
+    margin: EdgeInsetsDirectional.only(start: 4.w),
+    child: Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10),
+        onTap: () => Get.back(),
+        child: Container(
+          padding: EdgeInsetsDirectional.symmetric(
+            vertical: 12.w,
+            horizontal: 10.h,
+          ),
+          child: Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              Image.asset(Assets.imgToBack, width: 24.r, height: 24.r),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
 }

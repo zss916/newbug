@@ -6,6 +6,7 @@ import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/route/index.dart';
 import 'package:newbug/generated/assets.dart';
 import 'package:newbug/page/chat/chat_widget/keyboard_state.dart';
+import 'package:newbug/page/chat/index.dart';
 import 'package:newbug/page/chat/sheet/showPrivateAlbum.dart';
 import 'package:newbug/page/chat/widget/chat_pick_image.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
@@ -15,12 +16,15 @@ class InputSend extends StatefulWidget {
   final Function(bool)? onKeyboardChanged;
   final Function(List<AssetEntity>)? onSelectPublicAlbum;
   final Function(List<AssetEntity>)? onSelectPublicAlbumToPrivate;
+  final ChatType? chatType;
+
   const InputSend({
     super.key,
     required this.onSend,
     this.onKeyboardChanged,
     this.onSelectPublicAlbum,
     this.onSelectPublicAlbumToPrivate,
+    this.chatType,
   });
 
   @override
@@ -63,27 +67,30 @@ class _InputSendState extends State<InputSend>
       decoration: BoxDecoration(color: Colors.white),
       child: Row(
         children: [
-          ChatPickImage(
-            onPublicAlbum: () {
-              ///todo 是否可以发送私有图片
-              if (true) {
-                openCustomAlbum(context);
-              } else {
-                openPublicAlbum(context);
-              }
-            },
-            onPrivateAlbum: () {
-              showPrivateAlbum(
-                onConfirm: () {
-                  RouteManager.toPrivateAlbum(
-                    add: true,
-                    select: true,
-                    send: true,
-                  );
-                },
-              );
-            },
-          ),
+          if (widget.chatType == ChatType.customerService)
+            commonImagePick(context)
+          else
+            ChatPickImage(
+              onPublicAlbum: () {
+                ///todo 是否可以发送私有图片
+                if (true) {
+                  openCustomAlbum(context);
+                } else {
+                  openPublicAlbum(context);
+                }
+              },
+              onPrivateAlbum: () {
+                showPrivateAlbum(
+                  onConfirm: () {
+                    RouteManager.toPrivateAlbum(
+                      add: true,
+                      select: true,
+                      send: true,
+                    );
+                  },
+                );
+              },
+            ),
           Expanded(
             child: Container(
               margin: EdgeInsetsDirectional.only(start: 8.w),
@@ -182,6 +189,16 @@ class _InputSendState extends State<InputSend>
           }
         }
       },
+    );
+  }
+
+  ///默认手机相册
+  Widget commonImagePick(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        openPublicAlbum(context);
+      },
+      child: Image.asset(Assets.imgChatAlbum, width: 40, height: 40),
     );
   }
 }

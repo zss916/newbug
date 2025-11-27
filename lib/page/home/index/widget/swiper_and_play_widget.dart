@@ -132,6 +132,7 @@ class _SwiperAndPlayWidgetState extends State<SwiperAndPlayWidget> {
               },
               itemCount: widget.items.length,
               autoplay: false,
+              loop: widget.items.length > 1,
               autoplayDelay: 4500,
               duration: 1000,
               onIndexChanged: (index) {
@@ -141,7 +142,7 @@ class _SwiperAndPlayWidgetState extends State<SwiperAndPlayWidget> {
           },
         ),
 
-        if (widget.items.length >= 2)
+        if (widget.items.length > 1)
           PositionedDirectional(
             top: 0,
             start: 0,

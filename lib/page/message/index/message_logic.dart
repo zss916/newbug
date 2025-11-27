@@ -12,6 +12,7 @@ import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/services/app_config_service.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/core/widget/index.dart';
+import 'package:newbug/page/chat/index.dart';
 import 'package:newbug/page/dialog/remove/remove_conversation_dialog.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rongcloud_im_wrapper_plugin/rongcloud_im_wrapper_plugin.dart';
@@ -89,6 +90,7 @@ class MessageLogic extends GetxController {
       startTime: startTime,
       onGetConversations: (List<RCIMIWConversation> conversations) async {
         if (conversations.isNotEmpty) {
+          blockAccount(conversations);
           conversationsList.assignAll(conversations);
           startTime = conversations.last.lastMessage?.sentTime ?? 0;
 
@@ -132,6 +134,7 @@ class MessageLogic extends GetxController {
       startTime: startTime,
       onGetConversations: (List<RCIMIWConversation> conversations) async {
         if (conversations.isNotEmpty) {
+          blockAccount(conversations);
           conversationsList.addAll(conversations);
           startTime = conversations.last.lastMessage?.sentTime ?? 0;
 
@@ -152,6 +155,15 @@ class MessageLogic extends GetxController {
           loadMoreCtrl.loadNoData();
         }
       },
+    );
+  }
+
+  ///屏蔽客服账号和通知账号
+  void blockAccount(List<RCIMIWConversation> conversations) {
+    String noticeId = AppConfigService.to.noticeAccount;
+    String serviceId = AppConfigService.to.serviceAccount;
+    conversations.removeWhere(
+      (e) => (e.targetId == noticeId) || (e.targetId == serviceId),
     );
   }
 
@@ -225,11 +237,23 @@ class MessageLogic extends GetxController {
   ///客服聊天
   void toChatServiceAccount() {
     String serviceId = AppConfigService.to.serviceAccount;
+    if (serviceId.isNotEmpty) {
+      RouteManager.toChat(
+        targetId: serviceId,
+        chatType: ChatType.customerService,
+      );
+    }
   }
 
   ///通知
   void toNotice() {
     String noticeId = AppConfigService.to.noticeAccount;
+    if (noticeId.isNotEmpty) {
+      RouteManager.toChat(
+        targetId: noticeId,
+        chatType: ChatType.officialNotice,
+      );
+    }
   }
 
   ///点击聊天

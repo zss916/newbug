@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:newbug/core/config/constants.dart';
 import 'package:newbug/core/services/app_data_service.dart';
 import 'package:newbug/core/stores/app_stores.dart';
@@ -68,6 +67,6 @@ class HeaderInterceptor extends InterceptorsWrapper {
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjM4OTA2ODAsImlhdCI6MTc2MTIxMjI4MCwicGxhdCI6MSwidXNlcklkIjoxMDAxMTAzMX0.HgWQSkk2XHbBkY1CnPo86zuM-To9tYALDmo-m4GFaHU";
 */
 
-    debugPrint("headers => ${options.headers}");
+    //debugPrint("headers => ${options.headers}");
   }
 }

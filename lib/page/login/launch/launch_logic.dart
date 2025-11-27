@@ -4,7 +4,6 @@ class LaunchLogic extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    //CustomToast.dismiss();
   }
 
   @override

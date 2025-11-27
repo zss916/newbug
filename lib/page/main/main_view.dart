@@ -50,24 +50,26 @@ class _MainViewState extends State<MainView> with DelayedInitMixin {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<MainLogic>(
-      init: MainLogic(),
-      builder: (logic) {
-        return SizedBox.expand(
-          child: Stack(
-            fit: StackFit.expand,
-            alignment: Alignment.topCenter,
-            children: [
-              buildBody(logic),
-              HomeMenu(tabIndex: currentIndex),
-            ],
-          ),
-        );
-      },
+    return PopScope(
+      canPop: false,
+      child: GetBuilder<MainLogic>(
+        init: MainLogic(),
+        builder: (logic) {
+          return SizedBox.expand(
+            child: Stack(
+              fit: StackFit.expand,
+              alignment: Alignment.topCenter,
+              children: [
+                buildBody(logic),
+                HomeMenu(tabIndex: currentIndex),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
-  //
   Widget buildBody(MainLogic logic) {
     return Scaffold(
       backgroundColor: Color(0xFFFAFAFA),
