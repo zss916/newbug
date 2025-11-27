@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
+import 'package:newbug/core/cache/image_cache.dart';
 import 'package:newbug/core/config/form_type.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/event/app_event.dart';
 import 'package:newbug/core/network/model/home_cards_entity.dart';
+import 'package:newbug/core/network/model/meida_list_item.dart';
 import 'package:newbug/core/network/model/right.dart';
 import 'package:newbug/core/network/reopsitory/home.dart';
 import 'package:newbug/core/network/reopsitory/system.dart';
@@ -43,6 +45,13 @@ class HomeLogic extends GetxController {
     HomeCardsEntity? value = await HomeAPI.getHomeSwiperCards(tab: 1);
     if (value != null) {
       matchList = value.matchList ?? [];
+      for (HomeCardsMatchList card in (matchList ?? [])) {
+        for (MediaListItem media in (card.mediaList ?? [])) {
+          if (media.url != null) {
+            ImageCacheHelper.precache(url: media.url ?? "");
+          }
+        }
+      }
       viewState = matchList.isEmpty ? 2 : 0;
       privacyList = value.privacyList ?? [];
     } else {

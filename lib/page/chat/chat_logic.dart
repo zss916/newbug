@@ -407,15 +407,13 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
     showRemoveConversationDialog(
       onConfirm: () async {
         if (targetId != null) {
-          /* CvIM.removeConversationItem(
-            targetId: targetId??"",
+          CvIM.removeConversationItem(
+            targetId: targetId ?? "",
             onRemoveCallback: (value) {
-
+              Get.back(closeOverlays: true);
+              CustomToast.success(T.successful.tr);
             },
-          );*/
-          Get.back(closeOverlays: true);
-
-          CustomToast.success(T.successful.tr);
+          );
         } else {
           CustomToast.fail(T.failed.tr);
         }
@@ -433,9 +431,13 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
           form: FromType.chat,
         ).whenComplete(() => CustomToast.dismiss());
         if (isSuccessful) {
-          /// todo 融云删除conversation
-          Get.back(closeOverlays: true);
-          CustomToast.success(T.blockSuccessful.tr);
+          CvIM.removeConversationItem(
+            targetId: targetId ?? "",
+            onRemoveCallback: (value) {
+              Get.back(closeOverlays: true);
+              CustomToast.success(T.blockSuccessful.tr);
+            },
+          );
         } else {
           CustomToast.fail(T.blockFail.tr);
         }
@@ -450,9 +452,13 @@ class ChatLogic extends GetxController with ChatActionMixin, MixinUpload {
           userId: targetId ?? "",
         ).whenComplete(() => CustomToast.dismiss());
         if (isSuccessful) {
-          /// todo 融云删除conversation
-          Get.back(closeOverlays: true);
-          CustomToast.success(T.blockSuccessful.tr);
+          CvIM.removeConversationItem(
+            targetId: targetId ?? "",
+            onRemoveCallback: (value) {
+              Get.back(closeOverlays: true);
+              CustomToast.success(T.blockSuccessful.tr);
+            },
+          );
         } else {
           CustomToast.fail(T.blockFail.tr);
         }

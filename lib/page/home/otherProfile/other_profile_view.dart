@@ -69,7 +69,7 @@ class OtherProfileView extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      buildCard(medias: logic.mediaList),
+                      buildCard(medias: logic.mediaList, logic: logic),
                       OtherProfile(item: logic.value),
                       HomeAboutMe(sign: logic.value?.sign ?? ""),
                       HomeInterests(tags: logic.value?.tags ?? []),
@@ -166,11 +166,15 @@ class OtherProfileView extends StatelessWidget {
     );
   }
 
-  Widget buildCard({required List<MediaListItem> medias}) {
+  Widget buildCard({
+    required List<MediaListItem> medias,
+    required OtherProfileLogic logic,
+  }) {
     return Stack(
       alignment: AlignmentDirectional.center,
       children: [
         HomeCard(
+          isLoading: logic.loading,
           margin: EdgeInsetsDirectional.only(start: 14.w, end: 14.w),
           child: SwiperAndPlayWidget(items: medias),
         ),

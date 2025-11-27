@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/im/custom_message/connected_message.dart';
 import 'package:newbug/core/im/cv_im.dart';
 import 'package:newbug/core/im/utils/im_event.dart';
@@ -11,6 +12,7 @@ import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/services/app_config_service.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/core/widget/index.dart';
+import 'package:newbug/page/dialog/remove/remove_conversation_dialog.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rongcloud_im_wrapper_plugin/rongcloud_im_wrapper_plugin.dart';
 
@@ -199,19 +201,25 @@ class MessageLogic extends GetxController {
 
   ///删除会话
   void removeConversationItem({String? targetId}) {
-    if (targetId != null) {
-      CustomToast.loading();
-      CvIM.removeConversationItem(
-        targetId: targetId,
-        onRemoveCallback: (value) {
-          loadAllConversations(
-            onLoadFinish: () {
-              CustomToast.dismiss();
+    showRemoveConversationDialog(
+      onConfirm: () async {
+        if (targetId != null) {
+          CustomToast.loading();
+          CvIM.removeConversationItem(
+            targetId: targetId,
+            onRemoveCallback: (value) {
+              loadAllConversations(
+                onLoadFinish: () {
+                  CustomToast.dismiss();
+                },
+              );
             },
           );
-        },
-      );
-    }
+        } else {
+          CustomToast.fail(T.failed.tr);
+        }
+      },
+    );
   }
 
   ///客服聊天

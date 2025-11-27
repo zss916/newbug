@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:newbug/core/cache/image_cache.dart';
 import 'package:newbug/core/im/cv_im.dart';
 import 'package:newbug/core/services/app_config_service.dart';
 import 'package:newbug/core/services/app_data_service.dart';
@@ -10,6 +11,7 @@ class Global {
   /// init
   static Future init() async {
     WidgetsFlutterBinding.ensureInitialized();
+    ImageCacheHelper.setImageCache();
 
     ///adjust
     //AdjustTools.init();

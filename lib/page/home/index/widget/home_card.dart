@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class HomeCard extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry? margin;
-  const HomeCard({super.key, required this.child, this.margin});
+  final bool? isLoading;
+  const HomeCard({super.key, required this.child, this.margin, this.isLoading});
 
   @override
   Widget build(BuildContext context) {
