@@ -96,6 +96,8 @@ dependencies:
   collection: 1.19.1
   #融云
   rongcloud_im_wrapper_plugin: 5.24.6
+  #rc kit
+  rongcloud_im_kit: 1.0.1
   #加载更多
   easy_load_more: 2.0.0
   #上拉加载，下拉刷新
@@ -112,6 +114,7 @@ dependencies:
   #骨架屏
   skeletonizer: ^2.1.0+1
  # shimmer_auto: ^0.0.1
+  in_app_purchase: 3.2.3
 
 
 

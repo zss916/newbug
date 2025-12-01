@@ -16,7 +16,6 @@ class ProfileItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(minHeight: 360.h),
       margin: EdgeInsetsDirectional.only(
         start: 14.w,
         end: 14.w,
@@ -101,23 +100,24 @@ class ProfileItems extends StatelessWidget {
             },
           ),
 
-          Divider(height: 1, color: Color(0xFFF2F2F2)),
+          if (false) Divider(height: 1, color: Color(0xFFF2F2F2)),
 
-          buildItem(
-            icon: Assets.imgIcChildPolicy,
-            iconSize: Offset(22, 22),
-            title: T.childSafetyPolicy.tr,
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(16.r),
-              bottomRight: Radius.circular(16.r),
-            ),
-            onTap: () {
-              /*RouteManager.towWebview(
+          if (false)
+            buildItem(
+              icon: Assets.imgIcChildPolicy,
+              iconSize: Offset(22, 22),
+              title: T.childSafetyPolicy.tr,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(16.r),
+                bottomRight: Radius.circular(16.r),
+              ),
+              onTap: () {
+                /*RouteManager.towWebview(
                 title: T.childSafetyPolicy.tr,
                 url: AppConfigService.to.privacy,
               );*/
-            },
-          ),
+              },
+            ),
         ],
       ),
     );

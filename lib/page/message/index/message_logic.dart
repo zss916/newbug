@@ -236,13 +236,7 @@ class MessageLogic extends GetxController {
 
   ///客服聊天
   void toChatServiceAccount() {
-    String serviceId = AppConfigService.to.serviceAccount;
-    if (serviceId.isNotEmpty) {
-      RouteManager.toChat(
-        targetId: serviceId,
-        chatType: ChatType.customerService,
-      );
-    }
+    RouteManager.toChatCustomerService();
   }
 
   ///通知

@@ -5,6 +5,8 @@ class App {
 
   static const Color primaryColor = Color(0xFFFF0092);
 
+  static String contactUsEmail = "";
+
   static double getStatusBarHeight(BuildContext context) =>
       MediaQuery.of(context).padding.top;
 

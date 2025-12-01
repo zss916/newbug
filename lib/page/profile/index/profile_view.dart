@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:newbug/core/config/global.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/page/profile/index/profile_logic.dart';
 import 'package:newbug/page/profile/index/widget/camera_widget.dart';
@@ -60,7 +61,8 @@ class ProfileView extends StatelessWidget {
                     photosCount: logic.privacyImage,
                     chatsCount: logic.flashChat,
                     onTapPrivateVideos: () {
-                      logic.toPrivateVideo();
+                      // logic.toPrivateVideo();
+                      Get.toNamed(AppRoutes.kitConversation);
                     },
                     onTapPrivatePhotos: () {
                       logic.toPrivatePhoto();

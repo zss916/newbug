@@ -103,6 +103,7 @@ abstract class ChatAPI {
   }
 
   ///获取服务消息
+  @Deprecated("deprecated")
   static Future<bool> getServiceMessage({required String targetId}) async {
     try {
       final result = await Net.instance.post(

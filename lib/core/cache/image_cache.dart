@@ -12,8 +12,9 @@ class ImageCacheHelper {
     imageCache.maximumSizeBytes = 350 * 1024 * 1024; // 最大缓存容量 350MB
   }
 
-  static clear(ImageCache imageCache) {
-    imageCache.clear();
+  ///在dispose使用
+  static clear() {
+    PaintingBinding.instance.imageCache.clear();
   }
 
   ///预加载

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:newbug/core/config/constants.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/route/index.dart';
+import 'package:newbug/core/widget/index.dart';
 
 void showHelpCenterSheet() {
   Get.bottomSheet(
@@ -71,6 +74,7 @@ class HelpCenter extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Get.back();
+                  RouteManager.toChatCustomerService();
                 },
                 child: Container(
                   width: double.infinity,
@@ -109,6 +113,7 @@ class HelpCenter extends StatelessWidget {
                 ),
                 onTap: () {
                   Get.back();
+                  copyEmail();
                 },
                 child: Container(
                   width: double.infinity,
@@ -165,5 +170,10 @@ class HelpCenter extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future<void> copyEmail() async {
+    await Clipboard.setData(ClipboardData(text: App.contactUsEmail));
+    CustomToast.showText("Copy success!");
   }
 }

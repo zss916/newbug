@@ -26,8 +26,12 @@ class AppRoutes {
   static const String launch = '/launch';
   static const String webview = '/webview';
   static const String otherProfile = '/otherProfile';
+  static const String kitConversation = '/kitConversation';
+  static const String kitChat = '/kitChat';
 
   static final List<GetPage> routes = [
+    GetPage(name: kitChat, page: () => ChatScreen()),
+    GetPage(name: kitConversation, page: () => ConversationListScreen()),
     GetPage(name: launch, page: () => LaunchView()),
     GetPage(name: home, page: () => HomeView()),
     GetPage(name: login, page: () => LoginView()),

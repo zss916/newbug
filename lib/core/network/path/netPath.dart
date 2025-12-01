@@ -437,6 +437,7 @@ class ApiPath {
   static const String recallMessage = "/im/u9v0w";
 
   ///获取客服默认消息
+
   static const String getServiceMessage = "/setting/g7h8i";
 
   ///NewMatch 标记已读

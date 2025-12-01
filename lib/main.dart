@@ -14,6 +14,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 Future<void> main() async {
   await Global.init();
   runApp(const MyApp());
+
+  //runApp(RCKit.setRCRoot(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -21,6 +23,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //RCKit.getRCEngineProvider(context);
     return RefreshConfiguration(
       hideFooterWhenNotFull: true,
       enableLoadingWhenNoData: true,

@@ -12,7 +12,6 @@ abstract class PayAPI {
   /// 获取商品列表
   static Future<PayEntity?> getProductList({required int type}) async {
     try {
-      // PayEmu.vip.index;
       final result = await Net.instance.post(
         ApiPath.productList,
         queryParameters: {"type": type},

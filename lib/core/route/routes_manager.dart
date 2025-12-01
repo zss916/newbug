@@ -85,6 +85,17 @@ class RouteManager {
     Get.toNamed(AppRoutes.chat, arguments: map);
   }
 
+  ///联系客服
+  static toChatCustomerService() {
+    String serviceId = AppConfigService.to.serviceAccount;
+    if (serviceId.isNotEmpty) {
+      RouteManager.toChat(
+        targetId: serviceId,
+        chatType: ChatType.customerService,
+      );
+    }
+  }
+
   static Future<void> toSelectedAlbum({
     required List<MediaListItem?> videos,
     required List<MediaListItem?> images,

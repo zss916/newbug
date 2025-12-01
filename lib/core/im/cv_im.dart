@@ -4,6 +4,7 @@ import 'package:newbug/core/im/custom_message/private_message.dart';
 import 'package:newbug/core/im/custom_message/private_package_message.dart';
 import 'package:newbug/core/im/rong_im.dart';
 import 'package:newbug/core/im/utils/base64.dart';
+import 'package:newbug/core/kit/kit.dart';
 import 'package:rongcloud_im_wrapper_plugin/rongcloud_im_wrapper_plugin.dart';
 
 class CvIM extends GetxService {
@@ -17,6 +18,8 @@ class CvIM extends GetxService {
 
   ///登录后连接
   static Future<void> connect(String? token) async {
+    RCKit.connect(token ?? "");
+
     debugPrint("CvIM connect :$token");
     if ((token ?? "").isEmpty) {
       debugPrint("token is null");

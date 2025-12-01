@@ -7,6 +7,7 @@ import 'package:newbug/core/config/global.dart';
 import 'package:newbug/core/config/translation/index.dart';
 import 'package:newbug/core/widget/generated/assets.dart';
 import 'package:newbug/core/widget/index.dart';
+import 'package:newbug/page/subscribe/subscribe_logic.dart';
 import 'package:newbug/page/subscribe/widget/build_subscribe_item.dart';
 import 'package:newbug/page/subscribe/widget/common_membership_widget.dart';
 import 'package:newbug/page/subscribe/widget/payment_tip.dart';
@@ -75,43 +76,60 @@ class _SubscribeViewState extends State<SubscribeView> {
       ),
       backgroundColor: Colors.white,
       extendBodyBehindAppBar: true,
-      body: NestedScrollView(
-        controller: _scrollController,
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            SliverToBoxAdapter(
-              child: CommonMembershipWidget(isExpire: true, isRecharge: false),
+      body: GetBuilder<SubscribeLogic>(
+        init: SubscribeLogic(),
+        builder: (logic) {
+          return NestedScrollView(
+            controller: _scrollController,
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+                  return [
+                    ///普通
+                    SliverToBoxAdapter(
+                      child: CommonMembershipWidget(
+                        isExpire: true,
+                        isRecharge: false,
+                      ),
+                    ),
+
+                    ///小号
+                    //SliverToBoxAdapter(child: SpecialMembershipWidget()),
+                  ];
+                },
+            body: Container(
+              decoration: BoxDecoration(
+                color: Color(0xFFEFEFEF),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(34.r),
+                  topRight: Radius.circular(34.r),
+                ),
+              ),
+              margin: EdgeInsetsDirectional.only(
+                start: 6.w,
+                end: 6.w,
+                top: 0.h,
+              ),
+              width: double.maxFinite,
+              child: SingleChildScrollView(
+                physics: NeverScrollableScrollPhysics(),
+                child: Column(
+                  children: [
+                    BuildSubscribeItem(),
+                    SubscribeButton(onTap: () {}),
+                    PaymentTip(),
+                    SubscribeTip(),
+                  ],
+                ),
+              ),
             ),
-            // SliverToBoxAdapter(child: SpecialMembershipWidget()),
-          ];
+          );
         },
-        body: Container(
-          decoration: BoxDecoration(
-            color: Color(0xFFEFEFEF),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(34.r),
-              topRight: Radius.circular(34.r),
-            ),
-          ),
-          margin: EdgeInsetsDirectional.only(start: 6.w, end: 6.w, top: 0.h),
-          width: double.maxFinite,
-          child: SingleChildScrollView(
-            physics: NeverScrollableScrollPhysics(),
-            child: Column(
-              children: [
-                BuildSubscribeItem(),
-                SubscribeButton(onTap: () {}),
-                PaymentTip(),
-                SubscribeTip(),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }
 }
 
+///todo
 Widget old() => Scaffold(
   /*  appBar: CommonAppBar(
         backgroundColor: Colors.transparent,
