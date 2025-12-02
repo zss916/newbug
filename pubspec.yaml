@@ -94,7 +94,7 @@ dependencies:
   #视频压缩和获取第一帧
   video_compress: 3.1.4
   collection: 1.19.1
-  #融云
+  #rc lib
   rongcloud_im_wrapper_plugin: 5.24.6
   #rc kit
   rongcloud_im_kit: 1.0.1
@@ -112,9 +112,18 @@ dependencies:
   #判断是否开启vpn和网络状态
   connectivity_plus: 7.0.0
   #骨架屏
-  skeletonizer: ^2.1.0+1
+  skeletonizer: 2.1.0+1
  # shimmer_auto: ^0.0.1
   in_app_purchase: 3.2.3
+ #端内推送
+  firebase_messaging: 16.0.4
+  firebase_core: 4.2.1
+  #notification_permissions: 0.6.1
+  flutter_local_notifications: 19.5.0
+  flutter_new_badger: 1.1.1
+  #firebase 分析
+  firebase_crashlytics: 5.0.5
+  firebase_analytics: 12.0.4
 
 
 

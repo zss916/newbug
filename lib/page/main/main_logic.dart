@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:newbug/core/network/model/unread_data_entity.dart';
 import 'package:newbug/core/network/reopsitory/chat.dart';
+import 'package:newbug/core/purchase/product_storage_utils.dart';
 import 'package:newbug/page/location/location_utils.dart';
 
 class MainLogic extends GetxController {
@@ -16,6 +17,9 @@ class MainLogic extends GetxController {
     super.onReady();
     LocationUtils.toLocation();
     loadWlmOrVisitorCount();
+
+    ///预加载商品数据
+    ProductStorageUtils.preloadVipPurchaseDataToStore();
   }
 
   @override

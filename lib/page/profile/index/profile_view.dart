@@ -61,7 +61,7 @@ class ProfileView extends StatelessWidget {
                     photosCount: logic.privacyImage,
                     chatsCount: logic.flashChat,
                     onTapPrivateVideos: () {
-                      // logic.toPrivateVideo();
+                      //logic.toPrivateVideo();
                       Get.toNamed(AppRoutes.kitConversation);
                     },
                     onTapPrivatePhotos: () {

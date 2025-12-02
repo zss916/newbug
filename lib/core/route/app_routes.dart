@@ -30,7 +30,7 @@ class AppRoutes {
   static const String kitChat = '/kitChat';
 
   static final List<GetPage> routes = [
-    GetPage(name: kitChat, page: () => ChatScreen()),
+    //GetPage(name: kitChat, page: () => ChatScreen()),
     GetPage(name: kitConversation, page: () => ConversationListScreen()),
     GetPage(name: launch, page: () => LaunchView()),
     GetPage(name: home, page: () => HomeView()),

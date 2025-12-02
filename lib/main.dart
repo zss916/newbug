@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:newbug/core/config/constants.dart';
 import 'package:newbug/core/config/global.dart';
 import 'package:newbug/core/config/translation/index.dart';
+import 'package:newbug/core/kit/kit.dart';
 import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/route/observer/routers_observer.dart';
 import 'package:newbug/core/theme/theme.dart';
@@ -13,9 +14,9 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 Future<void> main() async {
   await Global.init();
-  runApp(const MyApp());
+  //runApp(const MyApp());
 
-  //runApp(RCKit.setRCRoot(MyApp()));
+  runApp(RCKit.setRCRoot(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //RCKit.getRCEngineProvider(context);
+    RCKit.getRCEngineProvider(context);
     return RefreshConfiguration(
       hideFooterWhenNotFull: true,
       enableLoadingWhenNoData: true,
@@ -53,14 +54,7 @@ class MyApp extends StatelessWidget {
               overscroll: false,
             ),
             defaultTransition: Transition.cupertino,
-            // home: MainView(),
-            //home: DeleteAccountView(),
-            // home: UnMatchView(),
             initialRoute: AppRoutes.launch,
-            // home: AssetUploadBoxDemo(),
-            //home: PhotoView(),
-            //home: WrongView(),
-            // home: LoadPage(),
           ),
         ),
       ),

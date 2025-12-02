@@ -8,12 +8,14 @@ import 'package:in_app_purchase_android/billing_client_wrappers.dart';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart'
     as android_purchase;
 
-class PurchaseTools extends GetxController {
-  PurchaseTools._();
+class PurchaseService extends GetxService {
+  static PurchaseService get to => Get.find();
+
+  /*PurchaseTools._();
 
   static final PurchaseTools _instance = PurchaseTools._();
 
-  static PurchaseTools get instance => _instance;
+  static PurchaseTools get instance => _instance;*/
 
   final InAppPurchase _iap = InAppPurchase.instance;
 

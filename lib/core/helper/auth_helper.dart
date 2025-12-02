@@ -1,3 +1,4 @@
+import 'package:newbug/core/purchase/product_storage_utils.dart';
 import 'package:newbug/core/stores/app_stores.dart';
 
 class AuthHelper {
@@ -17,11 +18,13 @@ class AuthHelper {
 
   ///处理退出登录
   void toHandleLogout() {
+    ProductStorageUtils.clear();
     AppStores.removeUserInfo();
   }
 
   ///处理删除账号
   void toHandleDeleteAccount() {
+    ProductStorageUtils.clear();
     AppStores.removeAllData();
   }
 
