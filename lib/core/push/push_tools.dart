@@ -45,6 +45,9 @@ class PushTools with NotificationPermissionHandler {
 
     ///权限请求
     requestNotificationPermission();
+
+    ///设置本地通知
+    setLocalNotification();
   }
 
   ///设置通知
@@ -64,19 +67,19 @@ class PushTools with NotificationPermissionHandler {
       //todo
     });
 
-    ///前台消息
+    ///android前台消息
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       //todo
     });
 
-    ///点击后台消息打开app
+    ///app后台运行，点击消息打开app
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       ///todo
     });
   }
 
   ///配置android 本地通知
-  Future<void> setAndroidNotification() async {
+  Future<void> setLocalNotification() async {
     channel = AndroidNotificationChannel(
       androidLocalNotificationChannelID,
       androidLocalNotificationChannelName,

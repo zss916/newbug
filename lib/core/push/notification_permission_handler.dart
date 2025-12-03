@@ -1,4 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:newbug/core/network/reopsitory/system.dart';
+import 'package:newbug/page/dialog/trun_on_notification.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 mixin class NotificationPermissionHandler {
@@ -20,22 +23,35 @@ mixin class NotificationPermissionHandler {
           sound: true,
         );
 
-    /*PermissionAlertManager().pushNotDetermined = false;
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print('User granted permission');
-      PermissionAlertManager().pushEnabled = true;
+      debugPrint('User granted permission');
+      // PermissionAlertManager().pushEnabled = true;
       getFCMToken();
-      _configureFCMListeners();
+      //_configureFCMListeners();
       return true;
     } else {
-      print('User declined or has not accepted permission');
-      var context = navigatorKey.currentContext;
-      if (navigatorKey.currentContext != null && showDialog) {
-        OpenNotificationWidget.show(navigatorKey.currentContext!);
-      }
+      debugPrint('User declined or has not accepted permission');
+      showTurnOnNotification();
       return false;
-    }*/
+    }
+  }
 
-    return false;
+  ///更新fcmToken
+  void getFCMToken() async {
+    try {
+      String? fcmToken = await FirebaseMessaging.instance.getToken();
+      updateTokenToServer(fcmToken ?? "");
+      FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
+        updateTokenToServer(fcmToken);
+      });
+    } catch (error) {
+      debugPrint("error:$error");
+    }
+  }
+
+  ///更新token 到服务器
+  Future<bool> updateTokenToServer(String pushToken) async {
+    bool isSuccessful = await SystemAPI.updatePushToken(pushToken: "");
+    return isSuccessful;
   }
 }
