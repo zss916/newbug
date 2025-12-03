@@ -12,7 +12,8 @@ import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/page/login/photo/mixin_upload.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+//import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class AlbumLogic extends GetxController with MixinUpload {

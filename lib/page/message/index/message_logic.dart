@@ -14,7 +14,8 @@ import 'package:newbug/core/stores/event.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/page/chat/index.dart';
 import 'package:newbug/page/dialog/remove/remove_conversation_dialog.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+//import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:rongcloud_im_wrapper_plugin/rongcloud_im_wrapper_plugin.dart';
 
 class MessageLogic extends GetxController {

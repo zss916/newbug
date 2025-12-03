@@ -9,7 +9,8 @@ import 'package:newbug/core/network/reopsitory/likes.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:newbug/page/like/like_service.dart';
 import 'package:newbug/page/main/main_logic.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+//import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class LikeLogic extends GetxController implements ILoadService {
   ///wlm

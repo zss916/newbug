@@ -10,7 +10,8 @@ import 'package:newbug/core/route/observer/routers_observer.dart';
 import 'package:newbug/core/theme/theme.dart';
 import 'package:newbug/core/widget/index.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+//import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 Future<void> main() async {
   await Global.init();

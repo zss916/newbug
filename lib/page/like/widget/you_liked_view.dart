@@ -8,7 +8,8 @@ import 'package:newbug/core/route/index.dart';
 import 'package:newbug/core/widget/generated/assets.dart';
 import 'package:newbug/page/like/like_logic.dart';
 import 'package:newbug/page/like/widget/liked_item.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+//import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class YouLikedView extends StatelessWidget {
   final LikeLogic logic;
