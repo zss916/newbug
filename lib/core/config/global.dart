@@ -21,7 +21,7 @@ class Global {
     CvIM.init();
     //await Get.put<ImService>(ImService()).init();
     /// push 初始化
-    PushTools.init();
+    PushTools.instance.init();
 
     //PurchaseTools
     await Get.putAsync<AppConfigService>(() => AppConfigService().init());

@@ -7,6 +7,12 @@ import 'package:newbug/core/crash/firebase_crash.dart';
 import 'notification_permission_handler.dart';
 
 class PushTools with NotificationPermissionHandler {
+  PushTools._internal();
+
+  static final PushTools _instance = PushTools._internal();
+
+  static PushTools get instance => _instance;
+
   ///todo android 本地通知频道ID
   String androidLocalNotificationChannelID = "";
 
@@ -24,7 +30,7 @@ class PushTools with NotificationPermissionHandler {
   static bool notificationShow = false;
 
   ///初始化
-  static Future<void> init() async {
+  Future<void> init() async {
     await Firebase.initializeApp();
     FirebaseCrash.setRecord();
 
@@ -36,10 +42,13 @@ class PushTools with NotificationPermissionHandler {
 
     ///FCM 注册监听
     setFCMListen();
+
+    ///权限请求
+    requestNotificationPermission();
   }
 
   ///设置通知
-  static Future<void> setupFlutterNotifications() async {
+  Future<void> setupFlutterNotifications() async {
     if (isFlutterLocalNotificationsInitialized) {
       return;
     }
@@ -47,7 +56,7 @@ class PushTools with NotificationPermissionHandler {
     isFlutterLocalNotificationsInitialized = true;
   }
 
-  static void setFCMListen() {
+  void setFCMListen() {
     ///应用从终止状态打开
     FirebaseMessaging.instance.getInitialMessage().then((
       RemoteMessage? message,
@@ -134,7 +143,7 @@ class PushTools with NotificationPermissionHandler {
   }
 
   @pragma('vm:entry-point')
-  static Future<void> _firebaseMessagingBackgroundHandler(
+  Future<void> _firebaseMessagingBackgroundHandler(
     RemoteMessage message,
   ) async {
     //await Firebase.initializeApp(options: getFirebaseOptions());

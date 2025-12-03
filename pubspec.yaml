@@ -85,8 +85,6 @@ dependencies:
   encrypt: 5.0.3
   #platform_device_id_plus: ^1.0.7
   mobile_device_identifier: ^0.0.3
-
-
   #钥匙串
   flutter_secure_storage: 9.2.4
   #flutter_cache_manager: 3.4.1
